@@ -1,5 +1,4 @@
 import './App.css';
-import CreateNewHome from "./components/demo-upload/CreateNewHome";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
@@ -11,6 +10,7 @@ function App() {
             <Routes>
                 <Route path={'/'} element={<Home/>}></Route>
                 <Route path={'/404'} element={<Pages404/>}></Route>
+
             </Routes>
         </BrowserRouter>
     )
