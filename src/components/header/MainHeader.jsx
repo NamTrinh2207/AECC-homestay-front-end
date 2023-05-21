@@ -86,7 +86,7 @@ function MainHeader(props) {
                                                             <a className="dropdown-item" href="favorited-properties.html">Favorited Properties</a>
                                                         </li>
                                                         <li>
-                                                            <a className="dropdown-item" href="submit-property.html">Submit Property</a>
+                                                            <a className="dropdown-item" href="/create">Đăng nhà</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -212,8 +212,8 @@ function MainHeader(props) {
                                     </ul>
                                     <ul className="nav navbar-nav ml-auto  justify-content-end">
                                         <li className="nav-item">
-                                            <a  href="submit-property.html" className="submit-btn">
-                                                Submit Property
+                                            <a  href="/create" className="submit-btn">
+                                                Đăng nhà
                                             </a>
                                         </li>
                                     </ul>

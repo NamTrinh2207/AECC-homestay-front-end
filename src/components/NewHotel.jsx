@@ -114,7 +114,7 @@ export default function CreateNewHotel(props) {
     };
 
     const {getRootProps, getInputProps, isDragActive, fileRejections} = useDropzone({
-        accept: "image/jpeg, image/png" ,
+        accept: "image/jpeg, image/png",
         multiple: true,
         onDrop: handleImageChange,
         onDropRejected: (fileRejections) => {
@@ -845,10 +845,9 @@ export default function CreateNewHotel(props) {
                         <div className="sub-banner">
                             <div className="container">
                                 <div className="breadcrumb-area">
-                                    <h1>Submit Property</h1>
+                                    <h1>Đăng nhà</h1>
                                     <ul className="breadcrumbs">
-                                        <li><a href="index.html">Home</a></li>
-                                        <li className="active">Submit Property</li>
+                                        <li><a href="/">Trang chủ</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -861,319 +860,173 @@ export default function CreateNewHotel(props) {
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="notification-box mb-50">
-                                            <h4>Don't Have an Account?</h4>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been
-                                                the industry's standard dummy text ever since the 1500s, when an unknown
-                                                printer took a galley
-                                                of type and scrambled it to make a type specimen book. It has survived
-                                                not only five
-                                                centuries.But also the leap into electronic typesetting, remaining
-                                                essentially unchanged. It was
-                                                popularised in the 1960s with the release of Letraset sheets
-                                                containing</p>
+                                            <h4>Bạn là chủ nhà và muốn biến ngôi nhà của mình thành một homestay hấp
+                                                dẫn, thu hút du khách từ khắp nơi?
+                                            </h4>
+                                            <p> Với trang web cho thuê homestay của chúng tôi, việc đăng ký và tìm kiếm
+                                                homestay trở nên đơn giản và thuận tiện hơn bao giờ hết.
+                                                Tận dụng ngôi nhà của bạn và biến nó thành một homestay đáng yêu và độc
+                                                đáo. Với không gian ấm cúng và trải nghiệm độc đáo mà bạn cung cấp, hãy
+                                                mở ra cánh cửa cho thuê homestay để mang đến cho du khách một trải
+                                                nghiệm tuyệt vời và giúp bạn tận hưởng lợi ích kinh doanh và thú
+                                                vị.!</p>
                                         </div>
 
                                         <div className="search-area contact-2">
                                             <div className="search-area-inner">
                                                 <div className="search-contents ">
-                                                    <form method="GET">
-                                                        <h3 className="heading-3">Basic Information</h3>
+                                                    <Form onSubmit={formik.handleSubmit}>
+                                                        <h3 className="heading-3">Thông tin nhà</h3>
                                                         <div className="row mb-30">
 
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Property Title</label>
-                                                                    <input type="text" name="property-title"
-                                                                           className="form-control"
-                                                                           placeholder="Property Title"/>
+                                                                    <label htmlFor={'name'}>Tên nhà</label>
+                                                                    <Field className="form-control" name={'name'}></Field>
+                                                                    <ErrorMessage name={'name'}/>
+                                                                </div>
+                                                            </div>
+                                                            {/*loại phòng*/}
+                                                            <div className="col-lg-4 col-md-6">
+                                                                <div className="form-group">
+                                                                    <label htmlFor={'homeType.id'}>Loại phòng</label>
+                                                                    <Field as='select'
+                                                                           className="selectpicker search-fields"
+                                                                           name={'homeType.id'} id={'homeType'}>
+                                                                        <option value={''}>Loại phòng</option>
+                                                                        {homeTypes.map((homeType) => {
+                                                                            return (
+                                                                                <option key={homeType.id}
+                                                                                        value={homeType.id}>{homeType.name}</option>
+                                                                            )
+                                                                        })}
+                                                                    </Field>
+                                                                    <ErrorMessage name={'homeType'}/>
                                                                 </div>
                                                             </div>
 
+                                                            {/*địa chỉ*/}
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Type</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>Apartment</option>
-                                                                        <option>House</option>
-                                                                        <option>Commercial</option>
-                                                                        <option>Garage</option>
-                                                                        <option>Lot</option>
-                                                                    </select>
+                                                                    <label htmlFor={'address'}>Địa chỉ</label>
+                                                                    <Field className="form-control"
+                                                                           name={'address'}></Field>
+                                                                    <ErrorMessage name={'address'}/>
                                                                 </div>
                                                             </div>
 
+                                                            {/*số phòng ngủ*/}
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Price</label>
-                                                                    <input type="text" name="price"
-                                                                           className="form-control" placeholder="USD"/>
+                                                                    <label htmlFor="bedroom">Số lượng phòng ngủ</label>
+                                                                    <Field as="select" name="bedroom"
+                                                                           className="selectpicker search-fields">
+                                                                        <option>Số phòng ngủ</option>
+                                                                        {[...Array(10)].map((_, index) => (
+                                                                            <option key={index + 1}
+                                                                                    value={index + 1}>{index + 1}</option>
+                                                                        ))}
+                                                                    </Field>
+                                                                    <ErrorMessage name="bedroom"/>
                                                                 </div>
                                                             </div>
+
+                                                            {/*số phòng tắm*/}
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Area/Location</label>
-                                                                    <input type="text" name="price"
-                                                                           className="form-control" placeholder="SqFt"/>
+                                                                    <label htmlFor="bathroom">Số lượng phòng tắm</label>
+                                                                    <Field as="select" name="bathroom"
+                                                                           className="selectpicker search-fields">
+                                                                        <option>Số phòng tắm</option>
+                                                                        {[...Array(3)].map((_, index) => (
+                                                                            <option key={index + 1}
+                                                                                    value={index + 1}>{index + 1}</option>
+                                                                        ))}
+                                                                    </Field>
+                                                                    <ErrorMessage name="bathroom"/>
                                                                 </div>
                                                             </div>
+
+                                                            {/*mô tả*/}
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Bedrooms</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                    </select>
+                                                                    <label htmlFor={'description'}>Mô tả</label>
+                                                                    <Field className="form-control" as='textarea'
+                                                                           name={'description'}></Field>
+                                                                    <ErrorMessage name={'description'}/>
                                                                 </div>
                                                             </div>
+
+                                                            {/*giá tiền*/}
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
-                                                                    <label>Bathroom</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
-                                                                    </select>
+                                                                    <label htmlFor={'priceByDay'}>Giá tiền</label>
+                                                                    <Field className="form-control" type={'number'}
+                                                                           name={'priceByDay'}></Field>
+                                                                    <ErrorMessage name={'priceByDay'}/>
+                                                                </div>
+                                                            </div>
+
+                                                            {/*trạng thái nhà*/}
+                                                            <div className="col-lg-4 col-md-6">
+                                                                <div className="form-group">
+                                                                    <label htmlFor="status">Trạng thái nhà</label>
+                                                                    <Field as="select" name="status"
+                                                                           className="selectpicker search-fields">
+                                                                        <option value="">--Trạng thái--</option>
+                                                                        <option value={1}>Còn trống</option>
+                                                                        <option value={2}>Đã có người thuê</option>
+                                                                        <option value={3}>Đang nâng cấp</option>
+                                                                    </Field>
+                                                                    <ErrorMessage name="status"/>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <h3 className="heading-3">Property Gallery</h3>
-                                                        <div className="row mb-45">
+
+
+                                                        {/*Ảnh*/}
+                                                        <h3 className="heading-3">Ảnh nhà</h3>
+                                                        <div className="row mb-45" {...getRootProps()}>
                                                             <div className="col-lg-12">
                                                                 <div id="myDropZone"
                                                                      className="dropzone dropzone-design">
-                                                                    <div className="dz-default dz-message"><span>Drop files here to upload</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3 className="heading-3">Location</h3>
-                                                        <div className="row mb-30">
-                                                            <div className="col-lg-6 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label>Address</label>
-                                                                    <input type="text" name="address"
-                                                                           className="form-control"
-                                                                           placeholder="Address"/>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-6 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label>City</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>Choose City</option>
-                                                                        <option>New York</option>
-                                                                        <option>Chicago</option>
-                                                                        <option>Queens</option>
-                                                                        <option>Manhattan</option>
-                                                                        <option>San Antonio</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-6 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label>State</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>Choose State</option>
-                                                                        <option>Alabama</option>
-                                                                        <option>California</option>
-                                                                        <option>Connecticut</option>
-                                                                        <option>Florida</option>
-                                                                        <option>Georgia</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-6 col-md-6">
-                                                                <div className="form-group">
-                                                                    <label>Postal Code</label>
-                                                                    <input type="text" name="postal-code"
-                                                                           className="form-control"
-                                                                           placeholder="Postal Code"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3 className="heading-3">Detailed Information</h3>
-                                                        <div className="row mb-30">
-                                                            <div className="col-lg-12">
-                                                                <div className="form-group message">
-                                                                    <label>Detailed Information</label>
-                                                                    <textarea className="form-control" name="message"
-                                                                              placeholder="Detailed Information"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Building Age (optional)</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>0-5 Years</option>
-                                                                        <option>0-10 Years</option>
-                                                                        <option>0-15 Years</option>
-                                                                        <option>0-20 Years</option>
-                                                                        <option>0-25 Years</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Bedrooms (optional)</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Bathrooms (optional)</label>
-                                                                    <select className="selectpicker search-fields"
-                                                                            name="Status">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <h3 className="heading-3">Features (optional)</h3>
-                                                        <div className="row mb-30">
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="air-condition"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="air-condition">
-                                                                                Air Condition
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="free-parking"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="free-parking">
-                                                                                Free Parking
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="swimming-pool"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="swimming-pool">
-                                                                                Swimming Pool
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="laundry-room"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="laundry-room">
-                                                                                Laundry Room
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="window-covering"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="window-covering">
-                                                                                Window Covering
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value="" id="places"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="places">
-                                                                                Places to seat
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value="" id="alarm"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="alarm">
-                                                                                Alarm
-                                                                            </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <div className="form-check checkbox-theme">
-                                                                        <input className="form-check-input"
-                                                                               type="checkbox" value=""
-                                                                               id="central-heating"/>
-                                                                            <label className="form-check-label"
-                                                                                   htmlFor="central-heating">
-                                                                                Central Heating
-                                                                            </label>
+                                                                    <div className="dz-default dz-message">
+                                                                        <input {...getInputProps()} />
+                                                                        <span>Kéo và thả hoặc nhấp để chọn file</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <h3 className="heading-3">Contact Details</h3>
-                                                        <div className="row">
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Name</label>
-                                                                    <input type="text" name="name"
-                                                                           className="form-control" placeholder="Name"/>
+                                                        <div>
+                                                            {showProgressBar && (
+                                                                <div>
+                                                                    {progressPercent.map((percent, index) => (
+                                                                        <div key={index} className="innerbar"
+                                                                             style={{width: `${percent}%`}}>
+                                                                            {progressPercent && (
+                                                                                <p key={index} min={0} max={100}
+                                                                                   now={percent}
+                                                                                   label={`${percent}%`}></p>
+                                                                            )}
+                                                                        </div>
+                                                                    ))}
                                                                 </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Email</label>
-                                                                    <input type="email" name="email"
-                                                                           className="form-control" placeholder="Email"/>
+                                                            )}
+                                                            {imgUrls.length > 0 && (
+                                                                <div>
+                                                                    <button onClick={openPreviewWindow}>Xem trước
+                                                                    </button>
                                                                 </div>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4">
-                                                                <div className="form-group">
-                                                                    <label>Phone</label>
-                                                                    <input type="text" name="name"
-                                                                           className="form-control" placeholder="Phone"/>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-12">
-                                                                <a href="#" className="btn btn-4">Preview</a>
-                                                            </div>
+                                                            )}
                                                         </div>
-                                                    </form>
+
+                                                        <div className="col-lg-12">
+                                                            <button type={'submit'} className="btn btn-4">Đăng tin
+                                                            </button>
+                                                        </div>
+
+                                                    </Form>
                                                 </div>
                                             </div>
                                         </div>
