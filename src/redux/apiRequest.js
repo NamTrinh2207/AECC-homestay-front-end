@@ -1,6 +1,7 @@
 import axios from "axios";
 import {loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess} from "./authSlice";
 
+
 export const loginUser = async (user, dispatch, navigate) => {
 
     dispatch(loginStart());
@@ -11,18 +12,20 @@ export const loginUser = async (user, dispatch, navigate) => {
         alert("Đăng nhập thành công")
         navigate("/")
     } catch (error) {
-        alert("Sai tài khoản hoặc mật khẩu")
+        alert("Sai tài khoản mật khẩu hoặc bạn chưa xác thực email đăng ký !")
         dispatch(loginFailed())
     }
 }
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
-    await axios.post("http://localhost:8080/signup", user).then(() => {
-        alert("Vui lòng truy cập vào email của bạn để xác nhân đăng ký")
+    await axios.post("http://localhost:8080/signup", user).then((res) => {
+        alert(res.data.message)
         dispatch(registerSuccess());
-        navigate("/login")
+        if (res.data.message === "Vui lòng truy cập email để xác nhận đăng ký"){
+            navigate("/login")
+        }
     }).catch((error) => {
-        alert(error.getMessage)
+        alert(error.message)
         dispatch(registerFailed())
     })
 }

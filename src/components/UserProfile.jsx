@@ -1,9 +1,43 @@
-import React from 'react';
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
 import Footer from "./footer/Footer";
+import React, {useEffect, useState} from 'react'
+import {Formik} from "formik";
+import axios from "axios";
+import {storage} from '../firebase';
+import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
+import {Link} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 function UserProfile(props) {
+    const [imgUrl, setImgUrl] = useState(null);
+    const [progressPercent, setProgressPercent] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const savedProfile = localStorage.getItem('user');
+        if (savedProfile) {
+            setUser(JSON.parse(savedProfile));
+        }
+
+        const userId = JSON.parse(savedProfile)?.id;
+        if (userId) {
+            axios.get(`http://localhost:8080/${userId}`)
+                .then((response) => {
+                    setUser(response.data);
+                    setLoading(false);
+                    console.log(response.data.roles[0].name);
+                })
+                .catch(() => {
+                    alert("Lỗi truy xuất user");
+                });
+        }
+    }, []);
+
+    if (loading) {
+        return <div>Đang lấy thông tin...</div>
+    }
     return (
         <div>
 
@@ -267,10 +301,10 @@ function UserProfile(props) {
             <div className="sub-banner">
                 <div className="container">
                     <div className="breadcrumb-area">
-                        <h1>My Profile</h1>
+                        <h1>THÔNG TIN TÀI KHOẢN</h1>
                         <ul className="breadcrumbs">
-                            <li><a href="index.html">Home</a></li>
-                            <li className="active">My Profile</li>
+                            <li><Link to={"/"} >Trang chủ</Link></li>
+                            <li className="active">Thông tin tài khoản</li>
                         </ul>
                     </div>
                 </div>
@@ -286,43 +320,49 @@ function UserProfile(props) {
                                 {/*header */}
                                 <div className="header clearfix">
                                     {/*Tên*/}
-                                    <h2>Emma Connor</h2>
+                                    <h2>{user.name}</h2>
+                                    <br/><br/>
                                     {/*hình ảnh*/}
-                                    <img src="assets/img/avatar/avatar-2.jpg" alt="avatar"
-                                         className="img-fluid profile-img"/>
+                                    <br/>
+                                    <div className="avatar-container">
+                                        <img style={{borderRadius:'50%'}} width={150} height={150} src={imgUrl || user.avatar} alt=""/>
+                                        <div className="edit-icon">
+
+                                        </div>
+                                        <input type={'file'} name="avatar" onChange={uploadFile} className="avatar-input"/>
+                                        <div className="progress-bar">
+                                            <div className="progress-fill" style={{width: `${progressPercent}%`}}></div>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 {/* Detail */}
                                 <div className="detail clearfix">
                                     <ul>
                                         <li>
-                                            <a href="user-profile.html" className="active">
-                                                <i className="flaticon-user"></i>Profile
-                                            </a>
+                                            <Link to={"/user"} href="#" className="active">
+                                                <i className="flaticon-user"></i>Hồ sơ
+                                            </Link>
                                         </li>
                                         <li>
                                             <a href="my-properties.html">
-                                                <i className="flaticon-house"></i>My Properties
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="favorited-properties.html">
-                                                <i className="flaticon-heart-shape-outline"></i>Favorited Properties
+                                                <i className="flaticon-house"></i>Danh sách nhà
                                             </a>
                                         </li>
                                         <li>
                                             <a href="submit-property.html">
-                                                <i className="flaticon-add"></i>Submit New Property
+                                                <i className="flaticon-add"></i>Tạo mới nhà
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="change-password.html">
-                                                <i className="flaticon-locked-padlock"></i>Change Password
-                                            </a>
+                                            <Link to={"/changePassword"}>
+                                                <i className="flaticon-locked-padlock"></i>Thay đổi mật khẩu
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="index.html" className="border-bto2">
-                                                <i className="flaticon-logout"></i>Log Out
-                                            </a>
+                                            <Link to={"/logout"} className="border-bto2">
+                                                <i className="flaticon-logout"></i>Đăng xuất
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -333,54 +373,71 @@ function UserProfile(props) {
 
                                 {/*Sửa thông tin*/}
 
-                                <h3 className="heading-3">Profile Details</h3>
-                                <form action="#" method="GET" enctype="multipart/form-data">
-                                    <div className="row">
-                                        <div className="col-lg-12 ">
-                                            <div className="form-group name">
-                                                <label>Your Name</label>
-                                                <input type="text" name="name" className="form-control"
-                                                       placeholder="John Deo"/>
+                                <h3 className="heading-3">Thông tin cá nhân</h3>
+                                <Formik initialValues={
+                                    {
+                                        name: user.name || "",
+                                        address: user.address || "",
+                                        phoneNumber: user.phoneNumber || "",
+                                        avatar: user.avatar || "",
+                                        email: user.email || "",
+                                    }
+                                }
+                                        onSubmit={(values) => {
+                                            values.avatar = imgUrl;
+                                            axios.put(`http://localhost:8080/${user.id}`, values)
+                                                .then(() => {
+                                                    toast.success("Sửa thông tin thành công")
+                                                })
+                                                .catch(function (error) {
+                                                    console.log(error)
+                                                })
+                                        }}
+                                        enableReinitialize={true}>
+                                    {formik => (
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <div className="row">
+                                                <div className="col-lg-12 ">
+                                                    <div className="form-group name">
+                                                        <label>Họ và tên</label>
+                                                        <input type="text" {...formik.getFieldProps("name")} className="form-control"
+                                                               placeholder="..."/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-12">
+                                                    <div className="form-group email">
+                                                        <label>Số điện thoại</label>
+                                                        <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
+                                                               placeholder="Your Title"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-12 ">
+                                                    <div className="form-group number">
+                                                        <label>Email</label>
+                                                        <input readOnly type="email" {...formik.getFieldProps("email")} className="form-control"
+                                                               placeholder="Email"/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-12">
+                                                    <div className="form-group message">
+                                                        <label>Địa chỉ</label>
+                                                        <textarea className="form-control" {...formik.getFieldProps("address")}
+                                                                  placeholder="Write message"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-12">
+                                                    <div className="send-btn">
+                                                        <button type="submit" className="btn btn-4">Lưu
+                                                        </button>
+                                                        <ToastContainer
+                                                        autoClose={1000}
+                                                        hideProgressBar={true}/>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-lg-12">
-                                            <div className="form-group email">
-                                                <label>Your Title</label>
-                                                <input type="text" name="title" className="form-control"
-                                                       placeholder="Your Title"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 ">
-                                            <div className="form-group subject">
-                                                <label>Phone</label>
-                                                <input type="text" name="phone" className="form-control"
-                                                       placeholder="Phone"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 ">
-                                            <div className="form-group number">
-                                                <label>Email</label>
-                                                <input type="email" name="email" className="form-control"
-                                                       placeholder="Email"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12">
-                                            <div className="form-group message">
-                                                <label>Name</label>
-                                                <textarea className="form-control" name="message"
-                                                          placeholder="Write message"></textarea>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12">
-                                            <div className="send-btn">
-                                                <button type="submit" className="btn btn-4">Send Changes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                {/*kết thúc sửa thông tin*/}
-
+                                        </form>
+                                        )}
+                                </Formik>
                             </div>
                         </div>
                     </div>
@@ -393,6 +450,33 @@ function UserProfile(props) {
             {/* Footer end */}
         </div>
     );
+
+    function uploadFile(e) {
+        e.preventDefault()
+        console.log(e);
+        const file = e.target.files[0]
+
+        if (!file) return;
+
+        const storageRef = ref(storage, `files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on("state_changed",
+            (snapshot) => {
+                const progress =
+                    Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                setProgressPercent(progress);
+            },
+            (error) => {
+                alert(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setImgUrl(downloadURL)
+                });
+            }
+        );
+    }
 }
 
 export default UserProfile;
