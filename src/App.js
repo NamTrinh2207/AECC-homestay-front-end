@@ -7,6 +7,9 @@ import ComingSoon from "./components/ComingSoon";
 import HotelDetails from "./components/HotelDetails";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import UserProfile from "./components/UserProfile";
+import Logout from "./components/Login/Logout";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -17,9 +20,10 @@ function App() {
                 <Route path={'/create'} element={<CreateNewHotel/>}></Route>
                 <Route path={'/coming-soon'} element={<ComingSoon/>}></Route>
                 <Route path={'/hotels/'} element={<HotelDetails/>}></Route>
-                <Route path={'/login'} element={<Login/>}></Route>
+                <Route path={'/login'} element={<Login />}></Route>
+                <Route path={'/logout'} element={<Logout />}></Route>
                 <Route path={'/register'} element={<Register/>}></Route>
-
+                <Route path={'/user'} element={<UserProfile/>}></Route>
             </Routes>
         </BrowserRouter>
     )

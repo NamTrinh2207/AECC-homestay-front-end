@@ -1,5 +1,4 @@
 import React from 'react';
-import Agents from "./Agents";
 import Search from "./Search";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
@@ -8,7 +7,6 @@ import Footer from "./footer/Footer";
 function HomePage(props) {
     return (
         <div>
-            <div className="page_loader"></div>
             {/*Top header start*/}
             <TopHeader/>
             {/* Top header end */}
