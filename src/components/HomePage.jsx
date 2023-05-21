@@ -91,7 +91,7 @@ function HomePage(props) {
                                             <li><a href="user-profile.html">User profile</a></li>
                                             <li><a href="my-properties.html">My Properties</a></li>
                                             <li><a href="favorited-properties.html">Favorited Properties</a></li>
-                                            <li><a href="submit-property.html">Submit Property</a></li>
+                                            <li><a href="/create">Đăng nhà</a></li>
                                         </ul>
                                     </li>
                                     <li>
@@ -217,7 +217,7 @@ function HomePage(props) {
                                 </ul>
                             </li>
                             <li>
-                                <a href="submit-property.html">Submit Property</a>
+                                <a href="/create">Đăng nhà</a>
                             </li>
                         </ul>
                     </div>
