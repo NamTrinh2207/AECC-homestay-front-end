@@ -1,10 +1,67 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Search from "./Search";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
 import Footer from "./footer/Footer";
+import axios from "axios";
+import {Link} from "react-router-dom";
 
 function HomePage(props) {
+    const [homes, setHomes] = useState([]);
+    const [check, setCheck] = useState(true);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/homes')
+            .then(response => {
+                setHomes(response.data);
+                setCheck(false)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 1:
+                return 'green';
+            case 2:
+                return 'orange';
+            case 3:
+                return 'red';
+            default:
+                return 'transparent';
+        }
+    };
+
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return 'Phòng trống';
+            case 2:
+                return 'Đang bảo trì';
+            case 3:
+                return 'Đang cho thuê';
+            default:
+                return 'Unknown';
+        }
+    };
+
+    if (check) {
+        return (
+            <div className="featured-properties content-area-19">
+                <div className="container">
+                    <div className="main-title">
+                        <h1>Danh sách nhà</h1>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+
+
+
     return (
         <div>
             {/*Top header start*/}
@@ -432,285 +489,65 @@ function HomePage(props) {
             {/* Search area end */}
 
             {/* Featured properties start */}
+
+
             <div className="featured-properties content-area-19">
                 <div className="container">
                     <div className="main-title">
-                        <h1>Featured Properties</h1>
+                        <h1>Danh sách nhà</h1>
                     </div>
                     <div className="row filter-portfolio wow fadeInUp delay-04s">
-                        <div className="cars">
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
+                        {homes.map(home => (
+                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
+                                 data-category="3, 2">
                                 <div className="property-box-7">
                                     <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Sale</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-4.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
+                                        <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                            <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                 className="tag-2">{getStatusLabel(home.status)}</div>
+                                            <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
+                                            <img height={300} src={home.image[0]} alt="property-box-7"/>
+                                        </Link>
                                     </div>
                                     <div className="detail">
                                         <h1 className="title">
-                                            <a href="properties-details.html">Real Luxury Villa</a>
+                                            <Link style={{textDecoration: "none"}}
+                                                  to={`/viewHome/${home.id}`}>{home.name}</Link>
                                         </h1>
                                         <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
+                                            <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
+                                            {home.address}
                                         </div>
                                     </div>
                                     <ul className="facilities-list clearfix">
                                         <li>
-                                            <span>Area</span>3600 Sqft
+                                            <span><i className="fa fa-home"></i></span>{home.homeType.name}
                                         </li>
                                         <li>
-                                            <span>Beds</span> 3
+                                            <span><i className="fa fa-bed"></i></span> {home.bedroom}
                                         </li>
                                         <li>
-                                            <span>Baths</span> 2
+                                            <span><i className="fa fa-bath"></i></span> {home.bathroom}
                                         </li>
-                                        <li>
-                                            <span>Garage</span> 1
+                                        <li className="float-right">
+                                            <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
+                                            <i className="fa fa-star" style={{color:"orange"}}></i>))}
                                         </li>
                                     </ul>
                                     <div className="footer clearfix">
                                         <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
+                                            <p><i className="fa fa-user"></i>{home.users.name}</p>
                                         </div>
                                         <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
+                                            <li><a href="#"><i
+                                                className="flaticon-heart-shape-outline"></i></a></li>
+                                            <li><a href="#"><i className="flaticon-calendar"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="2, 1">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Rent</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-5.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <a href="properties-details.html">Beautiful Single Home</a>
-                                        </h1>
-                                        <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span>Area</span>3600 Sqft
-                                        </li>
-                                        <li>
-                                            <span>Beds</span> 3
-                                        </li>
-                                        <li>
-                                            <span>Baths</span> 2
-                                        </li>
-                                        <li>
-                                            <span>Garage</span> 1
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                        </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 1, 2">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Sale</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-6.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <a href="properties-details.html">Sweet Family Home</a>
-                                        </h1>
-                                        <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span>Area</span>3600 Sqft
-                                        </li>
-                                        <li>
-                                            <span>Beds</span> 3
-                                        </li>
-                                        <li>
-                                            <span>Baths</span> 2
-                                        </li>
-                                        <li>
-                                            <span>Garage</span> 1
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                        </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Rent</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-1.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <a href="properties-details.html">Modern Family Home</a>
-                                        </h1>
-                                        <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span>Area</span>3600 Sqft
-                                        </li>
-                                        <li>
-                                            <span>Beds</span> 3
-                                        </li>
-                                        <li>
-                                            <span>Baths</span> 2
-                                        </li>
-                                        <li>
-                                            <span>Garage</span> 1
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                        </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2, 1">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Sale</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-2.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <a href="properties-details.html">Relaxing Apartment</a>
-                                        </h1>
-                                        <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span>Area</span>3600 Sqft
-                                        </li>
-                                        <li>
-                                            <span>Beds</span> 3
-                                        </li>
-                                        <li>
-                                            <span>Baths</span> 2
-                                        </li>
-                                        <li>
-                                            <span>Garage</span> 1
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                        </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="1, 2">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <a href="properties-details.html" className="property-img">
-                                            <div className="tag-2">For Rent</div>
-                                            <div className="price-box"><span>$850.00</span> Per night</div>
-                                            <img src="assets/img/property/img-3.jpg" alt="property-box-7" className="img-fluid"/>
-                                        </a>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <a href="properties-details.html">Masons Villas</a>
-                                        </h1>
-                                        <div className="location">
-                                            <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span>Area</span>3600 Sqft
-                                        </li>
-                                        <li>
-                                            <span>Beds</span> 3
-                                        </li>
-                                        <li>
-                                            <span>Baths</span> 2
-                                        </li>
-                                        <li>
-                                            <span>Garage</span> 1
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                        </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ function App() {
                 <Route path={'/404'} element={<Pages404/>}></Route>
                 <Route path={'/create'} element={<CreateNewHotel/>}></Route>
                 <Route path={'/coming-soon'} element={<ComingSoon/>}></Route>
-                <Route path={'/hotels/'} element={<HotelDetails/>}></Route>
+                <Route path={'/viewHome/:id'} element={<HotelDetails/>}></Route>
                 <Route path={'/login'} element={<Login />}></Route>
                 <Route path={'/logout'} element={<Logout />}></Route>
                 <Route path={'/register'} element={<Register/>}></Route>

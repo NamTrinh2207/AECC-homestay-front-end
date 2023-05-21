@@ -5421,8 +5421,8 @@ button.close {
 
 .carousel-inner {
     position: relative;
-    width: 100%;
-    overflow: hidden
+    width: 300px;
+    overflow: clip;
 }
 
 .carousel-item {
@@ -5430,7 +5430,7 @@ button.close {
     display: none;
     -ms-flex-align: center;
     align-items: center;
-    width: 100%;
+    width: 300px;
     transition: -webkit-transform .6s ease;
     transition: transform .6s ease;
     transition: transform .6s ease, -webkit-transform .6s ease;
