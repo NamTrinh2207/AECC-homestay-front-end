@@ -1,13 +1,14 @@
-import TopHeader from "./header/TopHeader";
-import MainHeader from "./header/MainHeader";
-import Footer from "./footer/Footer";
+import TopHeader from "../header/TopHeader";
+import MainHeader from "../header/MainHeader";
+import Footer from "../footer/Footer";
 import React, {useEffect, useState} from 'react'
 import {Formik} from "formik";
 import axios from "axios";
-import {storage} from '../firebase';
+import {storage} from '../../firebase';
 import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import {Link} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import FormUpdateUser from "./FormUpdateUser";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
@@ -38,6 +39,7 @@ function UserProfile(props) {
     if (loading) {
         return <div>Đang lấy thông tin...</div>
     }
+
     return (
         <div>
 
@@ -326,10 +328,16 @@ function UserProfile(props) {
                                     <br/>
                                     <div className="avatar-container">
                                         <img style={{borderRadius:'50%'}} width={150} height={150} src={imgUrl || user.avatar} alt=""/>
-                                        <div className="edit-icon">
-
-                                        </div>
-                                        <input type={'file'} name="avatar" onChange={uploadFile} className="avatar-input"/>
+                                        <label htmlFor="avatar-input" className="avatar-label">
+                                            <i className="fa fa-camera"></i>
+                                        </label>
+                                        <input
+                                            id="avatar-input"
+                                            type="file"
+                                            name="avatar"
+                                            onChange={uploadFile}
+                                            className="avatar-input"
+                                        />
                                         <div className="progress-bar">
                                             <div className="progress-fill" style={{width: `${progressPercent}%`}}></div>
                                         </div>
@@ -345,14 +353,14 @@ function UserProfile(props) {
                                             </Link>
                                         </li>
                                         <li>
-                                            <a href="my-properties.html">
+                                            <Link to={"/"}>
                                                 <i className="flaticon-house"></i>Danh sách nhà
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="submit-property.html">
+                                            <Link to={"/create"}>
                                                 <i className="flaticon-add"></i>Tạo mới nhà
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link to={"/changePassword"}>
@@ -374,70 +382,7 @@ function UserProfile(props) {
                                 {/*Sửa thông tin*/}
 
                                 <h3 className="heading-3">Thông tin cá nhân</h3>
-                                <Formik initialValues={
-                                    {
-                                        name: user.name || "",
-                                        address: user.address || "",
-                                        phoneNumber: user.phoneNumber || "",
-                                        avatar: user.avatar || "",
-                                        email: user.email || "",
-                                    }
-                                }
-                                        onSubmit={(values) => {
-                                            values.avatar = imgUrl;
-                                            axios.put(`http://localhost:8080/${user.id}`, values)
-                                                .then(() => {
-                                                    toast.success("Sửa thông tin thành công")
-                                                })
-                                                .catch(function (error) {
-                                                    console.log(error)
-                                                })
-                                        }}
-                                        enableReinitialize={true}>
-                                    {formik => (
-                                        <form onSubmit={formik.handleSubmit}>
-                                            <div className="row">
-                                                <div className="col-lg-12 ">
-                                                    <div className="form-group name">
-                                                        <label>Họ và tên</label>
-                                                        <input type="text" {...formik.getFieldProps("name")} className="form-control"
-                                                               placeholder="..."/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="form-group email">
-                                                        <label>Số điện thoại</label>
-                                                        <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
-                                                               placeholder="Your Title"/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12 ">
-                                                    <div className="form-group number">
-                                                        <label>Email</label>
-                                                        <input readOnly type="email" {...formik.getFieldProps("email")} className="form-control"
-                                                               placeholder="Email"/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="form-group message">
-                                                        <label>Địa chỉ</label>
-                                                        <textarea className="form-control" {...formik.getFieldProps("address")}
-                                                                  placeholder="Write message"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="send-btn">
-                                                        <button type="submit" className="btn btn-4">Lưu
-                                                        </button>
-                                                        <ToastContainer
-                                                        autoClose={1000}
-                                                        hideProgressBar={true}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        )}
-                                </Formik>
+                                <FormUpdateUser user={user} imgUrl={imgUrl}/>
                             </div>
                         </div>
                     </div>

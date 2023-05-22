@@ -75,17 +75,21 @@ body {
 }
 
 input, textarea {
-    padding: 10px 12px 10px 12px;
-    border: 1px solid lightgrey;
-    border-radius: 2px;
-    margin-bottom: 5px;
-    margin-top: 2px;
-    width: 100%;
-    box-sizing: border-box;
-    color: #2C3E50;
-    font-size: 14px;
-    letter-spacing: 1px;
+    display: none;
 }
+.avatar-label {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 10px;
+    cursor: pointer;
+}
+
+.avatar-label i {
+    font-size: 24px; /* Điều chỉnh kích thước biểu tượng tùy ý */
+}
+
+
 
 input:focus, textarea:focus {
     -moz-box-shadow: none !important;
