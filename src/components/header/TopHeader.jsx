@@ -20,15 +20,12 @@ function TopHeader(props) {
                             </div>
                         </div>
                         <div className="col-lg-6 col-md-5 col-sm-5">
-                            {user?(
+                            {user ? (
                                 <>
                                     <ul className="top-social-media pull-right">
                                         <li><a href="#" className="google"><i className="fa fa-google-plus"></i></a></li>
                                         <li>
-                                            <Link to={"/logout"} className="sign-in"><i className="fa fa-sign-in"></i> Logout</Link>
-                                        </li>
-                                        <li>
-                                            <p style={{color: "red"}} className="fa ">Xin Chào <span>{user.name}</span></p>
+                                            <Link to={"/logout"} className="sign-in"><i className="fa fa-sign-in"> </i> Đăng xuất</Link>
                                         </li>
                                     </ul>
                                 </>
@@ -37,7 +34,7 @@ function TopHeader(props) {
                                     <ul className="top-social-media pull-right">
                                         <li><a href="#" className="google"><i className="fa fa-google-plus"></i></a></li>
                                         <li>
-                                            <Link to={"/login"} className="sign-in"><i className="fa fa-sign-in"></i> Login or Register</Link>
+                                            <Link to={"/login"} className="sign-in"><i className="fa fa-sign-in"></i> Đăng nhập</Link>
                                         </li>
                                     </ul>
                                 </>
