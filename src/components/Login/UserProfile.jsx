@@ -408,7 +408,7 @@ function UserProfile(props) {
                                     {showUpdateUserForm ? (
                                         <div>
                                             <h3 className="heading-3">Thông tin cá nhân</h3>
-                                            <FormUpdateUser user={user}/>
+                                            <FormUpdateUser user={user} imgUrl={imgUrl}/>
                                         </div>
                                     ) : null}
                                     {showChangePasswordForm ? (
