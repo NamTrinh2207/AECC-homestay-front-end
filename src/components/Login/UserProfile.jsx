@@ -2,19 +2,44 @@ import TopHeader from "../header/TopHeader";
 import MainHeader from "../header/MainHeader";
 import Footer from "../footer/Footer";
 import React, {useEffect, useState} from 'react'
-import {Formik} from "formik";
 import axios from "axios";
 import {storage} from '../../firebase';
 import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import {Link} from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
 import FormUpdateUser from "./FormUpdateUser";
+import FormChangePassword from "./FormChangePassword";
+import MyProperty from "../MyProperty";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [showUpdateUserForm, setShowUpdateUserForm] = useState(true);
+    const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+    const [showListHomes, setShowListHomes] = useState(false);
+    const [activeButton, setActiveButton] = useState('profile');
+
+    const handUpdateUserClick = () => {
+        setShowUpdateUserForm(true);
+        setShowChangePasswordForm(false);
+        setShowListHomes(false)
+        setActiveButton('profile');
+    }
+    const handleChangePasswordForm = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(true);
+        setShowListHomes(false)
+        setActiveButton('changePassword');
+    }
+
+    const handleShowListHomes = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(false);
+        setShowListHomes(true)
+        setActiveButton('listHomes');
+    }
+
 
     useEffect(() => {
         const savedProfile = localStorage.getItem('user');
@@ -305,7 +330,7 @@ function UserProfile(props) {
                     <div className="breadcrumb-area">
                         <h1>THÔNG TIN TÀI KHOẢN</h1>
                         <ul className="breadcrumbs">
-                            <li><Link to={"/"} >Trang chủ</Link></li>
+                            <li><Link to={"/"}>Trang chủ</Link></li>
                             <li className="active">Thông tin tài khoản</li>
                         </ul>
                     </div>
@@ -327,16 +352,17 @@ function UserProfile(props) {
                                     {/*hình ảnh*/}
                                     <br/>
                                     <div className="avatar-container">
-                                        <img style={{borderRadius:'50%'}} width={150} height={150} src={imgUrl || user.avatar} alt=""/>
+                                        <img style={{borderRadius: '50%'}} width={150} height={150}
+                                             src={imgUrl || user.avatar} alt=""/>
                                         <label htmlFor="avatar-input" className="avatar-label">
                                             <i className="fa fa-camera"></i>
                                         </label>
-                                        <input
-                                            id="avatar-input"
-                                            type="file"
-                                            name="avatar"
-                                            onChange={uploadFile}
-                                            className="avatar-input"
+                                        <input style={{display: "none"}}
+                                               id="avatar-input"
+                                               type="file"
+                                               name="avatar"
+                                               onChange={uploadFile}
+                                               className="avatar-input"
                                         />
                                         <div className="progress-bar">
                                             <div className="progress-fill" style={{width: `${progressPercent}%`}}></div>
@@ -348,14 +374,14 @@ function UserProfile(props) {
                                 <div className="detail clearfix">
                                     <ul>
                                         <li>
-                                            <Link to={"/user"} href="#" className="active">
+                                            <a onClick={handUpdateUserClick} className={activeButton === "profile" ? 'active' : ''}>
                                                 <i className="flaticon-user"></i>Hồ sơ
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li>
-                                            <Link to={"/"}>
+                                            <a onClick={handleShowListHomes} className={activeButton === "listHomes" ? 'active' : ''}>
                                                 <i className="flaticon-house"></i>Danh sách nhà
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li>
                                             <Link to={"/create"}>
@@ -363,9 +389,9 @@ function UserProfile(props) {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to={"/changePassword"}>
+                                            <a onClick={handleChangePasswordForm} className={activeButton === "changePassword" ? 'active' : ''}>
                                                 <i className="flaticon-locked-padlock"></i>Thay đổi mật khẩu
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li>
                                             <Link to={"/logout"} className="border-bto2">
@@ -378,11 +404,26 @@ function UserProfile(props) {
                         </div>
                         <div className="col-lg-8 col-md-12 col-sm-12">
                             <div className="my-address contact-2">
-
-                                {/*Sửa thông tin*/}
-
-                                <h3 className="heading-3">Thông tin cá nhân</h3>
-                                <FormUpdateUser user={user} imgUrl={imgUrl}/>
+                                <div>
+                                    {showUpdateUserForm ? (
+                                        <div>
+                                            <h3 className="heading-3">Thông tin cá nhân</h3>
+                                            <FormUpdateUser user={user}/>
+                                        </div>
+                                    ) : null}
+                                    {showChangePasswordForm ? (
+                                        <div>
+                                            <h3 className="heading-3">Thay đổi mật khẩu</h3>
+                                            <FormChangePassword user={user}/>
+                                        </div>
+                                    ) : null}
+                                    {showListHomes ? (
+                                        <div>
+                                            <h3 className="heading-3">Danh sách homestay cho thuê</h3>
+                                            <MyProperty/>
+                                        </div>
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
                     </div>

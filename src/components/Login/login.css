@@ -3,7 +3,7 @@ body {
     overflow-x: hidden;
     height: 100%;
     background-repeat: no-repeat;
-    background-color: #ffffff;
+    background-color: #fff9f7;
 }
 
 .card0 {
@@ -75,8 +75,18 @@ body {
 }
 
 input, textarea {
-    display: none;
+    padding: 10px 12px 10px 12px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 14px;
+    letter-spacing: 1px;
 }
+
 .avatar-label {
     display: flex;
     justify-content: center;
@@ -86,9 +96,8 @@ input, textarea {
 }
 
 .avatar-label i {
-    font-size: 24px; /* Điều chỉnh kích thước biểu tượng tùy ý */
+    font-size: 24px;
 }
-
 
 
 input:focus, textarea:focus {
