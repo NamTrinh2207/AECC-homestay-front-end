@@ -59,7 +59,7 @@ function FormUpdateUser(props) {
                         </div>
                         <div className="col-lg-12">
                             <div className="send-btn">
-                                <button type="submit" className="btn btn-4">Cập nhật
+                                <button type="submit" className="btn btn-4">Cập nhật thông tin
                                 </button>
                                 <ToastContainer
                                     autoClose={1000}

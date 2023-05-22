@@ -42,7 +42,6 @@ function HotelDetails(props) {
 
     return (
         <>
-            <div className="page_loader"></div>
             {/* Top header start */}
             <TopHeader/>
             {/* Top header end */}
