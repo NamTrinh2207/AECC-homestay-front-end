@@ -8,18 +8,31 @@ import {Link} from "react-router-dom";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/homes');
+                const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
                 setHomes(response.data);
+                const { content, totalPages } = response.data;
+                setHomes(content);
+                setTotalPages(totalPages);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    }, []);
+    }, [currentPage]);
+
+    const goToPreviousPage = () => {
+        setCurrentPage(currentPage - 1);
+    };
+
+    const goToNextPage = () => {
+        setCurrentPage(currentPage + 1);
+    };
+
 
 
     const getStatusColor = (status) => {
@@ -533,8 +546,26 @@ function HomePage(props) {
                                 </div>
                             ))}
                         </div>
+
+                        <div className="pagination-container">
+                            <button
+                                onClick={goToPreviousPage}
+                                disabled={currentPage === 0}
+                            >
+                                Previous
+                            </button>
+                            <span>{currentPage + 1}</span> / <span>{totalPages}</span>
+                            <button
+                                onClick={goToNextPage}
+                                disabled={currentPage === totalPages - 1}
+                            >
+                                Next
+                            </button>
+                        </div>
+
                     </div>
-                </div>) : (
+                </div>
+            ) : (
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
