@@ -54,22 +54,12 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <a className="nav-link dropdown-toggle" href="#"
+                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
                                                                        id="navbarDropdownMenuLink2"
                                                                        data-toggle="dropdown" aria-haspopup="true"
                                                                        aria-expanded="false">
                                                                         Tài khoản
-                                                                    </a>
-                                                                    <ul className="dropdown-menu"
-                                                                        aria-labelledby="navbarDropdownMenuLink">
-                                                                        <li className="dropdown-submenu"><Link
-                                                                            className="dropdown-item " to={"/user"}>
-                                                                            Thông tin cá nhân</Link>
-                                                                        </li>
-                                                                        <li className="dropdown-submenu"><Link
-                                                                            className="dropdown-item " to={"/changePassword"}>Thay đôổi mật khẩu</Link>
-                                                                        </li>
-                                                                    </ul>
+                                                                    </Link>
                                                                 </li>
                                                                 <li className="nav-item dropdown">
                                                                     <Link to={""} className="nav-link dropdown-toggle" href="#"
