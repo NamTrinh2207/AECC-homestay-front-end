@@ -324,14 +324,6 @@ function HomePage(props) {
                         <div className="carousel-item item-bg active">
                             <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
                                 <div className="carousel-content container b1-inner-2">
-                                    <div className="t-center">
-                                        <h3 data-animation="animated fadeInDown delay-05s">Best Place <span>For Sell</span> Properties</h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -364,16 +356,6 @@ function HomePage(props) {
                             </div>
                         </div>
                     </div>
-                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span className="slider-mover-left" aria-hidden="true">
-                <i className="fa fa-angle-left"></i>
-            </span>
-                    </a>
-                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span className="slider-mover-right" aria-hidden="true">
-                <i className="fa fa-angle-right"></i>
-            </span>
-                    </a>
                     <div className="btn-secton btn-secton-2">
                         <ol className="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
