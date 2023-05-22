@@ -15,7 +15,8 @@ export default function CreateNewHotel(props) {
     const [homeTypes, setHomeTypes] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
-
+    const userId = user.id;
+    console.log(userId)
     const validationSchema = yup.object().shape({
         name: yup.string().required('Không được để trống.'),
         address: yup.string().required('Không được để trống.'),
@@ -49,6 +50,9 @@ export default function CreateNewHotel(props) {
         homeType: {
             id: ''
         },
+        users : {
+            id: userId
+        }
     };
 
     useEffect(() => {
@@ -879,11 +883,12 @@ export default function CreateNewHotel(props) {
                                                     <Form onSubmit={formik.handleSubmit}>
                                                         <h3 className="heading-3">Thông tin nhà</h3>
                                                         <div className="row mb-30">
-                                                            <input type={'hidden'} name={'users.id'} value={}/>
+                                                            <input type={'hidden'} name={'users.id'}/>
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
                                                                     <label htmlFor={'name'}>Tên nhà</label>
-                                                                    <Field className="form-control" name={'name'}></Field>
+                                                                    <Field className="form-control"
+                                                                           name={'name'}></Field>
                                                                     <ErrorMessage name={'name'}/>
                                                                 </div>
                                                             </div>
@@ -1002,7 +1007,8 @@ export default function CreateNewHotel(props) {
                                                         <div className="row mb-45">
                                                             {imgUrls.length > 0 && (
                                                                 <div className="col-lg-12">
-                                                                    <button className="btn btn-4" onClick={openPreviewWindow}>Xem trước
+                                                                    <button className="btn btn-4"
+                                                                            onClick={openPreviewWindow}>Xem trước
                                                                     </button>
                                                                 </div>
                                                             )}

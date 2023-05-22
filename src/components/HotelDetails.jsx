@@ -1,8 +1,45 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import TopHeader from "./header/TopHeader";
 import Footer from "./footer/Footer";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 function HotelDetails(props) {
+    const {id} = useParams();
+    const [home, setHome] = useState(null);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/homes/${id}`)
+            .then((response) => {
+                setHome(response.data)
+            })
+            .catch(() => {
+                alert("Không tìm thấy homestay")
+            })
+    }, [])
+
+    const slideshowProperties = {
+        duration: 5000,
+        transitionDuration: 500,
+        infinite: true,
+        indicators: true,
+        arrows: true,
+    };
+
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return 'Phòng trống';
+            case 2:
+                return 'Đang bảo trì';
+            case 3:
+                return 'Đang cho thuê';
+            default:
+                return 'Unknown';
+        }
+    };
+
+
+
     return (
         <>
             <div className="page_loader"></div>
@@ -538,7 +575,7 @@ function HotelDetails(props) {
             {/* Sub banner end */}
 
             {/* Properties details page start */}
-            <div className="properties-details-page content-area-2">
+            <div className="properties-details-page content-area-2" key={home?.id}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -547,22 +584,22 @@ function HotelDetails(props) {
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="informeson">
-                                                <h1>Real Luxury Villa<span>$2825.00</span></h1>
+                                                <h1>{home?.name}<span>{home?.priceByDay} VNĐ/Ngày</span></h1>
                                                 <div>
                                                     <div className="float-left">
                                                         <ul className="clearfix">
-                                                            <li><i className="flaticon-bed"></i> Bed 3</li>
-                                                            <li><i className="flaticon-bath"></i> Beds 2</li>
+                                                            <li><i className="flaticon-bed"></i> Phòng ngủ: {home?.bedroom}</li>
+                                                            <li><i className="flaticon-bath"></i> Phòng tắm: {home?.bathroom}</li>
                                                             <li>
                                                                 <i className="flaticon-square-layouting-with-black-square-in-east-area"></i>
-                                                                SQ.FT 3500
+                                                                Phân khúc: {home?.homeType.name}
                                                             </li>
-                                                            <li><i className="flaticon-car-repair"></i> Garage 1</li>
-                                                            <li><i className="flaticon-balcony-and-door"></i> Balcony 1</li>
+                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng thái: {getStatusLabel(home?.status)}</li>
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p>$ 1,200 / sq ft</p>
+                                                        <p><span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
+                                                            <i className="fa fa-star" style={{color:"orange"}} ></i>))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -571,55 +608,30 @@ function HotelDetails(props) {
                                 </div>
                                 {/* main slider carousel items */}
                                 <div className="carousel-inner">
-                                    <div className="active item carousel-item" data-slide-number="0">
-                                        <img src="assets/img/property/img-16.jpg" className="img-fluid" alt="properties-photo"/>
-                                    </div>
-                                    <div className="item carousel-item" data-slide-number="1">
-                                        <img src="assets/img/property/img-17.jpg" className="img-fluid" alt="properties-photo"/>
-                                    </div>
-                                    <div className="item carousel-item" data-slide-number="2">
-                                        <img src="assets/img/property/img-18.jpg" className="img-fluid" alt="properties-photo"/>
-                                    </div>
-                                    <div className="item carousel-item" data-slide-number="3">
-                                        <img src="assets/img/property/img-19.jpg" className="img-fluid" alt="properties-photo"/>
-                                    </div>
-                                    <div className="item carousel-item" data-slide-number="4">
-                                        <img src="assets/img/property/img-20.jpg" className="img-fluid" alt="properties-photo"/>
-                                    </div>
+                                    {home?.image.map((image, index) => (
+                                        <div
+                                            key={index}
+                                            className={`item carousel-item ${index === 0 ? 'active' : ''}`}
+                                            data-slide-number={index}
+                                        >
+                                            <img src={image} className="img-fluid" alt="properties-photo" />
+                                        </div>
+                                    ))}
                                 </div>
                                 {/* main slider carousel nav controls */}
                                 <ul className="carousel-indicators sp-2 smail-properties list-inline nav nav-justified ">
-                                    <li className="list-inline-item active">
-                                        <a id="carousel-selector-0" className="selected" data-slide-to="0"
-                                           data-target="#propertiesDetailsSlider">
-                                            <img src="assets/img/property/img-16.jpg" className="img-fluid"
-                                                 alt="properties-photo-smale"/>
-                                        </a>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <a id="carousel-selector-1" data-slide-to="1" data-target="#propertiesDetailsSlider">
-                                            <img src="assets/img/property/img-17.jpg" className="img-fluid"
-                                                 alt="properties-photo-smale"/>
-                                        </a>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <a id="carousel-selector-2" data-slide-to="2" data-target="#propertiesDetailsSlider">
-                                            <img src="assets/img/property/img-18.jpg" className="img-fluid"
-                                                 alt="properties-photo-smale"/>
-                                        </a>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <a id="carousel-selector-4" data-slide-to="3" data-target="#propertiesDetailsSlider">
-                                            <img src="assets/img/property/img-19.jpg" className="img-fluid"
-                                                 alt="properties-photo-smale"/>
-                                        </a>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <a id="carousel-selector-5" data-slide-to="4" data-target="#propertiesDetailsSlider">
-                                            <img src="assets/img/property/img-20.jpg" className="img-fluid"
-                                                 alt="properties-photo-smale"/>
-                                        </a>
-                                    </li>
+                                    {home?.image.map((image, index) => (
+                                        <li key={index} className={`list-inline-item ${index === 0 ? 'active' : ''}`}>
+                                            <a
+                                                id={`carousel-selector-${index}`}
+                                                className={index === 0 ? 'selected' : ''}
+                                                data-slide-to={index}
+                                                data-target="#propertiesDetailsSlider"
+                                            >
+                                                <img src={image} className="img-fluid" alt="properties-photo-smale" />
+                                            </a>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -716,76 +728,46 @@ function HotelDetails(props) {
                             </div>
                             {/* Property description start */}
                             <div className="property-description mb-60">
-                                <h3 className="heading-3">Property Description</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam
-                                    gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis
-                                    vel,dapibus tempus nulla. Donec vel nulla dui. Pellentesque sed ante sed ligula hendrerit
-                                    condimentum. Suspendisse rhoncus fringilla ipsum quis porta. Morbi tincidunt viverra
-                                    pharetra.Vestibulum vel mauris et odio lobortis laoreet eget eu magna. Proin mauris erat, luctus
-                                    at nulla ut, lobortis mattis magna. Morbi a arcu lacus. Maecenas tristique velit vitae nisi
-                                    consectetur,
-                                    in mattis diam sodales. Mauris sagittis sem mattis justo bibendum, a eleifend dolor facilisis.
-                                    Mauris nec pharetra tortor, ac aliquam felis. Nunc pretium erat sed quam consectetur
-                                    fringilla.</p>
+                                <h3 className="heading-3">Mô tả</h3>
+                                <p>{home?.description}</p>
                             </div>
                             {/* Property details start */}
                             <div className="property-details mb-45">
-                                <h3 className="heading-3">Property Details</h3>
+                                <h3 className="heading-3">Thông tin chi tiết</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li>
-                                                <strong>Property Id:</strong>215
+                                                <strong>Tên:</strong>{home?.name}
                                             </li>
                                             <li>
-                                                <strong>Price:</strong>$1240/ Month
+                                                <strong>Phân khúc:</strong>{home?.homeType.name}
                                             </li>
                                             <li>
-                                                <strong>Property Type:</strong>House
-                                            </li>
-                                            <li>
-                                                <strong>Bathrooms:</strong>3
-                                            </li>
-                                            <li>
-                                                <strong>Bathrooms:</strong>2
+                                                <strong>Giá thuê:</strong>{home?.priceByDay} VNĐ/Ngày
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li>
-                                                <strong>Property Lot Size:</strong>800 ft2
+                                                <strong>Trạng thái:</strong>{getStatusLabel(home?.status)}
                                             </li>
                                             <li>
-                                                <strong>Land area</strong>230 ft2
+                                                <strong>Địa chỉ:</strong>{home?.address}
                                             </li>
                                             <li>
-                                                <strong>Year Built</strong>2018
-                                            </li>
-                                            <li>
-                                                <strong>Available From</strong>2018
-                                            </li>
-                                            <li>
-                                                <strong>Garages:</strong>2
+                                                <strong>Chủ nhà:</strong>{home?.users.name}
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li>
-                                                <strong>Sold:</strong>Yes
+                                                <strong>Liên lạc:</strong>{home?.users.phoneNumber}
                                             </li>
                                             <li>
-                                                <strong>City:</strong>Usa
-                                            </li>
-                                            <li>
-                                                <strong>Parking:</strong>Yes
-                                            </li>
-                                            <li>
-                                                <strong>Property Owner:</strong>Sohel Rana
-                                            </li>
-                                            <li>
-                                                <strong>Zip Code: </strong>2451
+                                                <strong>Email:</strong>{home?.users.email}
                                             </li>
                                         </ul>
                                     </div>
@@ -793,37 +775,35 @@ function HotelDetails(props) {
                             </div>
                             {/* Amenities box start */}
                             <div className="amenities-box af mb-45">
-                                <h3 className="heading-3">Condition</h3>
+                                <h3 className="heading-3">Tình trạng</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 3 Bedrooms</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 2 Bathroom</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span></li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li><span><i className="flaticon-draw-check-mark"></i> 1 Garage</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 1 Balcony</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span></li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 4800 sq ft</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> TV</span></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             {/* Features opions start */}
                             <div className="features-opions af mb-45">
-                                <h3 className="heading-3">Features</h3>
+                                <h3 className="heading-3">Tiện ích bổ sung</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Air conditioning
+                                                Điều hòa
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
@@ -831,15 +811,15 @@ function HotelDetails(props) {
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Swimming Pool
+                                                Bể bơi
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Double Bed
+                                                Giường đôi
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Balcony
+                                                Ban công
                                             </li>
                                         </ul>
                                     </div>
@@ -847,15 +827,15 @@ function HotelDetails(props) {
                                         <ul>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Telephone
+                                                Điện thoại
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Garage
+                                                Bảo vệ
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Parking
+                                                Khu vực đậu xe
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
@@ -863,7 +843,7 @@ function HotelDetails(props) {
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Home Theater
+                                                Rạp chiếu phim mini
                                             </li>
                                         </ul>
                                     </div>
@@ -871,59 +851,29 @@ function HotelDetails(props) {
                                         <ul>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Alarm
+                                                Chuông cửa
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Garage
+                                                Hòm thư
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Gym
+                                                Phòng tập Gym
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Electric Range
+                                                Bếp điện
                                             </li>
                                             <li>
                                                 <i className="flaticon-draw-check-mark"></i>
-                                                Private space
+                                                Không gian riêng tư
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            {/* Floor plans start */}
-                            <div className="floor-plans mb-60">
-                                <h3 className="heading-3">Floor Plans</h3>
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>Size</strong></td>
-                                        <td><strong>Rooms</strong></td>
-                                        <td><strong>Bathrooms</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1600</td>
-                                        <td>3</td>
-                                        <td>2</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <img src="assets/img/floor-plans.png" alt="floor-plans" className="img-fluid"/>
-                            </div>
-                            {/* Property vedio start */}
-                            <div className="property-video mb-60">
-                                <h3 className="heading-3">Property Vedio</h3>
-                                <iframe src="https://www.youtube.com/embed/V7IrnC9MISU" allowfullscreen></iframe>
-                            </div>
-                            {/* Section Location start */}
-                            <div className="section-location mb-60">
-                                <h3 className="heading-3">Property Location</h3>
-                                <div className="map">
-                                    <div id="contactMap" className="contact-map"></div>
-                                </div>
-                            </div>
+
                             {/* Related properties start */}
                             <div className="related-properties hedin-mb-30">
                                 <h3 className="heading-3">Related Properties</h3>

@@ -1,9 +1,9 @@
 import React from 'react';
-import Home from "../homePage/Home";
+import HomePage from "../HomePage";
 
 const Logout = () => {
     localStorage.removeItem('user');
-    return <Home/>
+    return <HomePage />
 };
 
 export default Logout;

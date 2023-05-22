@@ -2859,13 +2859,7 @@ a {
     font-weight: 600;
 }
 
-.property-box-7:hover .tag-2 {
-    background: #fff;
-}
 
-.property-box-7:hover .tag-2:after {
-    border-left: 8px solid #fff!important;
-}
 
 /** PROPERTY BOX 8 STARTED **/
 .property-box-8{
@@ -3180,17 +3174,10 @@ a {
     font-weight: 500;
     border-radius: 3px 3px 3px 0;
 }
-
-.tag-2:after {
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 0;
-    border-bottom: 10px solid transparent;
-    bottom: -8px;
-    left: 0;
+.tag-2:hover{
+    color: white;
 }
+
 
 /** USER PROFILE STARTED **/
 .user-profile-box {
