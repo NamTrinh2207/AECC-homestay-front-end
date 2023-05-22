@@ -14,6 +14,7 @@ export default function CreateNewHotel(props) {
     const [progressPercent, setProgressPercent] = useState([]);
     const [homeTypes, setHomeTypes] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(true);
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const validationSchema = yup.object().shape({
         name: yup.string().required('Không được để trống.'),
@@ -878,7 +879,7 @@ export default function CreateNewHotel(props) {
                                                     <Form onSubmit={formik.handleSubmit}>
                                                         <h3 className="heading-3">Thông tin nhà</h3>
                                                         <div className="row mb-30">
-
+                                                            <input type={'hidden'} name={'users.id'} value={}/>
                                                             <div className="col-lg-4 col-md-6">
                                                                 <div className="form-group">
                                                                     <label htmlFor={'name'}>Tên nhà</label>
@@ -998,24 +999,10 @@ export default function CreateNewHotel(props) {
                                                             </div>
                                                         </div>
 
-                                                        <div>
-                                                            {showProgressBar && (
-                                                                <div>
-                                                                    {progressPercent.map((percent, index) => (
-                                                                        <div key={index} className="innerbar"
-                                                                             style={{width: `${percent}%`}}>
-                                                                            {progressPercent && (
-                                                                                <p key={index} min={0} max={100}
-                                                                                   now={percent}
-                                                                                   label={`${percent}%`}></p>
-                                                                            )}
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            )}
+                                                        <div className="row mb-45">
                                                             {imgUrls.length > 0 && (
-                                                                <div>
-                                                                    <button onClick={openPreviewWindow}>Xem trước
+                                                                <div className="col-lg-12">
+                                                                    <button className="btn btn-4" onClick={openPreviewWindow}>Xem trước
                                                                     </button>
                                                                 </div>
                                                             )}
