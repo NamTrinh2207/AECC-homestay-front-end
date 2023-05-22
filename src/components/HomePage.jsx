@@ -47,20 +47,6 @@ function HomePage(props) {
         }
     };
 
-    if (check) {
-        return (
-            <div className="featured-properties content-area-19">
-                <div className="container">
-                    <div className="main-title">
-                        <h1>Danh sách nhà</h1>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-
-
 
     return (
         <div>
@@ -471,7 +457,6 @@ function HomePage(props) {
             {/* Search area end */}
 
             {/* Featured properties start */}
-
 
             <div className="featured-properties content-area-19">
                 <div className="container">
