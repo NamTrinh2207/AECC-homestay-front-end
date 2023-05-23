@@ -62,8 +62,7 @@ function Login(props) {
                                     {formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài
-                                                    khoản</h6></label>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài khoản</h6></label>
                                                 <input {...formik.getFieldProps("username")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"username"}></ErrorMessage></span>
