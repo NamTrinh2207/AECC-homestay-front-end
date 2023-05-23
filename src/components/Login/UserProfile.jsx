@@ -8,7 +8,7 @@ import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import {Link} from "react-router-dom";
 import FormUpdateUser from "./FormUpdateUser";
 import FormChangePassword from "./FormChangePassword";
-import MyProperty from "../MyProperty";
+import MyProperty from "./MyProperty";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
@@ -420,7 +420,7 @@ function UserProfile(props) {
                                     {showListHomes ? (
                                         <div>
                                             <h3 className="heading-3">Danh sách homestay cho thuê</h3>
-                                            <MyProperty/>
+                                            <MyProperty user={user}/>
                                         </div>
                                     ) : null}
                                 </div>
