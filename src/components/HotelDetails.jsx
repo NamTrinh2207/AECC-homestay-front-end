@@ -42,7 +42,6 @@ function HotelDetails(props) {
 
     return (
         <>
-
             <TopHeader/>
             {/* Top header end */}
 
@@ -606,14 +605,15 @@ function HotelDetails(props) {
                                     </div>
                                 </div>
                                 {/* main slider carousel items */}
-                                <div className="carousel-inner">
+                                <div style={{overflow: "clip", position: "relative"}}>
                                     {home?.image.map((image, index) => (
                                         <div
+                                            style={{width:"100vh"}}
                                             key={index}
                                             className={`item carousel-item ${index === 0 ? 'active' : ''}`}
                                             data-slide-number={index}
                                         >
-                                            <img src={image} className="img-fluid" alt="properties-photo" />
+                                            <img  style={{height:"600px"}} src={image} className="img-fluid" alt="properties-photo" />
                                         </div>
                                     ))}
                                 </div>
@@ -627,7 +627,7 @@ function HotelDetails(props) {
                                                 data-slide-to={index}
                                                 data-target="#propertiesDetailsSlider"
                                             >
-                                                <img src={image} className="img-fluid" alt="properties-photo-smale" />
+                                                <img style={{height:"150px"}} src={image} className="img-fluid" alt="properties-photo-smale" />
                                             </a>
                                         </li>
                                     ))}

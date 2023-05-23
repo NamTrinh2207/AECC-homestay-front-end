@@ -15,13 +15,14 @@ function Register(props) {
         username: "",
         password: "",
         email: "",
-        roles: ["ROLE_USER"]
+        roles: [""]
     };
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
         password: Yup.string().required("mật khẩu không được để trống !"),
         email: Yup.string().email("vui lòng nhập đúng định dạng email !").required("email không được để trống !"),
+        roles: Yup.string().required("Vui lòng chọn vai trò người dùng!")
     });
 
     const handleRegister = (values) => {
@@ -95,10 +96,13 @@ function Register(props) {
                                                     <h6 className="custom-text mb-0">Vai trò : </h6>
                                                     <select
                                                         className="custom-select ml-2" {...formik.getFieldProps("roles")}>
+                                                        <option value="">---Vai trò---</option>
                                                         <option value="ROLE_USER">Người bán</option>
                                                         <option value="ROLE_CUSTOMER">Người thuê</option>
                                                     </select>
                                                     <div className="custom-select-arrow"></div>
+                                                    <span style={{color: 'red', fontSize: 12, marginLeft:7}}><ErrorMessage
+                                                        name={"roles"}></ErrorMessage></span>
                                                 </div>
                                             </div>
                                             <br/>
@@ -120,5 +124,6 @@ function Register(props) {
         </div>
     );
 }
+
 
 export default Register;

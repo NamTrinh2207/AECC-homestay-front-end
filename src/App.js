@@ -7,7 +7,7 @@ import ComingSoon from "./components/ComingSoon";
 import HotelDetails from "./components/HotelDetails";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import UserProfile from "./components/UserProfile";
+import UserProfile from "./components/Login/UserProfile";
 import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
 

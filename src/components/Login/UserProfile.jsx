@@ -1,19 +1,45 @@
-import TopHeader from "./header/TopHeader";
-import MainHeader from "./header/MainHeader";
-import Footer from "./footer/Footer";
+import TopHeader from "../header/TopHeader";
+import MainHeader from "../header/MainHeader";
+import Footer from "../footer/Footer";
 import React, {useEffect, useState} from 'react'
-import {Formik} from "formik";
 import axios from "axios";
-import {storage} from '../firebase';
+import {storage} from '../../firebase';
 import {ref, getDownloadURL, uploadBytesResumable} from "firebase/storage";
 import {Link} from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import FormUpdateUser from "./FormUpdateUser";
+import FormChangePassword from "./FormChangePassword";
+import MyProperty from "../MyProperty";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [showUpdateUserForm, setShowUpdateUserForm] = useState(true);
+    const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+    const [showListHomes, setShowListHomes] = useState(false);
+    const [activeButton, setActiveButton] = useState('profile');
+
+    const handUpdateUserClick = () => {
+        setShowUpdateUserForm(true);
+        setShowChangePasswordForm(false);
+        setShowListHomes(false)
+        setActiveButton('profile');
+    }
+    const handleChangePasswordForm = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(true);
+        setShowListHomes(false)
+        setActiveButton('changePassword');
+    }
+
+    const handleShowListHomes = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(false);
+        setShowListHomes(true)
+        setActiveButton('listHomes');
+    }
+
 
     useEffect(() => {
         const savedProfile = localStorage.getItem('user');
@@ -38,6 +64,7 @@ function UserProfile(props) {
     if (loading) {
         return <div>Đang lấy thông tin...</div>
     }
+
     return (
         <div>
 
@@ -303,7 +330,7 @@ function UserProfile(props) {
                     <div className="breadcrumb-area">
                         <h1>THÔNG TIN TÀI KHOẢN</h1>
                         <ul className="breadcrumbs">
-                            <li><Link to={"/"} >Trang chủ</Link></li>
+                            <li><Link to={"/"}>Trang chủ</Link></li>
                             <li className="active">Thông tin tài khoản</li>
                         </ul>
                     </div>
@@ -325,11 +352,18 @@ function UserProfile(props) {
                                     {/*hình ảnh*/}
                                     <br/>
                                     <div className="avatar-container">
-                                        <img style={{borderRadius:'50%'}} width={150} height={150} src={imgUrl || user.avatar} alt=""/>
-                                        <div className="edit-icon">
-
-                                        </div>
-                                        <input type={'file'} name="avatar" onChange={uploadFile} className="avatar-input"/>
+                                        <img style={{borderRadius: '50%'}} width={150} height={150}
+                                             src={imgUrl || user.avatar} alt=""/>
+                                        <label htmlFor="avatar-input" className="avatar-label">
+                                            <i className="fa fa-camera"></i>
+                                        </label>
+                                        <input style={{display: "none"}}
+                                               id="avatar-input"
+                                               type="file"
+                                               name="avatar"
+                                               onChange={uploadFile}
+                                               className="avatar-input"
+                                        />
                                         <div className="progress-bar">
                                             <div className="progress-fill" style={{width: `${progressPercent}%`}}></div>
                                         </div>
@@ -340,24 +374,24 @@ function UserProfile(props) {
                                 <div className="detail clearfix">
                                     <ul>
                                         <li>
-                                            <Link to={"/user"} href="#" className="active">
+                                            <a onClick={handUpdateUserClick} className={activeButton === "profile" ? 'active' : ''}>
                                                 <i className="flaticon-user"></i>Hồ sơ
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li>
-                                            <a href="my-properties.html">
+                                            <a onClick={handleShowListHomes} className={activeButton === "listHomes" ? 'active' : ''}>
                                                 <i className="flaticon-house"></i>Danh sách nhà
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="submit-property.html">
+                                            <Link to={"/create"}>
                                                 <i className="flaticon-add"></i>Tạo mới nhà
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <Link to={"/changePassword"}>
+                                            <a onClick={handleChangePasswordForm} className={activeButton === "changePassword" ? 'active' : ''}>
                                                 <i className="flaticon-locked-padlock"></i>Thay đổi mật khẩu
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li>
                                             <Link to={"/logout"} className="border-bto2">
@@ -370,74 +404,26 @@ function UserProfile(props) {
                         </div>
                         <div className="col-lg-8 col-md-12 col-sm-12">
                             <div className="my-address contact-2">
-
-                                {/*Sửa thông tin*/}
-
-                                <h3 className="heading-3">Thông tin cá nhân</h3>
-                                <Formik initialValues={
-                                    {
-                                        name: user.name || "",
-                                        address: user.address || "",
-                                        phoneNumber: user.phoneNumber || "",
-                                        avatar: user.avatar || "",
-                                        email: user.email || "",
-                                    }
-                                }
-                                        onSubmit={(values) => {
-                                            values.avatar = imgUrl;
-                                            axios.put(`http://localhost:8080/${user.id}`, values)
-                                                .then(() => {
-                                                    toast.success("Sửa thông tin thành công")
-                                                })
-                                                .catch(function (error) {
-                                                    console.log(error)
-                                                })
-                                        }}
-                                        enableReinitialize={true}>
-                                    {formik => (
-                                        <form onSubmit={formik.handleSubmit}>
-                                            <div className="row">
-                                                <div className="col-lg-12 ">
-                                                    <div className="form-group name">
-                                                        <label>Họ và tên</label>
-                                                        <input type="text" {...formik.getFieldProps("name")} className="form-control"
-                                                               placeholder="..."/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="form-group email">
-                                                        <label>Số điện thoại</label>
-                                                        <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
-                                                               placeholder="Your Title"/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12 ">
-                                                    <div className="form-group number">
-                                                        <label>Email</label>
-                                                        <input readOnly type="email" {...formik.getFieldProps("email")} className="form-control"
-                                                               placeholder="Email"/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="form-group message">
-                                                        <label>Địa chỉ</label>
-                                                        <textarea className="form-control" {...formik.getFieldProps("address")}
-                                                                  placeholder="Write message"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-12">
-                                                    <div className="send-btn">
-                                                        <button type="submit" className="btn btn-4">Lưu
-                                                        </button>
-                                                        <ToastContainer
-                                                        autoClose={1000}
-                                                        hideProgressBar={true}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        )}
-                                </Formik>
+                                <div>
+                                    {showUpdateUserForm ? (
+                                        <div>
+                                            <h3 className="heading-3">Thông tin cá nhân</h3>
+                                            <FormUpdateUser user={user}/>
+                                        </div>
+                                    ) : null}
+                                    {showChangePasswordForm ? (
+                                        <div>
+                                            <h3 className="heading-3">Thay đổi mật khẩu</h3>
+                                            <FormChangePassword user={user}/>
+                                        </div>
+                                    ) : null}
+                                    {showListHomes ? (
+                                        <div>
+                                            <h3 className="heading-3">Danh sách homestay cho thuê</h3>
+                                            <MyProperty/>
+                                        </div>
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
                     </div>

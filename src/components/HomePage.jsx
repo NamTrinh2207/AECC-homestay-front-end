@@ -8,18 +8,32 @@ import {Link} from "react-router-dom";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
-    const [check, setCheck] = useState(true);
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     useEffect(() => {
-        axios.get('http://localhost:8080/homes')
-            .then(response => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
                 setHomes(response.data);
-                setCheck(false)
-            })
-            .catch(error => {
+                const { content, totalPages } = response.data;
+                setHomes(content);
+                setTotalPages(totalPages);
+            } catch (error) {
                 console.log(error);
-            });
-    }, []);
+            }
+        };
+        fetchData();
+    }, [currentPage]);
+
+    const goToPreviousPage = () => {
+        setCurrentPage(currentPage - 1);
+    };
+
+    const goToNextPage = () => {
+        setCurrentPage(currentPage + 1);
+    };
+
+
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -46,20 +60,6 @@ function HomePage(props) {
                 return 'Unknown';
         }
     };
-
-    if (check) {
-        return (
-            <div className="featured-properties content-area-19">
-                <div className="container">
-                    <div className="main-title">
-                        <h1>Danh sách nhà</h1>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-
 
 
     return (
@@ -120,10 +120,14 @@ function HomePage(props) {
                                     <li>
                                         <a href="#">Map View <em className="fa fa-chevron-down"></em></a>
                                         <ul>
-                                            <li><a href="properties-map-rightside-list.html">Map List Right Sidebar</a></li>
-                                            <li><a href="properties-map-leftside-list.html">Map List Left Sidebar</a></li>
-                                            <li><a href="properties-map-rightside-grid.html">Map Grid Right Sidebar</a></li>
-                                            <li><a href="properties-map-leftside-grid.html">Map Grid Left Sidebar</a></li>
+                                            <li><a href="properties-map-rightside-list.html">Map List Right Sidebar</a>
+                                            </li>
+                                            <li><a href="properties-map-leftside-list.html">Map List Left Sidebar</a>
+                                            </li>
+                                            <li><a href="properties-map-rightside-grid.html">Map Grid Right Sidebar</a>
+                                            </li>
+                                            <li><a href="properties-map-leftside-grid.html">Map Grid Left Sidebar</a>
+                                            </li>
                                             <li><a href="properties-map-full.html">Map FullWidth</a></li>
                                         </ul>
                                     </li>
@@ -260,7 +264,7 @@ function HomePage(props) {
 
                                     <li><a className="dropdown-item" href="shop-list.html">Shop List</a></li>
                                     <li><a className="dropdown-item" href="shop-cart.html">Shop Cart</a></li>
-                                    <li> <a className="dropdown-item" href="shop-checkout.html">Shop Checkout</a></li>
+                                    <li><a className="dropdown-item" href="shop-checkout.html">Shop Checkout</a></li>
                                     <li><a className="dropdown-item" href="shop-single.html">Shop Details</a></li>
                                 </ul>
                             </li>
@@ -324,14 +328,6 @@ function HomePage(props) {
                         <div className="carousel-item item-bg active">
                             <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
                                 <div className="carousel-content container b1-inner-2">
-                                    <div className="t-center">
-                                        <h3 data-animation="animated fadeInDown delay-05s">Best Place <span>For Sell</span> Properties</h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -339,12 +335,15 @@ function HomePage(props) {
                             <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
                                 <div className="carousel-content container b1-inner-2">
                                     <div className="t-right">
-                                        <h3 data-animation="animated fadeInDown delay-05s">Find Your <span>Dream</span> Properties</h3>
+                                        <h3 data-animation="animated fadeInDown delay-05s">Find
+                                            Your <span>Dream</span> Properties</h3>
                                         <p className="text-p" data-animation="animated fadeInUp delay-10s">
                                             This is real estate website template based on Bootstrap 4 framework.
                                         </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-3"><span>Learn More</span></a>
+                                        <a data-animation="animated fadeInUp delay-10s" href="#"
+                                           className="btn btn-2"><span>Get Started Now</span></a>
+                                        <a data-animation="animated fadeInUp delay-10s" href="#"
+                                           className="btn btn-3"><span>Learn More</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -353,27 +352,20 @@ function HomePage(props) {
                             <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
                                 <div className="carousel-content container b1-inner-2">
                                     <div className="t-left">
-                                        <h3 data-animation="animated fadeInUp delay-05s">Discover Modern <span>Villa</span></h3>
+                                        <h3 data-animation="animated fadeInUp delay-05s">Discover
+                                            Modern <span>Villa</span></h3>
                                         <p className="text-p" data-animation="animated fadeInUp delay-10s">
                                             This is real estate website template based on Bootstrap 4 framework.
                                         </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#" className="btn btn-3"><span>Learn More</span></a>
+                                        <a data-animation="animated fadeInUp delay-10s" href="#"
+                                           className="btn btn-2"><span>Get Started Now</span></a>
+                                        <a data-animation="animated fadeInUp delay-10s" href="#"
+                                           className="btn btn-3"><span>Learn More</span></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span className="slider-mover-left" aria-hidden="true">
-                <i className="fa fa-angle-left"></i>
-            </span>
-                    </a>
-                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span className="slider-mover-right" aria-hidden="true">
-                <i className="fa fa-angle-right"></i>
-            </span>
-                    </a>
                     <div className="btn-secton btn-secton-2">
                         <ol className="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
@@ -388,7 +380,9 @@ function HomePage(props) {
                     <div className="container">
                         <div className="search-area-inner">
                             <div className="search-contents ">
-                                <form action="https://storage.googleapis.com/theme-vessel-items/checking-sites/xero-2-html/HTML/main/index.html" method="GET">
+                                <form
+                                    action="https://storage.googleapis.com/theme-vessel-items/checking-sites/xero-2-html/HTML/main/index.html"
+                                    method="GET">
                                     <div className="row">
                                         <div className="col-6 col-lg-3 col-md-3">
                                             <div className="form-group">
@@ -464,7 +458,10 @@ function HomePage(props) {
                                         <div className="col-6 col-lg-3 col-md-3">
                                             <div className="form-group">
                                                 <div className="range-slider">
-                                                    <div data-min="0" data-max="150000" data-unit="USD" data-min-name="min_price" data-max-name="max_price" className="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                                    <div data-min="0" data-max="150000" data-unit="USD"
+                                                         data-min-name="min_price" data-max-name="max_price"
+                                                         className="range-slider-ui ui-slider"
+                                                         aria-disabled="false"></div>
                                                     <div className="clearfix"></div>
                                                 </div>
                                             </div>
@@ -490,67 +487,94 @@ function HomePage(props) {
 
             {/* Featured properties start */}
 
-
-            <div className="featured-properties content-area-19">
-                <div className="container">
-                    <div className="main-title">
-                        <h1>Danh sách nhà</h1>
-                    </div>
-                    <div className="row filter-portfolio wow fadeInUp delay-04s">
-                        {homes.map(home => (
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                 data-category="3, 2">
-                                <div className="property-box-7">
-                                    <div className="property-thumbnail">
-                                        <Link className="property-img" to={`/viewHome/${home.id}`}>
-                                            <div style={{backgroundColor: getStatusColor(home.status)}}
-                                                 className="tag-2">{getStatusLabel(home.status)}</div>
-                                            <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
-                                            <img height={300} src={home.image[0]} alt="property-box-7"/>
-                                        </Link>
-                                    </div>
-                                    <div className="detail">
-                                        <h1 className="title">
-                                            <Link style={{textDecoration: "none"}}
-                                                  to={`/viewHome/${home.id}`}>{home.name}</Link>
-                                        </h1>
-                                        <div className="location">
-                                            <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                            {home.address}
+            { homes.length > 0 ? (
+                <div className="featured-properties content-area-19">
+                    <div className="container">
+                        <div className="main-title">
+                            <h1>Danh sách nhà</h1>
+                        </div>
+                        <div className="row filter-portfolio wow fadeInUp delay-04s">
+                            {homes.map(home => (
+                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
+                                     data-category="3, 2">
+                                    <div className="property-box-7">
+                                        <div className="property-thumbnail">
+                                            <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                                <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                     className="tag-2">{getStatusLabel(home.status)}</div>
+                                                <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
+                                                <img height={300} src={home.image[0]} alt="property-box-7"/>
+                                            </Link>
                                         </div>
-                                    </div>
-                                    <ul className="facilities-list clearfix">
-                                        <li>
-                                            <span><i className="fa fa-home"></i></span>{home.homeType.name}
-                                        </li>
-                                        <li>
-                                            <span><i className="fa fa-bed"></i></span> {home.bedroom}
-                                        </li>
-                                        <li>
-                                            <span><i className="fa fa-bath"></i></span> {home.bathroom}
-                                        </li>
-                                        <li className="float-right">
-                                            <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
-                                            <i className="fa fa-star" style={{color:"orange"}}></i>))}
-                                        </li>
-                                    </ul>
-                                    <div className="footer clearfix">
-                                        <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i>{home.users.name}</p>
+                                        <div className="detail">
+                                            <h1 className="title">
+                                                <Link style={{textDecoration: "none"}}
+                                                      to={`/viewHome/${home.id}`}>{home.name}</Link>
+                                            </h1>
+                                            <div className="location">
+                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
+                                                {home.address}
+                                            </div>
                                         </div>
-                                        <ul className="pull-right">
-                                            <li><a href="#"><i
-                                                className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a>
+                                        <ul className="facilities-list clearfix">
+                                            <li>
+                                                <span><i className="fa fa-home"></i></span>{home.homeType.name}
+                                            </li>
+                                            <li>
+                                                <span><i className="fa fa-bed"></i></span> {home.bedroom}
+                                            </li>
+                                            <li>
+                                                <span><i className="fa fa-bath"></i></span> {home.bathroom}
+                                            </li>
+                                            <li className="float-right">
+                                                <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
+                                                <i className="fa fa-star" style={{color: "orange"}}></i>))}
                                             </li>
                                         </ul>
+                                        <div className="footer clearfix">
+                                            <div className="pull-left days">
+                                                <p><i className="fa fa-user"></i>{home.users.name}</p>
+                                            </div>
+                                            <ul className="pull-right">
+                                                <li><a href="#"><i
+                                                    className="flaticon-heart-shape-outline"></i></a></li>
+                                                <li><a href="#"><i className="flaticon-calendar"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+
+                        <div className="pagination-container">
+                            <button
+                                onClick={goToPreviousPage}
+                                disabled={currentPage === 0}
+                            >
+                                Previous
+                            </button>
+                            <span>{currentPage + 1}</span> / <span>{totalPages}</span>
+                            <button
+                                onClick={goToNextPage}
+                                disabled={currentPage === totalPages - 1}
+                            >
+                                Next
+                            </button>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div className="featured-properties content-area-19">
+                    <div className="container">
+                        <div className="main-title">
+                            <h1>Danh sách nhà trống</h1>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Featured properties end */}
 
 
@@ -566,10 +590,11 @@ function HomePage(props) {
                             <div className="property-box-8">
                                 <div className="photo-thumbnail">
                                     <div className="photo">
-                                        <img src="assets/img/property/img-12.jpg" alt="property-box-8" className="img-fluid"/>
-                                            <a href="properties-details.html">
-                                                <span className="blog-one__plus"></span>
-                                            </a>
+                                        <img src="assets/img/property/img-12.jpg" alt="property-box-8"
+                                             className="img-fluid"/>
+                                        <a href="properties-details.html">
+                                            <span className="blog-one__plus"></span>
+                                        </a>
                                     </div>
                                     <div className="tag-for">For Rent</div>
                                     <div className="price-ratings-box">
@@ -592,7 +617,8 @@ function HomePage(props) {
                                         </h3>
                                         <div className="location">
                                             <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
+                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
+                                                Kathal St. Tampa City,
                                             </a>
                                         </div>
                                     </div>
@@ -608,10 +634,11 @@ function HomePage(props) {
                             <div className="property-box-8">
                                 <div className="photo-thumbnail">
                                     <div className="photo">
-                                        <img src="assets/img/property/img-13.jpg" alt="property-box-8" className="img-fluid"/>
-                                            <a href="properties-details.html">
-                                                <span className="blog-one__plus"></span>
-                                            </a>
+                                        <img src="assets/img/property/img-13.jpg" alt="property-box-8"
+                                             className="img-fluid"/>
+                                        <a href="properties-details.html">
+                                            <span className="blog-one__plus"></span>
+                                        </a>
                                     </div>
                                     <div className="tag-for">For Sale</div>
                                     <div className="price-ratings-box">
@@ -634,7 +661,8 @@ function HomePage(props) {
                                         </h3>
                                         <div className="location">
                                             <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
+                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
+                                                Kathal St. Tampa City,
                                             </a>
                                         </div>
                                     </div>
@@ -650,10 +678,11 @@ function HomePage(props) {
                             <div className="property-box-8">
                                 <div className="photo-thumbnail">
                                     <div className="photo">
-                                        <img src="assets/img/property/img-14.jpg" alt="property-box-8" className="img-fluid"/>
-                                            <a href="properties-details.html">
-                                                <span className="blog-one__plus"></span>
-                                            </a>
+                                        <img src="assets/img/property/img-14.jpg" alt="property-box-8"
+                                             className="img-fluid"/>
+                                        <a href="properties-details.html">
+                                            <span className="blog-one__plus"></span>
+                                        </a>
                                     </div>
                                     <div className="tag-for">For Rent</div>
                                     <div className="price-ratings-box">
@@ -676,7 +705,8 @@ function HomePage(props) {
                                         </h3>
                                         <div className="location">
                                             <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
+                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
+                                                Kathal St. Tampa City,
                                             </a>
                                         </div>
                                     </div>
@@ -692,10 +722,11 @@ function HomePage(props) {
                             <div className="property-box-8">
                                 <div className="photo-thumbnail">
                                     <div className="photo">
-                                        <img src="assets/img/property/img-15.jpg" alt="property-box-8" className="img-fluid"/>
-                                            <a href="properties-details.html">
-                                                <span className="blog-one__plus"></span>
-                                            </a>
+                                        <img src="assets/img/property/img-15.jpg" alt="property-box-8"
+                                             className="img-fluid"/>
+                                        <a href="properties-details.html">
+                                            <span className="blog-one__plus"></span>
+                                        </a>
                                     </div>
                                     <div className="tag-for">For Sale</div>
                                     <div className="price-ratings-box">
@@ -718,7 +749,8 @@ function HomePage(props) {
                                         </h3>
                                         <div className="location">
                                             <a href="properties-details.html">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123 Kathal St. Tampa City,
+                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
+                                                Kathal St. Tampa City,
                                             </a>
                                         </div>
                                     </div>
@@ -736,7 +768,6 @@ function HomePage(props) {
             {/* Recent Properties end */}
 
 
-
             {/* Footer start */}
             <Footer/>
             {/* Footer end */}
@@ -751,7 +782,8 @@ function HomePage(props) {
             </div>
 
             {/* Property Video Modal */}
-            <div className="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-labelledby="propertyModalLabel" aria-hidden="true">
+            <div className="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog"
+                 aria-labelledby="propertyModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -759,7 +791,8 @@ function HomePage(props) {
                                 Find Your Dream Properties
                             </h5>
                             <p>
-                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i> 123 Kathal St. Tampa City,
+                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i> 123 Kathal
+                                St. Tampa City,
                             </p>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -772,7 +805,9 @@ function HomePage(props) {
                                         <div id="modalCarousel" className="carousel slide" data-ride="carousel">
                                             <div className="carousel-inner" role="listbox">
                                                 <div className="carousel-item active">
-                                                    <iframe className="modalIframe" src="https://www.youtube.com/embed/V7IrnC9MISU" allowfullscreen></iframe>
+                                                    <iframe className="modalIframe"
+                                                            src="https://www.youtube.com/embed/V7IrnC9MISU"
+                                                            allowfullscreen></iframe>
                                                 </div>
                                                 <div className="carousel-item">
                                                     <img src="assets/img/img-8.jpg" alt="Test ALT"/>
@@ -781,10 +816,12 @@ function HomePage(props) {
                                                     <img src="assets/img/img-9.jpg" alt="Test ALT"/>
                                                 </div>
                                             </div>
-                                            <a className="control control-prev" href="#modalCarousel" role="button" data-slide="prev">
+                                            <a className="control control-prev" href="#modalCarousel" role="button"
+                                               data-slide="prev">
                                                 <i className="fa fa-angle-left"></i>
                                             </a>
-                                            <a className="control control-next" href="#modalCarousel" role="button" data-slide="next">
+                                            <a className="control control-next" href="#modalCarousel" role="button"
+                                               data-slide="next">
                                                 <i className="fa fa-angle-right"></i>
                                             </a>
                                         </div>
@@ -802,7 +839,8 @@ function HomePage(props) {
                                                 <li><i className="flaticon-parking"></i> Parking</li>
                                                 <li><i className="flaticon-theatre-masks"></i> Home Theater</li>
                                                 <li><i className="flaticon-old-typical-phone"></i> Telephone</li>
-                                                <li><i className="flaticon-green-park-city-space"></i> Private space</li>
+                                                <li><i className="flaticon-green-park-city-space"></i> Private space
+                                                </li>
                                             </ul>
                                         </section>
                                         <section>
@@ -827,7 +865,8 @@ function HomePage(props) {
                                             <i className="fa fa-star-o"></i>
                                             <span>( 7 Reviews )</span>
                                         </div>
-                                        <a href="properties-details.html" className="btn btn-show btn-theme">Show Detail</a>
+                                        <a href="properties-details.html" className="btn btn-show btn-theme">Show
+                                            Detail</a>
                                     </div>
                                 </div>
                             </div>
@@ -851,10 +890,11 @@ function HomePage(props) {
                         <aside className="canvas-widget">
                             <ul className="menu">
                                 <li className="menu-item menu-item-has-children"><a href="index.html">Home</a></li>
-                                <li className="menu-item"><a href="properties-grid-leftside.html">Properties List</a></li>
+                                <li className="menu-item"><a href="properties-grid-leftside.html">Properties List</a>
+                                </li>
                                 <li className="menu-item"><a href="properties-details.html">Property Detail</a></li>
                                 <li className="menu-item"><a href="blog-single-sidebar-right.html">Blog</a></li>
-                                <li className="menu-item"><a href="about.html">About  US</a></li>
+                                <li className="menu-item"><a href="about.html">About US</a></li>
                                 <li className="menu-item"><a href="contact-3.html">Contact US</a></li>
                             </ul>
                         </aside>
