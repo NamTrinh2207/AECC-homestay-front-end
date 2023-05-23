@@ -40,7 +40,7 @@ function FormChangePassword(props) {
                         <div className="col-lg-12 ">
                             <div className="form-group number">
                                 <label>Tên tài khoản</label>
-                                <input readOnly type="text" value={user.name} className="form-control"
+                                <input readOnly type="text" value={user.username} className="form-control"
                                        placeholder="Tên tài khoản"/>
                             </div>
                         </div>
