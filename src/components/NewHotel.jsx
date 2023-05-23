@@ -7,6 +7,7 @@ import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
 import {storage} from '../firebase';
 import {useDropzone} from 'react-dropzone';
 import Footer from "./footer/Footer";
+import TopHeader from "./header/TopHeader";
 
 export default function CreateNewHotel(props) {
     // const nav = useNavigate();
@@ -15,8 +16,8 @@ export default function CreateNewHotel(props) {
     const [homeTypes, setHomeTypes] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
-    const userId = user.id;
-    console.log(userId)
+
+
     const validationSchema = yup.object().shape({
         name: yup.string().required('Không được để trống.'),
         address: yup.string().required('Không được để trống.'),
@@ -38,22 +39,6 @@ export default function CreateNewHotel(props) {
         status: yup.number().required('Vui lòng chọn trạng thái nhà.'),
         homeType: yup.number().required('Vui lòng chọn kiểu phòng.'),
     });
-    const initialValue = {
-        name: '',
-        address: '',
-        bathroom: '',
-        bedroom: '',
-        description: '',
-        priceByDay: '',
-        image: [],
-        status: '',
-        homeType: {
-            id: ''
-        },
-        users : {
-            id: userId
-        }
-    };
 
     useEffect(() => {
         const getHomeType = async () => {
@@ -130,48 +115,39 @@ export default function CreateNewHotel(props) {
             }
         },
     });
-
-    return (
+    if (user === null) {
+        return (<h1>Ban chua dang nhap</h1>)
+    } else {
+        const userId = user.id;
+        return (
         <div>
             <Formik
-                initialValues={initialValue}
-                // validationSchema={validationSchema}
+                initialValues={{
+                    name: '',
+                    address: '',
+                    bathroom: '',
+                    bedroom: '',
+                    description: '',
+                    priceByDay: '',
+                    image: [],
+                    status: '',
+                    homeType: {
+                        id: ''
+                    },
+                    users: {
+                        id: userId
+                    }
+                }}
+                validationSchema={validationSchema}
                 onSubmit={(values) => {
                     saveHome(values)
                 }}
                 enableReinitialize={true}
             >
-                {formik => (
+                {(formik) => (
                     <>
-
                         {/* Top header start */}
-                        <header className="top-header th-bg" id="top-header-2">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-lg-9 col-md-9 col-sm-7">
-                                        <div className="list-inline">
-                                            <a href="tel:1-7X0-555-8X22"><i className="fa fa-phone"></i>+0477 85X6
-                                                552</a>
-                                            <a href="tel:info@themevessel.com"><i className="fa fa-envelope"></i>info@themevessel.com</a>
-                                            <a href="#" className="mr-0 d-none-992"><i className="fa fa-clock-o"></i>Mon
-                                                - Sun: 8:00am - 6:00pm</a>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 col-md-3 col-sm-5">
-                                        <ul className="top-social-media pull-right">
-                                            <li>
-                                                <a href="login.html" className="sign-in"><i
-                                                    className="fa fa-sign-in"></i> Login </a>
-                                            </li>
-                                            <li>
-                                                <a href="login.html" className="sign-in"><i
-                                                    className="fa fa-user"></i> Register</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </header>
+                        <TopHeader/>
                         {/* Top header end */}
 
                         {/* main header start */}
@@ -1034,10 +1010,11 @@ export default function CreateNewHotel(props) {
                         <Footer/>
                         {/* Footer end */}
                     </>
-                )}
+                )
+                }
             </Formik>
         </div>
-    );
+    );}
 
     function saveHome(data) {
         console.log(data)
