@@ -40,7 +40,7 @@ function FormUpdateUser(props) {
                             <div className="form-group email">
                                 <label>Số điện thoại</label>
                                 <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
-                                       placeholder="Your Title"/>
+                                       placeholder="Nhập số điện thoại"/>
                             </div>
                         </div>
                         <div className="col-lg-12 ">
@@ -54,7 +54,7 @@ function FormUpdateUser(props) {
                             <div className="form-group message">
                                 <label>Địa chỉ</label>
                                 <textarea className="form-control" {...formik.getFieldProps("address")}
-                                          placeholder="Write message"></textarea>
+                                          placeholder="Nhập địa chỉ"></textarea>
                             </div>
                         </div>
                         <div className="col-lg-12">
