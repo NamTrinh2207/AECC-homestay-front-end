@@ -43,7 +43,6 @@ function HotelDetails(props) {
 
     return (
         <>
-            {/* Top header start */}
             <TopHeader/>
             {/* Top header end */}
             <MainHeader/>

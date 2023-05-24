@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import {Field} from "formik";
 
 function MyProperty(props) {
     const userId = props.user;
@@ -8,6 +9,7 @@ function MyProperty(props) {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
+    const [home,setHome]=useState('')
 
     const visiblePages = totalPages+1;
 
@@ -94,16 +96,79 @@ function MyProperty(props) {
             }
         }
     };
+    // const handleChangeStatus = async (event, homeId) => {
+    //     const selectedStatus =parseInt(event.target.value);
+    //     console.log(selectedStatus)
+    //     try {
+    //         axios.get(`http://localhost:8080/homes/${homeId}`)
+    //             .then(res=>{
+    //                 const newHome=res.data;
+    //                setHome({
+    //                    "id": newHome.id,
+    //                    "name": newHome.name,
+    //                    "address": newHome.address,
+    //                    "bathroom": newHome.bathroom,
+    //                    "bedroom": newHome.bathroom,
+    //                    "description": newHome.description,
+    //                    "priceByDay": newHome.priceByDay,
+    //                    "image": newHome.image,
+    //                    "status": selectedStatus,
+    //                    "rating": newHome.rating,
+    //                    "comment": newHome.comment,
+    //                    "users": newHome.users,
+    //                    "homeType": newHome.homeType
+    //
+    //                });
+    //                 console.log(home);
+    //                 const updatedHomes =()=>{
+    //                     try {
+    //                         axios.put(`http://localhost:8080/homes/${homeId}`,home);
+    //                     } catch (error) {
+    //                         console.log(error);
+    //                     }
+    //                 };
+    //                 updatedHomes();
+    //
+    //             })
+    //     }catch (err){
+    //
+    //     }
+    //
+    //
+    // };
+    const handleChangeStatus = async (event, homeId) => {
+        let selectedStatus = event.target.value;
+        console.log(selectedStatus);
+        try {
+            let response = await axios.get(`http://localhost:8080/homes/${homeId}`);
+            let newHome = response.data;
+            console.log(newHome)
+            let updateHome = {
+                ...newHome,
+                status: selectedStatus
+            }
+
+
+            await axios.put(`http://localhost:8080/homes/${homeId}`, updateHome ,{
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setHome(updateHome);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
     return (
         homes.length > 0 ? (
             <div>
                 <div>
-                    {homes.map(home => (
-                        <div className="col-lg-12 col-md-12 col-sm-12">
+                    {homes.map((home, index) => (
+                        <div className="col-lg-12 col-md-12 col-sm-12" >
                             <div className="my-properties">
-                                <table className="manage-table">
+                                <table className="manage-table"key={index}>
                                     <tbody className="responsive-table">
                                     <tr>
                                         <td className="listing-photoo">
@@ -126,7 +191,13 @@ function MyProperty(props) {
                                                     <a href="#"><i className="fa fa-pencil"></i> Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i className="fa  fa-eye-slash"></i> Hide</a>
+                                                    <select className="fa"
+                                                        onChange={(event) => handleChangeStatus(event, home.id)}
+                                                    >   <option value={""}>--Trạng thái--</option>
+                                                        <option value={1}>Phòng Trống</option>
+                                                        <option value={2}>Đang bảo trì</option>
+                                                        <option value={3}>Đang cho thuê</option>
+                                                    </select>
                                                 </li>
                                                 <li>
                                                     <a onClick={() => deleteHome(home.id)} className="delete"><i
