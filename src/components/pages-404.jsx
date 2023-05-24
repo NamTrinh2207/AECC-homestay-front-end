@@ -8,10 +8,10 @@ function Pages404(props) {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="pages-404-inner">
-                                <h1>Oops... You got lost.</h1>
+                                <h1>Có vẻ như chúng tôi không tìm được trang bạn cần</h1>
                                 <p className="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse non
                                     earum consectetur, ratione.</p>
-                                <a href="index.html" className="btn-3"><span>Home Page</span></a>
+                                <a href="/" className="btn-3"><span>Home Page</span></a>
                             </div>
                         </div>
                     </div>
