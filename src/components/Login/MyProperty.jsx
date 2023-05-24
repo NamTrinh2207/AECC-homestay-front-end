@@ -41,6 +41,7 @@ function MyProperty(props) {
         } catch (error) {
             console.log(error);
         }
+
     };
 
     return (
