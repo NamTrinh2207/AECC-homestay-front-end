@@ -9,24 +9,28 @@ import {Link} from "react-router-dom";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
+    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [check, setCheck] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
-                setHomes(response.data);
-                const {content, totalPages} = response.data;
-                setHomes(content);
+                const { totalPages } = response.data;
+                setHomes(response.data.content);
                 setTotalPages(totalPages);
+                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    }, [currentPage]);
+    }, [check, currentPage]);
 
     const goToPreviousPage = () => {
+        setCheck(!check);
         setCurrentPage(currentPage - 1);
     };
 
