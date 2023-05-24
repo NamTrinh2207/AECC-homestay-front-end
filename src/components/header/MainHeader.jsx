@@ -17,8 +17,8 @@ function MainHeader(props) {
                     <div className="row">
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
-                                <a className="navbar-brand logo" href="index.html">
-                                    <img src="assets/img/logos/black-logo.png" alt="logo"/>
+                                <a className="navbar-brand" href="/">
+                                    <img src={"assets/img/logos/black.png"} height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
                                     <span className="fa fa-bars"></span>

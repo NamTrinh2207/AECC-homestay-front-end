@@ -5,35 +5,21 @@ function ComingSoon(props) {
         <div>
             <div className="banner coming-soon">
                 <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item active item-bg">
-                            <img className="d-block w-100 h-100" src="assets/img/banner/img-4.jpg" alt="banner"/>
+                    <div className="">
+                        <div className="active item-bg">
+                            <img className="d-block w-100 h-100" src={"assets/img/banner/img-4.jpg"} alt="banner"/>
                             <div className="carousel-caption banner-slider-inner d-flex h-100">
                                 <div className="carousel-content container">
                                     <div className="cmt">
                                         <a href="/">
-                                            <img src={"assets/img/logos/logo-white.png"} alt="logo"/>
+                                            <img src={"assets/img/logos/white.png"} height={'70px'} alt="logo"/>
                                         </a>
                                     </div>
-                                    <div className="cm">
-                                        <h1>We're Coming Soon!</h1>
-                                        <p>We are working hard to bring you new experience</p>
-                                        <a href="#" className="btn btn-lg btn-white-lg-outline">Subscribe</a>
-                                        <a href="#" className="btn btn-lg btn-white-lg-outline">Contact</a>
-                                    </div>
-                                    <div className="cmb">
-                                        <ul className="social-list clearfix">
-                                            <li><a href="#" className="facebook-bg"><i
-                                                className="fa fa-facebook"></i></a></li>
-                                            <li><a href="#" className="twitter-bg"><i className="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li><a href="#" className="google-bg"><i
-                                                className="fa fa-google-plus"></i></a></li>
-                                            <li><a href="#" className="rss-bg"><i className="fa fa-rss"></i></a>
-                                            </li>
-                                            <li><a href="#" className="linkedin-bg"><i
-                                                className="fa fa-linkedin"></i></a></li>
-                                        </ul>
+                                    <div className="cm" style={{width:"105%"}}>
+                                        <h1>Tính năng đang phát triển!</h1>
+                                        <p style={{textTransform:'uppercase'}}>Chúng tôi đang làm việc chăm chỉ để mang lại trải nghiệm tốt nhất cho bạn</p>
+                                        {/*<a href="#" className="btn btn-lg btn-white-lg-outline">Subscribe</a>*/}
+                                        {/*<a href="#" className="btn btn-lg btn-white-lg-outline">Contact</a>*/}
                                     </div>
                                 </div>
                             </div>
