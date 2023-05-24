@@ -10,6 +10,7 @@ import Register from "./components/Register/Register";
 import UserProfile from "./components/Login/UserProfile";
 import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
+import TestSearch from "./components/TestSearch";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path={'/logout'} element={<Logout />}></Route>
                 <Route path={'/register'} element={<Register/>}></Route>
                 <Route path={'/user'} element={<UserProfile/>}></Route>
+                <Route path={'/search'} element={<TestSearch/>}></Route>
             </Routes>
         </BrowserRouter>
     )

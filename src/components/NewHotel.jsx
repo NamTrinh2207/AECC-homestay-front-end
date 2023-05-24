@@ -31,7 +31,7 @@ export default function CreateNewHotel(props) {
             .min(1, 'Ít nhất phải có 1 phòng ngủ')
             .max(10, 'Nhà bạn nhiều phòng ngủ thế, chỉ cần 10 phòng ngủ thôi.')
             .required('Vui lòng nhập số lượng phòng ngủ.'),
-        description: yup.string().nullable(true).default(null),
+        description: yup.string().nullable().default(null),
         priceByDay: yup
             .number()
             .required('Vui lòng nhập giá.')
