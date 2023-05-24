@@ -636,7 +636,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .content-area-2 {
-    padding: 100px 0 70px;
+    padding: 0px 0 70px;
 }
 
 .content-area-3 {
@@ -704,7 +704,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .content-area-19 {
-    padding: 185px 0 70px;
+    padding: 70px 0 70px;
 }
 
 .content-area-20 {
@@ -1507,6 +1507,7 @@ a {
 
 .banner-bg{
     background: url(../img/banner/img-6.jpg);
+    height: 100vh;
 }
 
 .item-bg{

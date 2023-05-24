@@ -52,7 +52,7 @@ function HotelDetails(props) {
                     <div className="row">
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
-                                <a className="navbar-brand logo" href="index.html">
+                                <a className="navbar-brand logo" href="/">
                                     <img src="assets/img/logos/black-logo.png" alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
@@ -66,7 +66,7 @@ function HotelDetails(props) {
                                                 Index
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <li><a className="dropdown-item" href="index.html">Index 1</a></li>
+                                                <li><a className="dropdown-item" href="/">Index 1</a></li>
                                                 <li><a className="dropdown-item" href="index-2.html">Index 2</a></li>
                                                 <li><a className="dropdown-item" href="index-3.html">Index 3</a></li>
                                                 <li><a className="dropdown-item" href="index-4.html">Index 4</a></li>
@@ -330,7 +330,7 @@ function HotelDetails(props) {
                         <ul className="menu-list">
                             <li><a href="#" className="pt0">Index <em className="fa fa-chevron-down"></em></a>
                                 <ul>
-                                    <li><a href="index.html">Index 1</a></li>
+                                    <li><a href="/">Index 1</a></li>
                                     <li><a href="index-2.html">Index 2</a></li>
                                     <li><a href="index-3.html">Index 3</a></li>
                                     <li><a href="index-4.html">Index 4</a></li>
@@ -565,7 +565,7 @@ function HotelDetails(props) {
                     <div className="breadcrumb-area">
                         <h1>Property Detail</h1>
                         <ul className="breadcrumbs">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li className="active">Property Detail</li>
                         </ul>
                     </div>

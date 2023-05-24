@@ -6,33 +6,37 @@ import Footer from "./footer/Footer";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
+
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
+    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [check, setCheck] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
-                setHomes(response.data);
-                const { content, totalPages } = response.data;
-                setHomes(content);
+                const { totalPages } = response.data;
+                setHomes(response.data.content);
                 setTotalPages(totalPages);
+                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    }, [currentPage]);
+    }, [check, currentPage]);
 
     const goToPreviousPage = () => {
+        setCheck(!check);
         setCurrentPage(currentPage - 1);
     };
 
     const goToNextPage = () => {
         setCurrentPage(currentPage + 1);
     };
-
 
 
     const getStatusColor = (status) => {
@@ -80,14 +84,14 @@ function HomePage(props) {
                 </div>
                 <div className="sidebar-inner">
                     <div className="sidebar-logo">
-                        <img src="assets/img/logos/black-logo.png" alt="sidebarlogo"/>
+                        <img src="assets/img/logos/black.png" alt="sidebarlogo"/>
                     </div>
                     <div className="sidebar-navigation">
                         <h3 className="heading">Pages</h3>
                         <ul className="menu-list">
                             <li><a href="#" className="active pt0">Index <em className="fa fa-chevron-down"></em></a>
                                 <ul>
-                                    <li><a href="index.html">Index 1</a></li>
+                                    <li><a href="/">Index 1</a></li>
                                     <li><a href="index-2.html">Index 2</a></li>
                                     <li><a href="index-3.html">Index 3</a></li>
                                     <li><a href="index-4.html">Index 4</a></li>
@@ -323,58 +327,6 @@ function HomePage(props) {
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
                 <div id="particles-banner-2"></div>
-                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item item-bg active">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item item-bg">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                    <div className="t-right">
-                                        <h3 data-animation="animated fadeInDown delay-05s">Find
-                                            Your <span>Dream</span> Properties</h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item item-bg">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                    <div className="t-left">
-                                        <h3 data-animation="animated fadeInUp delay-05s">Discover
-                                            Modern <span>Villa</span></h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="btn-secton btn-secton-2">
-                        <ol className="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-                </div>
-
                 {/* Search area start */}
                 <div className="search-area sa-show-2" id="search-area-4">
                     <Search/>
@@ -391,16 +343,15 @@ function HomePage(props) {
 
             {/* Featured properties start */}
 
-            { homes.length > 0 ? (
+            {homes.length > 0 ? (
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
                             <h1>Danh sách nhà</h1>
                         </div>
-                        <div className="row filter-portfolio wow fadeInUp delay-04s">
+                        <div className="row wow fadeInUp delay-02s">
                             {homes.map(home => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                     data-category="3, 2">
+                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
                                     <div className="property-box-7">
                                         <div className="property-thumbnail">
                                             <Link className="property-img" to={`/viewHome/${home.id}`}>
@@ -486,8 +437,7 @@ function HomePage(props) {
             <div className="recent-properties content-area-2">
                 <div className="container">
                     <div className="main-title">
-                        <h1>Recent Properties</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                        <h1>Danh sách nhà được thuê nhiều nhất</h1>
                     </div>
                     <div className="row">
                         <div className="col-lg-3 col-md-6 col-sm-12 wow fadeInLeft delay-04s">
@@ -788,12 +738,12 @@ function HomePage(props) {
                     <div className="off-canvas-content">
                         <aside className="canvas-widget">
                             <div className="logo-sitebar text-center">
-                                <img src="assets/img/logos/logo.png" alt="logo"/>
+                                <img src="assets/img/logos/black.png" alt="logo"/>
                             </div>
                         </aside>
                         <aside className="canvas-widget">
                             <ul className="menu">
-                                <li className="menu-item menu-item-has-children"><a href="index.html">Home</a></li>
+                                <li className="menu-item menu-item-has-children"><a href="/">Home</a></li>
                                 <li className="menu-item"><a href="properties-grid-leftside.html">Properties List</a>
                                 </li>
                                 <li className="menu-item"><a href="properties-details.html">Property Detail</a></li>
