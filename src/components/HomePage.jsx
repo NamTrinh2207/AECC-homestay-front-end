@@ -14,7 +14,7 @@ function HomePage(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
 
-    const visiblePages = totalPages;
+    const visiblePages = totalPages +1;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -34,7 +34,7 @@ function HomePage(props) {
             if (startPage < 0) startPage = 0;
         }
 
-        for (let i = startPage; i <= endPage; i++) {
+        for (let i = startPage; i < endPage; i++) {
             const pageItemStyle = {
                 marginRight: '5px', // Khoảng cách giữa các số trang
                 display: 'inline-block', // Hiển thị trên cùng một dòng
