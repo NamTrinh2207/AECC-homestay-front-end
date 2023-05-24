@@ -34,12 +34,24 @@ function HomePage(props) {
         }
 
         for (let i = startPage; i <= endPage; i++) {
+            const pageItemStyle = {
+                marginRight: '5px', // Khoảng cách giữa các số trang
+                display: 'inline-block', // Hiển thị trên cùng một dòng
+                cursor: 'pointer', // Con trỏ chuột thành dạng tay
+                fontWeight: currentPage === i ? 'bold' : 'normal', // Trang hiện tại được đậm
+            };
+            const pageLinkStyle = {
+                cursor: "pointer",
+                padding: '5px 10px', // Kích thước nút số trang
+                backgroundColor: currentPage === i ? '#ccc' : 'transparent', // Màu nền của trang hiện tại
+            };
             pageNumbers.push(
-                <li style={{display:"inline-block"}}
-                    key={i}
-                    className={`page-item ${currentPage === i ? 'active' : ''}`}
-                >
-                    <button className="page-link" onClick={() => handlePageChange(i)}>
+                <li key={i} style={pageItemStyle}>
+                    <button
+                        className="page-link"
+                        style={pageLinkStyle}
+                        onClick={() => handlePageChange(i)}
+                    >
                         {i +1}
                     </button>
                 </li>
@@ -48,6 +60,7 @@ function HomePage(props) {
 
         return pageNumbers;
     };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -437,12 +450,12 @@ function HomePage(props) {
                             ))}
                         </div>
 
-                        <div className="pagination-container">
+                        <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <button style={{border:"none", cursor:"pointer"}}
                                     onClick={goToPreviousPage}
                                     disabled={currentPage === 0}
                             >
-                                <i style={{fontSize:30}} className="fa fa-arrow-left"></i>
+                                <i style={{fontSize:25}} className="fa fa-angle-left"></i>
                             </button>
                             {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                             {renderPagination()}
@@ -450,7 +463,7 @@ function HomePage(props) {
                                 onClick={goToNextPage}
                                 disabled={currentPage === totalPages - 1}
                             >
-                                <i style={{fontSize:30}} className="fa fa-arrow-right"></i>
+                                <i style={{fontSize:25}} className="fa fa-angle-right"></i>
                             </button>
                         </div>
 
