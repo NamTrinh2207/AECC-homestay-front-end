@@ -7,12 +7,61 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import Recent from "./recent";
 
+
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
-    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
+
+    const visiblePages = totalPages;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Thực hiện các hành động khác khi chuyển trang
+        // ...
+    };
+
+    const renderPagination = () => {
+        const pageNumbers = [];
+        const halfVisiblePages = Math.floor(visiblePages / 2);
+        let startPage = currentPage - halfVisiblePages;
+        if (startPage < 0) startPage = 0;
+        let endPage = startPage + visiblePages - 1;
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = endPage - visiblePages + 1;
+            if (startPage < 0) startPage = 0;
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageItemStyle = {
+                marginRight: '5px', // Khoảng cách giữa các số trang
+                display: 'inline-block', // Hiển thị trên cùng một dòng
+                cursor: 'pointer', // Con trỏ chuột thành dạng tay
+                fontWeight: currentPage === i ? 'bold' : 'normal', // Trang hiện tại được đậm
+            };
+            const pageLinkStyle = {
+                cursor: "pointer",
+                padding: '5px 10px', // Kích thước nút số trang
+                backgroundColor: currentPage === i ? '#ccc' : 'transparent', // Màu nền của trang hiện tại
+            };
+            pageNumbers.push(
+                <li key={i} style={pageItemStyle}>
+                    <button
+                        className="page-link"
+                        style={pageLinkStyle}
+                        onClick={() => handlePageChange(i)}
+                    >
+                        {i +1}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +86,6 @@ function HomePage(props) {
     const goToNextPage = () => {
         setCurrentPage(currentPage + 1);
     };
-
 
 
     const getStatusColor = (status) => {
@@ -328,180 +376,31 @@ function HomePage(props) {
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
                 <div id="particles-banner-2"></div>
-                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item item-bg active">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item item-bg">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                    <div className="t-right">
-                                        <h3 data-animation="animated fadeInDown delay-05s">Find
-                                            Your <span>Dream</span> Properties</h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item item-bg">
-                            <div className="carousel-caption banner-slider-inner d-flex h-100 text-left">
-                                <div className="carousel-content container b1-inner-2">
-                                    <div className="t-left">
-                                        <h3 data-animation="animated fadeInUp delay-05s">Discover
-                                            Modern <span>Villa</span></h3>
-                                        <p className="text-p" data-animation="animated fadeInUp delay-10s">
-                                            This is real estate website template based on Bootstrap 4 framework.
-                                        </p>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-2"><span>Get Started Now</span></a>
-                                        <a data-animation="animated fadeInUp delay-10s" href="#"
-                                           className="btn btn-3"><span>Learn More</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="btn-secton btn-secton-2">
-                        <ol className="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                    </div>
-                </div>
-
                 {/* Search area start */}
                 <div className="search-area sa-show-2" id="search-area-4">
-                    <div className="container">
-                        <div className="search-area-inner">
-                            <div className="search-contents ">
-                                <form
-                                    action="https://storage.googleapis.com/theme-vessel-items/checking-sites/xero-2-html/HTML/main/index.html"
-                                    method="GET">
-                                    <div className="row">
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="brand">
-                                                    <option>Area From</option>
-                                                    <option>1500</option>
-                                                    <option>1200</option>
-                                                    <option>900</option>
-                                                    <option>600</option>
-                                                    <option>300</option>
-                                                    <option>100</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="property-status">
-                                                    <option>Property Status</option>
-                                                    <option>For Sale</option>
-                                                    <option>For Rent</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="location">
-                                                    <option>Location</option>
-                                                    <option>United Kingdom</option>
-                                                    <option>American Samoa</option>
-                                                    <option>Belgium</option>
-                                                    <option>Canada</option>
-                                                    <option>Delaware</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="category">
-                                                    <option>Property Types</option>
-                                                    <option>Residential</option>
-                                                    <option>Commercial</option>
-                                                    <option>Land</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="body">
-                                                    <option>Bedrooms</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                    <option>6</option>
-                                                    <option>7</option>
-                                                    <option>8</option>
-                                                    <option>9</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="transmission">
-                                                    <option>Bathrooms</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <div className="range-slider">
-                                                    <div data-min="0" data-max="150000" data-unit="USD"
-                                                         data-min-name="min_price" data-max-name="max_price"
-                                                         className="range-slider-ui ui-slider"
-                                                         aria-disabled="false"></div>
-                                                    <div className="clearfix"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <button className="btn btn-block btn-4" type="submit">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <Search/>
                 </div>
                 {/* Search area end */}
             </div>
             {/* banner end */}
 
             {/* Search area start */}
-            <Search/>
+            <div className="search-area sa-show" id="search-area-1">
+                <Search/>
+            </div>
             {/* Search area end */}
 
             {/* Featured properties start */}
 
-            { homes.length > 0 ? (
+            {homes.length > 0 ? (
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
                             <h1>Danh sách nhà</h1>
                         </div>
-                        <div className="row wow fadeInUp delay-04s">
+                        <div className="row wow fadeInUp delay-02s">
                             {homes.map(home => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                     data-category="3, 2">
+                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
                                     <div className="property-box-7">
                                         <div className="property-thumbnail">
                                             <Link className="property-img" to={`/viewHome/${home.id}`}>
@@ -552,19 +451,20 @@ function HomePage(props) {
                             ))}
                         </div>
 
-                        <div className="pagination-container">
-                            <button
-                                onClick={goToPreviousPage}
-                                disabled={currentPage === 0}
+                        <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <button style={{border:"none", cursor:"pointer"}}
+                                    onClick={goToPreviousPage}
+                                    disabled={currentPage === 0}
                             >
-                                Previous
+                                <i style={{fontSize:25}} className="fa fa-angle-left"></i>
                             </button>
-                            <span>{currentPage + 1}</span> / <span>{totalPages}</span>
-                            <button
+                            {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
+                            {renderPagination()}
+                            <button style={{border:"none", cursor:"pointer"}}
                                 onClick={goToNextPage}
                                 disabled={currentPage === totalPages - 1}
                             >
-                                Next
+                                <i style={{fontSize:25}} className="fa fa-angle-right"></i>
                             </button>
                         </div>
 
@@ -585,6 +485,7 @@ function HomePage(props) {
             {/*Recent hear*/}
             <Recent/>
             {/*Recent hear end*/}
+
 
             {/* Footer start */}
             <Footer/>
