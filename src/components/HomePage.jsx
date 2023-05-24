@@ -552,18 +552,18 @@ function HomePage(props) {
                         </div>
 
                         <div className="pagination-container">
-                            <button
-                                onClick={goToPreviousPage}
-                                disabled={currentPage === 0}
+                            <button style={{border:"none", cursor:"pointer"}}
+                                    onClick={goToPreviousPage}
+                                    disabled={currentPage === 0}
                             >
-                                Previous
+                                <i style={{fontSize:30}} className="fa fa-arrow-left"></i>
                             </button>
                             <span>{currentPage + 1}</span> / <span>{totalPages}</span>
-                            <button
+                            <button style={{border:"none", cursor:"pointer"}}
                                 onClick={goToNextPage}
                                 disabled={currentPage === totalPages - 1}
                             >
-                                Next
+                                <i style={{fontSize:30}} className="fa fa-arrow-right"></i>
                             </button>
                         </div>
 
