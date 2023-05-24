@@ -85,14 +85,14 @@ function HomePage(props) {
                 </div>
                 <div className="sidebar-inner">
                     <div className="sidebar-logo">
-                        <img src="assets/img/logos/black-logo.png" alt="sidebarlogo"/>
+                        <img src="assets/img/logos/black.png" alt="sidebarlogo"/>
                     </div>
                     <div className="sidebar-navigation">
                         <h3 className="heading">Pages</h3>
                         <ul className="menu-list">
                             <li><a href="#" className="active pt0">Index <em className="fa fa-chevron-down"></em></a>
                                 <ul>
-                                    <li><a href="index.html">Index 1</a></li>
+                                    <li><a href="/">Index 1</a></li>
                                     <li><a href="index-2.html">Index 2</a></li>
                                     <li><a href="index-3.html">Index 3</a></li>
                                     <li><a href="index-4.html">Index 4</a></li>
@@ -702,12 +702,12 @@ function HomePage(props) {
                     <div className="off-canvas-content">
                         <aside className="canvas-widget">
                             <div className="logo-sitebar text-center">
-                                <img src="assets/img/logos/logo.png" alt="logo"/>
+                                <img src="assets/img/logos/black.png" alt="logo"/>
                             </div>
                         </aside>
                         <aside className="canvas-widget">
                             <ul className="menu">
-                                <li className="menu-item menu-item-has-children"><a href="index.html">Home</a></li>
+                                <li className="menu-item menu-item-has-children"><a href="/">Home</a></li>
                                 <li className="menu-item"><a href="properties-grid-leftside.html">Properties List</a>
                                 </li>
                                 <li className="menu-item"><a href="properties-details.html">Property Detail</a></li>

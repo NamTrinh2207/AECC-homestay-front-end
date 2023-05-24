@@ -8,6 +8,7 @@ import {storage} from '../firebase';
 import {useDropzone} from 'react-dropzone';
 import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
+import MainHeader from "./header/MainHeader";
 
 export default function CreateNewHotel(props) {
     // const nav = useNavigate();
@@ -134,7 +135,7 @@ export default function CreateNewHotel(props) {
                             .min(1, 'Ít nhất phải có 1 phòng ngủ')
                             .max(10, 'Nhà bạn nhiều phòng ngủ thế, chỉ cần 10 phòng ngủ thôi.')
                             .required('Vui lòng nhập số lượng phòng ngủ.'),
-                        description: yup.string().nullable(true).default(null),
+                        description: yup.string().nullable().default(null),
                         priceByDay: yup
                             .number()
                             .required('Vui lòng nhập giá.')
@@ -154,7 +155,7 @@ export default function CreateNewHotel(props) {
                             {/* Top header end */}
 
                             {/* main header start */}
-
+                            <MainHeader/>
                             {/* main header end */}
 
                             {/* Sidenav start */}
@@ -306,7 +307,7 @@ export default function CreateNewHotel(props) {
                                                                                className="selectpicker search-fields">
                                                                             <option value="">--Trạng thái--</option>
                                                                             <option value={1}>Còn trống</option>
-                                                                            <option value={2}>Đã có người thuê</option>
+                                                                            {/*<option value={2}>Đã có người thuê</option>*/}
                                                                             <option value={3}>Đang nâng cấp</option>
                                                                         </Field>
                                                                         <ErrorMessage name="status"/>
