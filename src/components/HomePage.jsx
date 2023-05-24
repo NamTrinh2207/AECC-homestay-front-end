@@ -9,10 +9,45 @@ import {Link} from "react-router-dom";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
-    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
+
+    const visiblePages = totalPages;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Thực hiện các hành động khác khi chuyển trang
+        // ...
+    };
+
+    const renderPagination = () => {
+        const pageNumbers = [];
+        const halfVisiblePages = Math.floor(visiblePages / 2);
+        let startPage = currentPage - halfVisiblePages;
+        if (startPage < 0) startPage = 0;
+        let endPage = startPage + visiblePages - 1;
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = endPage - visiblePages + 1;
+            if (startPage < 0) startPage = 0;
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(
+                <li style={{display:"inline-block"}}
+                    key={i}
+                    className={`page-item ${currentPage === i ? 'active' : ''}`}
+                >
+                    <button className="page-link" onClick={() => handlePageChange(i)}>
+                        {i +1}
+                    </button>
+                </li>
+            );
+        }
+
+        return pageNumbers;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -503,7 +538,8 @@ function HomePage(props) {
                             >
                                 <i style={{fontSize:30}} className="fa fa-arrow-left"></i>
                             </button>
-                            <span>{currentPage + 1}</span> / <span>{totalPages}</span>
+                            {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
+                            {renderPagination()}
                             <button style={{border:"none", cursor:"pointer"}}
                                 onClick={goToNextPage}
                                 disabled={currentPage === totalPages - 1}
