@@ -2151,8 +2151,8 @@ a {
     background: #fff;
 }
 
-.overlay-link:not([href]):not([tabindex]),
-.overlay-link:not([href]):not([tabindex]):hover {
+.overlay-link:not([href]):not([tabIndex]),
+.overlay-link:not([href]):not([tabIndex]):hover {
     color: #fff;
     opacity: 1;
 }
@@ -2859,7 +2859,13 @@ a {
     font-weight: 600;
 }
 
+.property-box-7:hover .tag-2 {
+    background: #fff;
+}
 
+.property-box-7:hover .tag-2:after {
+    border-left: 8px solid #fff!important;
+}
 
 /** PROPERTY BOX 8 STARTED **/
 .property-box-8{
@@ -3174,10 +3180,17 @@ a {
     font-weight: 500;
     border-radius: 3px 3px 3px 0;
 }
-.tag-2:hover{
-    color: white;
-}
 
+.tag-2:after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 0;
+    border-bottom: 10px solid transparent;
+    bottom: -8px;
+    left: 0;
+}
 
 /** USER PROFILE STARTED **/
 .user-profile-box {
@@ -11466,7 +11479,7 @@ table {
 #search-area-4 {
     transition: all 0.4s;
     position: absolute;
-    bottom: -85px;
+    bottom: 15px;
     width: 100%;
 }
 
@@ -12444,7 +12457,7 @@ body.off-canvas-sidebar-open {
     .property-box-6 .info {
         padding: 0 30px;
     }
-    
+
     .main-title {
         margin-bottom: 40px;
     }
@@ -12601,9 +12614,9 @@ body.off-canvas-sidebar-open {
         line-height: normal;
     }
 
-   .banner .w-100{
-       width: auto!important;
-   }
+    .banner .w-100{
+        width: auto!important;
+    }
 
     .shop-info .inner {
         padding: 30px 30px 5px;
@@ -12848,7 +12861,7 @@ body.off-canvas-sidebar-open {
     }
 
     .services-info-3.s-brd-2{
-       border-bottom: none;
+        border-bottom: none;
     }
 
     .map-content-left{
@@ -13070,7 +13083,7 @@ body.off-canvas-sidebar-open {
     }
 
     .mbl {
-       margin: 0 0 30px 0;
+        margin: 0 0 30px 0;
     }
 
     .properties-list-fullwidth .property-box-5 .price-ratings-box {
@@ -13561,7 +13574,7 @@ body.off-canvas-sidebar-open {
     .content-area-24{
         padding: 60px 0 30px;
     }
-    
+
     .properties-banner{
         height: 400px;
     }
