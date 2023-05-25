@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import Search from "../Search";
 
 function MainHeader(props) {
     const data = localStorage.getItem("user");
@@ -102,13 +103,19 @@ function MainHeader(props) {
 
                                         </>
                                     )}
-
                                 </div>
                             </nav>
                         </div>
                     </div>
                 </div>
             </header>
+            {/* Banner start */}
+            <div className="banner banner-bg" id="particles-banner-wrapper">
+                <div className="search-area sa-show-2" id="search-area-4">
+                    <Search/>
+                </div>
+                {/* Search area end */}
+            </div>
         </div>
     );
 }

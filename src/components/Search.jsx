@@ -3,6 +3,7 @@ import axios from "axios";
 import {DatePicker} from "antd";
 
 function Search(props) {
+    const [homes, setHomes] = useState([]);
     const [bedroom, setBedroom] = useState(null);
     const [bathroom, setBathroom] = useState(null);
     const [address, setAddress] = useState('');
@@ -10,8 +11,6 @@ function Search(props) {
     const [endDate, setEndDate] = useState(null);
     const [minPrice, setMinPrice] = useState(null);
     const [maxPrice, setMaxPrice] = useState(null);
-    const [loading, setLoading] = useState(true)
-    const [home, setHome] = useState([]);
 
     const searchHomes = () => {
         axios.get('http://localhost:8080/homes/search', {
@@ -26,9 +25,8 @@ function Search(props) {
             }
         })
             .then(response => {
-                setHome(response.data);
+                setHomes(response.data);
                 console.log(response.data)
-                setLoading(false)
             })
             .catch(error => {
                 console.error(error);
@@ -38,9 +36,6 @@ function Search(props) {
         searchHomes();
     }, []);
 
-    if (loading) {
-        return <div>loading...</div>
-    }
     return (
         <div>
             <div className="container">

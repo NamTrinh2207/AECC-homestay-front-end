@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
-import {Formik} from "formik";
+import {ErrorMessage, Formik} from "formik";
+import * as Yup from "yup";
 
 function FormUpdateUser(props) {
     const user = props.user;
@@ -13,6 +14,12 @@ function FormUpdateUser(props) {
         avatar: user.avatar ||  "",
         email: user.email || "",
     };
+    const validate = Yup.object({
+        phoneNumber: Yup.number()
+            .min(10, "Số điện thoại phải có ít nhất 10 số")
+            .max(11, "Số điện thoại không được vượt quá 11 số")
+    });
+
     return (
         <Formik initialValues={initialValue}
                 onSubmit={(values) => {
@@ -25,6 +32,7 @@ function FormUpdateUser(props) {
                             console.log(error)
                         })
                 }}
+                validationSchema={validate}
                 enableReinitialize={true}>
             {formik => (
                 <form onSubmit={formik.handleSubmit}>
@@ -41,6 +49,8 @@ function FormUpdateUser(props) {
                                 <label>Số điện thoại</label>
                                 <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
                                        placeholder="Nhập số điện thoại"/>
+                                <span style={{color: 'red', fontSize: 12}}><ErrorMessage
+                                    name={"phoneNumber"}></ErrorMessage></span>
                             </div>
                         </div>
                         <div className="col-lg-12 ">
