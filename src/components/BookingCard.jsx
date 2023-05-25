@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {FaStar} from "react-icons/fa";
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
 import {useParams} from "react-router-dom";

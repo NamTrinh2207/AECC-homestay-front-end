@@ -117,7 +117,7 @@ function ListHomestay(props) {
                             {homes.map(home => (
                                 <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
                                     <div className="property-box-7">
-                                        <div className="property-thumbnail">
+                                        <div>
                                             <Link className="property-img" to={`/viewHome/${home.id}`}>
                                                 <div style={{backgroundColor: getStatusColor(home.status)}}
                                                      className="tag-2">{getStatusLabel(home.status)}</div>
