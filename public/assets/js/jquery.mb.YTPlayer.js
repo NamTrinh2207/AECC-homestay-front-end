@@ -196,7 +196,7 @@ var getYTPVideoID = function( url ) {
                     'version': 3,
                     'playerapiid': playerID,
                     'origin': '*',
-                    'allowFullScreen': true,
+                    'allowfullscreen': true,
                     'wmode': 'transparent',
                     'iv_load_policy': YTPlayer.opt.showAnnotations
                 };

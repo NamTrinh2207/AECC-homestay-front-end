@@ -1,5 +1,5 @@
 /*
-== malihu jquery custom scrollbar plugin ==
+=== malihu jquery custom scrollbar plugin ===
 Plugin URI: http://manos.malihu.gr/jquery-custom-content-scroller
 */
 
@@ -734,7 +734,7 @@ yx-axis
 
 .mCS-rounded-dots.mCSB_scrollTools .mCSB_draggerRail,
 .mCS-rounded-dots-dark.mCSB_scrollTools .mCSB_draggerRail{
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANElEQVQYV2NkIAAYiVbw//9/Y6DiM1ANJoyMjGdBbLgJQAX/kU0DKgDLkaQAvxW4HEvQFwCRcxIJK1XznAAAAABJRU5ErkJggg==");
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANElEQVQYV2NkIAAYiVbw//9/Y6DiM1ANJoyMjGdBbLgJQAX/kU0DKgDLkaQAvxW4HEvQFwCRcxIJK1XznAAAAABJRU5ErkJggg===");
     background-repeat: repeat-y;
     opacity: 0.3;
     filter: "alpha(opacity=30)"; -ms-filter: "alpha(opacity=30)";

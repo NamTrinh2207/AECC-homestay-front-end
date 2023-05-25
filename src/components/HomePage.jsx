@@ -1,9 +1,6 @@
-import React, {useEffect, useState} from 'react';
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
 import Footer from "./footer/Footer";
-import axios from "axios";
-import {Link} from "react-router-dom";
 import Recent from "./recent";
 import ListHomestay from "./ListHomestay";
 
