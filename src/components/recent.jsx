@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default function Recent() {
     const [mostRent, setMostRent] = useState([]);
@@ -23,20 +24,19 @@ export default function Recent() {
                 <div className="recent-properties content-area-2">
                     <div className="container">
                         <div className="main-title">
-                            <h1>Top 4 Homestays</h1>
-                            <span>Hãy đến với chúng tôi để thuê được nhiều nhà nhất!!!</span>
+                            <h1>Top Homestays</h1>
+
                         </div>
                         <div className="row">
                             {mostRent.map((item, index) => (
                                 <div className="col-lg-3 col-md-6 col-sm-12 wow fadeInLeft delay-04s">
                                     <div className="property-box-8">
                                         <div className="photo-thumbnail">
+                                            <Link className="property-img" to={`/viewHome/${item.id}`}>
                                             <div className="photo">
                                                 <img height={200} src={item.images} alt="property-box-8"/>
-                                                <a href="">
-                                                    <span className="blog-one__plus"></span>
-                                                </a>
                                             </div>
+                                            </Link>
                                             <div className="tag-for">For Rent</div>
                                             <div className="price-ratings-box">
                                                 <p className="price">
@@ -50,9 +50,8 @@ export default function Recent() {
                                         </div>
                                         <div className="detail">
                                             <div className="heading">
-                                                <h3>
-                                                    <a href="">{item.name}</a>
-                                                </h3>
+                                                <h3 className="title"><Link style={{textDecoration: "none"}}
+                                                    to={`/viewHome/${item.id}`}>{item.name}</Link></h3>
                                                 <div className="location">
                                                     <a href="">
                                                         <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
