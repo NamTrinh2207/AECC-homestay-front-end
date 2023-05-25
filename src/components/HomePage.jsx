@@ -5,7 +5,6 @@ import Footer from "./footer/Footer";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Recent from "./recent";
-import {DatePicker} from "antd";
 
 
 function HomePage(props) {
@@ -14,20 +13,7 @@ function HomePage(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
 
-
-    // // data search
-    const [bedroom, setBedroom] = useState(null);
-    const [bathroom, setBathroom] = useState(null);
-    const [address, setAddress] = useState('');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [minPrice, setMinPrice] = useState(null);
-    const [maxPrice, setMaxPrice] = useState(null);
-    const [loading, setLoading] = useState(true)
-    const [home, setHome] = useState([]);
-
-
-    const visiblePages = totalPages +1;
+    const visiblePages = totalPages + 1;
 
 
     const handlePageChange = (pageNumber) => {
@@ -67,7 +53,7 @@ function HomePage(props) {
                         style={pageLinkStyle}
                         onClick={() => handlePageChange(i)}
                     >
-                        {i +1}
+                        {i + 1}
                     </button>
                 </li>
             );
@@ -81,7 +67,7 @@ function HomePage(props) {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
-                const { totalPages } = response.data;
+                const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
                 console.log("ban dau", response.data.content)
@@ -127,34 +113,6 @@ function HomePage(props) {
                 return 'Unknown';
         }
     };
-    const searchHomes = () => {
-        axios.get('http://localhost:8080/homes/search', {
-            params: {
-                bedroom: bedroom,
-                bathroom: bathroom,
-                address: address,
-                start_date: startDate,
-                end_date: endDate,
-                min_price: minPrice,
-                max_price: maxPrice
-            }
-        })
-            .then(response => {
-                setHome(response.data);
-                console.log(response.data)
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    };
-    useEffect(() => {
-        searchHomes();
-    }, []);
-
-    if (loading) {
-        return <div>loading...</div>
-    }
 
     return (
         <div>
@@ -169,109 +127,13 @@ function HomePage(props) {
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
                 <div className="search-area sa-show-2" id="search-area-4">
-                    <div className="container">
-                        <div className="search-area-inner">
-                            <div className="search-contents ">
-                                <form>
-                                    <div className="row">
-
-                                        {/*nhap dia chi*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <input className={"form-box search-fields"} type="text" placeholder="Address"
-                                                       value={address} onChange={(e) => setAddress(e.target.value)}/>
-                                            </div>
-                                        </div>
-
-                                        {/*so phong ngu*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" name="property-status"
-                                                        value={bedroom} onChange={(e) => setBedroom(e.target.value)}>
-                                                    <option value={""}>--Chọn phòng ngủ--</option>
-                                                    <option value={"1"}>1 phòng ngủ</option>
-                                                    <option value={"2"}>2 phòng ngủ</option>
-                                                    <option value={"3"}>3 phòng ngủ</option>
-                                                    <option value={"4"}>4 phòng ngủ</option>
-                                                    <option value={"5"}>5 phòng ngủ</option>
-                                                    <option value={"6"}>6 phòng ngủ</option>
-                                                    <option value={"7"}>7 phòng ngủ</option>
-                                                    <option value={"8"}>8 phòng ngủ</option>
-                                                    <option value={"9"}>9 phòng ngủ</option>
-                                                    <option value={"10"}>10 phòng ngủ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        {/*so phong tam*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <select className="selectpicker search-fields" value={bathroom}
-                                                        onChange={(e) => setBathroom(e.target.value)}>
-                                                    <option>--Chọn phòng tắm--</option>
-                                                    <option value={"1"}>1 phòng tắm</option>
-                                                    <option value={"2"}>2 phòng tắm</option>
-                                                    <option value={"3"}>3 phòng tắm</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        {/*nut tim kiem*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <button className="btn btn-block btn-4" onClick={searchHomes}>Tìm kiếm</button>
-                                            </div>
-                                        </div>
-
-                                        {/*check in*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <DatePicker selected={startDate}
-                                                            onChange={(date) => setStartDate(date)}
-                                                            dateFormat="yyyy/MM/dd"
-                                                            className={"form-box search-fields"}
-                                                            placeholder={"Chon ngay checkin"}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/*checkout*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <DatePicker selected={endDate}
-                                                            onChange={(date) => setEndDate(date)}
-                                                            dateFormat="yyy/MM/dd"
-                                                            className={"form-box search-fields"}
-                                                            placeholder={"Chon ngay checkout"}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/*gia thap*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <input className={"form-box search-fields"} type="number"
-                                                       placeholder="Min Price" value={minPrice}
-                                                       onChange={(e) => setMinPrice(e.target.value)}/>
-                                            </div>
-                                        </div>
-                                        {/*gia sau*/}
-                                        <div className="col-6 col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <input className={"form-box search-fields"} type="number"
-                                                       placeholder="Max Price" value={maxPrice}
-                                                       onChange={(e) => setMaxPrice(e.target.value)}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 {/* Search area end */}
             </div>
             {/* banner end */}
+            <div className="search-area sa-show" id="search-area-1">
 
+            </div>
             {/* Featured properties start */}
 
             {homes.length > 0 ? (
@@ -333,20 +195,21 @@ function HomePage(props) {
                             ))}
                         </div>
 
-                        <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <button style={{border:"none", cursor:"pointer"}}
+                        <div className="pagination-container"
+                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <button style={{border: "none", cursor: "pointer"}}
                                     onClick={goToPreviousPage}
                                     disabled={currentPage === 0}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-left"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
                             </button>
                             {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                             {renderPagination()}
-                            <button style={{border:"none", cursor:"pointer"}}
-                                onClick={goToNextPage}
-                                disabled={currentPage === totalPages - 1}
+                            <button style={{border: "none", cursor: "pointer"}}
+                                    onClick={goToNextPage}
+                                    disabled={currentPage === totalPages - 1}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-right"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
                             </button>
                         </div>
 
