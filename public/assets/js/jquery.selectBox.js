@@ -65,14 +65,14 @@
         var control    = $('<a class="selectBox" />')
             , inline   = select.attr('multiple') || parseInt(select.attr('size')) > 1
             , settings = options || {}
-            , tabIndex = parseInt(select.prop('tabIndex')) || 0
+            , tabIndex = parseInt(select.prop('tabindex')) || 0
             , self     = this;
 
         control
             .width(select.outerWidth())
             .addClass(select.attr('class'))
             .attr('title', select.attr('title') || '')
-            .attr('tabIndex', tabIndex)
+            .attr('tabindex', tabIndex)
             .css('display', 'inline-block')
             .bind('focus.selectBox', function () {
                 if (this !== document.activeElement && document.body !== document.activeElement) {

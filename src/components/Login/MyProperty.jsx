@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Field} from "formik";
+import {Link} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import EditHotel from "../EditHotel";
 
 function MyProperty(props) {
     const userId = props.user;
@@ -9,7 +12,7 @@ function MyProperty(props) {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
-    const [home,setHome]=useState('')
+    const [home,setHome]=useState('');
 
     const visiblePages = totalPages + 1;
 
@@ -172,22 +175,24 @@ function MyProperty(props) {
                                         </td>
                                         <td className="action">
                                             <ul>
-                                                <li>
-                                                    <a href="#"><i className="fa fa-pencil"></i> Sửa</a>
+                                                <li style={{ display: home.status === 3 ? "none" : "block" }}>
+
+                                                    <Link  to={`/edit/${home.id}`}><i className="fa fa-pencil" ></i> Sửa</Link>
                                                 </li>
                                                 <li>
                                                     <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
-                                                        onChange={(event) => handleChangeStatus(event, home.id)}
+                                                            onChange={(event) => handleChangeStatus(event, home.id)}
                                                     >   <option value={""} >{getStatusLabel(home.status)}</option>
                                                         <option value={1} >Phòng trống</option>
                                                         <option value={2}>Đang bảo trì</option>
                                                         <option value={3}>Đang cho thuê</option>
                                                     </select>
                                                 </li>
-                                                <li>
+                                                <li style={{ display: home.status === 3 ? "none" : "block" }}>
                                                     <a onClick={() => deleteHome(home.id)} className="delete"><i
-                                                        className="fa fa-remove"></i> Xóa</a>
+                                                        className="fa fa-remove"></i> Delete</a>
                                                 </li>
+
                                             </ul>
                                         </td>
                                     </tr>
