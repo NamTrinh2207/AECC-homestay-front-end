@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Field} from "formik";
+import {Link} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import EditHotel from "../EditHotel";
 
 function MyProperty(props) {
     const userId = props.user;
@@ -45,46 +48,7 @@ function MyProperty(props) {
         }
 
     };
-    // const handleChangeStatus = async (event, homeId) => {
-    //     const selectedStatus =parseInt(event.target.value);
-    //     console.log(selectedStatus)
-    //     try {
-    //         axios.get(`http://localhost:8080/homes/${homeId}`)
-    //             .then(res=>{
-    //                 const newHome=res.data;
-    //                setHome({
-    //                    "id": newHome.id,
-    //                    "name": newHome.name,
-    //                    "address": newHome.address,
-    //                    "bathroom": newHome.bathroom,
-    //                    "bedroom": newHome.bathroom,
-    //                    "description": newHome.description,
-    //                    "priceByDay": newHome.priceByDay,
-    //                    "image": newHome.image,
-    //                    "status": selectedStatus,
-    //                    "rating": newHome.rating,
-    //                    "comment": newHome.comment,
-    //                    "users": newHome.users,
-    //                    "homeType": newHome.homeType
-    //
-    //                });
-    //                 console.log(home);
-    //                 const updatedHomes =()=>{
-    //                     try {
-    //                         axios.put(`http://localhost:8080/homes/${homeId}`,home);
-    //                     } catch (error) {
-    //                         console.log(error);
-    //                     }
-    //                 };
-    //                 updatedHomes();
-    //
-    //             })
-    //     }catch (err){
-    //
-    //     }
-    //
-    //
-    // };
+
     const handleChangeStatus = async (event, homeId) => {
         let selectedStatus = event.target.value;
         console.log(selectedStatus);
@@ -136,7 +100,7 @@ function MyProperty(props) {
                                         <td className="action">
                                             <ul>
                                                 <li>
-                                                    <a href="#"><i className="fa fa-pencil"></i> Edit</a>
+                                                    <Link  to={`/edit/${home.id}`}><i className="fa fa-pencil"></i> Edit</Link>
                                                 </li>
                                                 <li>
                                                     <select className="fa"
