@@ -318,8 +318,8 @@ export default function EditHotel() {
                                                                                className="selectpicker search-fields">
                                                                             <option value="">--Trạng thái--</option>
                                                                             <option value={1}>Còn trống</option>
-                                                                            {/*<option value={2}>Đã có người thuê</option>*/}
-                                                                            <option value={3}>Đang nâng cấp</option>
+                                                                            <option value={2}>Đang bảo trì</option>
+                                                                            <option value={3}>Đã có người thuê</option>
                                                                         </Field>
                                                                         <ErrorMessage name="status"/>
                                                                     </div>
@@ -386,7 +386,11 @@ export default function EditHotel() {
             imgArr[i] = imgUrls[i];
         }
         data.image = imgArr;
-        axios.put(`http://localhost:8080/homes/${id}`, data).then(() => {
+        axios.put(`http://localhost:8080/homes/${id}`, data,{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(() => {
             alert('Đã cập nhập.')
         }).catch((err) => {
             console.error(err)

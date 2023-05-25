@@ -16,7 +16,7 @@ function Agents(props) {
                             <div className="row agent-4">
                                 <div className="col-lg-5 col-md-12 col-pad">
                                     <div className="photo">
-                                        <img src="assets/img/avatar/avatar-5.jpg" alt="avatar-4" className="img-fluid"/>
+                                        <img src="/assets/img/avatar/avatar-5.jpg" alt="avatar-4" className="img-fluid"/>
                                         <div className="overlay">
                                             <div className="border">
                                                 <div className="icon-holder">

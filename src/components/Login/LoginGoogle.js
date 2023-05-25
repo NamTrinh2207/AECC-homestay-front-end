@@ -20,7 +20,7 @@ function LoginGoogle() {
     const onSuccess = (res) => {
         localStorage.setItem('user', JSON.stringify(res.profileObj));
         alert("Đăng nhập thành công")
-        navigate("/")
+
     };
 
     const onFailure = (err) => {
@@ -36,7 +36,7 @@ function LoginGoogle() {
                     onSuccess={onSuccess}
                     onFailure={onFailure}
                     cookiePolicy={'single_host_origin'}
-                    isSignedIn={true}
+                    isSignedIn={false}
                 />
             </div>
         </div>
