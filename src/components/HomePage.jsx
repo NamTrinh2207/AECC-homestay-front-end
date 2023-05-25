@@ -10,6 +10,7 @@ import {DatePicker} from "antd";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
+    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
@@ -67,7 +68,7 @@ function HomePage(props) {
                         style={pageLinkStyle}
                         onClick={() => handlePageChange(i)}
                     >
-                        {i +1}
+                        {i + 1}
                     </button>
                 </li>
             );
@@ -81,7 +82,7 @@ function HomePage(props) {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
-                const { totalPages } = response.data;
+                const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
                 console.log("ban dau", response.data.content)
@@ -168,6 +169,8 @@ function HomePage(props) {
 
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
+                <div id="particles-banner-2"></div>
+                {/* Search area start */}
                 <div className="search-area sa-show-2" id="search-area-4">
                     <div className="container">
                         <div className="search-area-inner">
@@ -333,20 +336,21 @@ function HomePage(props) {
                             ))}
                         </div>
 
-                        <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <button style={{border:"none", cursor:"pointer"}}
+                        <div className="pagination-container"
+                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <button style={{border: "none", cursor: "pointer"}}
                                     onClick={goToPreviousPage}
                                     disabled={currentPage === 0}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-left"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
                             </button>
                             {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                             {renderPagination()}
-                            <button style={{border:"none", cursor:"pointer"}}
-                                onClick={goToNextPage}
-                                disabled={currentPage === totalPages - 1}
+                            <button style={{border: "none", cursor: "pointer"}}
+                                    onClick={goToNextPage}
+                                    disabled={currentPage === totalPages - 1}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-right"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
                             </button>
                         </div>
 
