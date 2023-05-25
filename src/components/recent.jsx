@@ -25,19 +25,18 @@ export default function Recent() {
                     <div className="container">
                         <div className="main-title">
                             <h1>Top Homestays</h1>
+
                         </div>
                         <div className="row">
                             {mostRent.map((item, index) => (
                                 <div className="col-lg-3 col-md-6 col-sm-12 wow fadeInLeft delay-04s">
                                     <div className="property-box-8">
                                         <div className="photo-thumbnail">
+                                            <Link className="property-img" to={`/viewHome/${item.id}`}>
                                             <div className="photo">
-                                                <img height={300} src={item.images} alt="property-box-8"
-                                                     className="img-fluid"/>
-                                                <a href="">
-                                                    <span className="blog-one__plus"></span>
-                                                </a>
+                                                <img height={200} src={item.images} alt="property-box-8"/>
                                             </div>
+                                            </Link>
                                             <div className="tag-for">For Rent</div>
                                             <div className="price-ratings-box">
                                                 <p className="price">
