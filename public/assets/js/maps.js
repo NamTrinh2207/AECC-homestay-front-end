@@ -22,7 +22,7 @@ var properties = {
         },
         {
             "id": 2,
-            "title": "Modern Family HomePage",
+            "title": "Modern Family Home",
             "listing_for": "Rent",
             'author': 'Jhon Doe',
             'date': '5 days ago',

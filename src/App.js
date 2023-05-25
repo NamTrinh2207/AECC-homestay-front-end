@@ -10,6 +10,7 @@ import Register from "./components/Register/Register";
 import UserProfile from "./components/Login/UserProfile";
 import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
+import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                 <Route path={'/logout'} element={<Logout />}></Route>
                 <Route path={'/register'} element={<Register/>}></Route>
                 <Route path={'/user'} element={<UserProfile/>}></Route>
+                <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/recent'} element={<Recent/>}></Route>
             </Routes>
         </BrowserRouter>
