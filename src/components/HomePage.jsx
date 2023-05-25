@@ -20,6 +20,7 @@ function HomePage(props) {
             {/* main header end */}
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
+                <div id="particles-banner-2"></div>
                 <div className="search-area sa-show-2" id="search-area-4">
                     <Search/>
                 </div>
