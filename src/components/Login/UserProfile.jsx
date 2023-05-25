@@ -15,10 +15,10 @@ function UserProfile(props) {
     const [progressPercent, setProgressPercent] = useState(0);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-    const [showUpdateUserForm, setShowUpdateUserForm] = useState(true);
+    const [showUpdateUserForm, setShowUpdateUserForm] = useState(false);
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
-    const [showListHomes, setShowListHomes] = useState(false);
-    const [activeButton, setActiveButton] = useState('profile');
+    const [showListHomes, setShowListHomes] = useState(true);
+    const [activeButton, setActiveButton] = useState('listHomes');
 
     const handUpdateUserClick = () => {
         setShowUpdateUserForm(true);
