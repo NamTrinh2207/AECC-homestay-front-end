@@ -473,7 +473,7 @@
             , scrollPos = $(window).scrollTop()
             , heightToTop = pos.top - scrollPos
             , heightToBottom = $(window).height() - ( heightToTop + controlHeight )
-            , posTop = (heightToTop > heightToBottom) && (settings.keepInViewport == null ? true : settings.keepInViewport)
+            , posTop = (heightToTop > heightToBottom) && (settings.keepInViewport === null ? true : settings.keepInViewport)
             , width = control.innerWidth() >= options.innerWidth() ? control.innerWidth() + 'px' : 'auto'
             , top = posTop
             ? pos.top - optionsHeight + borderTopWidth + topPositionCorrelation
@@ -980,12 +980,12 @@
         options.find('A').each(function () {
             if (typeof(value) === 'object') {
                 for (var i = 0; i < value.length; i++) {
-                    if ($(this).attr('rel') == value[i]) {
+                    if ($(this).attr('rel') === value[i]) {
                         $(this).parent().addClass('selectBox-selected');
                     }
                 }
             } else {
-                if ($(this).attr('rel') == value) {
+                if ($(this).attr('rel') === value) {
                     $(this).parent().addClass('selectBox-selected');
                 }
             }

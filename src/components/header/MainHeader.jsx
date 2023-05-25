@@ -18,7 +18,7 @@ function MainHeader(props) {
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
                                 <a className="navbar-brand" href="/">
-                                    <img src={"assets/img/logos/black.png"} height={'55px'} alt="logo"/>
+                                    <img src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Fblack-logo.png?alt=media&token=c06f18ab-93d2-4f70-9173-6579873830ed"} height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
                                     <span className="fa fa-bars"></span>

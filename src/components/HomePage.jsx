@@ -10,6 +10,7 @@ import Recent from "./recent";
 
 function HomePage(props) {
     const [homes, setHomes] = useState([]);
+    console.log(homes)
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);

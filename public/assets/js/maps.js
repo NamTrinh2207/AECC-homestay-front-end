@@ -453,7 +453,7 @@ function insertPropertyToArray(property, layout) {
 
     var element = '';
 
-    if(layout == 'grid_layout'){
+    if(layout === 'grid_layout'){
         element += '<div class="col-lg-6 col-md-6 col-sm-12">\n' +
             '                        <div class="property-box">\n' +
             '                            <div class="property-thumbnail">\n' +
