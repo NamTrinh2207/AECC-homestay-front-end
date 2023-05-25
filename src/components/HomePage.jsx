@@ -383,7 +383,7 @@ function HomePage(props) {
             </div>
 
             {/* Property Video Modal */}
-            <div className="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog"
+            <div className="modal property-modal fade" id="propertyModal" tabIndex="-1" role="dialog"
                  aria-labelledby="propertyModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content">
@@ -408,7 +408,7 @@ function HomePage(props) {
                                                 <div className="carousel-item active">
                                                     <iframe className="modalIframe"
                                                             src="https://www.youtube.com/embed/V7IrnC9MISU"
-                                                            allowfullscreen></iframe>
+                                                            allowFullScreen></iframe>
                                                 </div>
                                                 <div className="carousel-item">
                                                     <img src="assets/img/img-8.jpg" alt="Test ALT"/>
