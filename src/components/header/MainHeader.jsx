@@ -72,13 +72,6 @@ function MainHeader(props) {
                                                                 </li>
 
                                                             </ul>
-                                                            <ul className="nav navbar-nav ml-auto  justify-content-end">
-                                                                <li className="nav-item">
-                                                                    <a href="/create" className="submit-btn">
-                                                                        Đăng tin
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
                                                         </>
                                                     ) : (
                                                         <>
@@ -109,13 +102,6 @@ function MainHeader(props) {
                     </div>
                 </div>
             </header>
-            {/* Banner start */}
-            <div className="banner banner-bg" id="particles-banner-wrapper">
-                <div className="search-area sa-show-2" id="search-area-4">
-                    <Search/>
-                </div>
-                {/* Search area end */}
-            </div>
         </div>
     );
 }

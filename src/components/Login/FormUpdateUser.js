@@ -14,11 +14,6 @@ function FormUpdateUser(props) {
         avatar: user.avatar ||  "",
         email: user.email || "",
     };
-    const validate = Yup.object({
-        phoneNumber: Yup.number()
-            .min(10, "Số điện thoại phải có ít nhất 10 số")
-            .max(11, "Số điện thoại không được vượt quá 11 số")
-    });
 
     return (
         <Formik initialValues={initialValue}
@@ -32,7 +27,6 @@ function FormUpdateUser(props) {
                             console.log(error)
                         })
                 }}
-                validationSchema={validate}
                 enableReinitialize={true}>
             {formik => (
                 <form onSubmit={formik.handleSubmit}>

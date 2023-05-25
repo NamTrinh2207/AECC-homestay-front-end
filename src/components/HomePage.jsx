@@ -3,6 +3,8 @@ import MainHeader from "./header/MainHeader";
 import Footer from "./footer/Footer";
 import Recent from "./recent";
 import ListHomestay from "./ListHomestay";
+import Search from "./Search";
+import React from "react";
 
 
 function HomePage(props) {
@@ -16,7 +18,13 @@ function HomePage(props) {
             {/* main header start */}
             <MainHeader/>
             {/* main header end */}
-
+            {/* Banner start */}
+            <div className="banner banner-bg" id="particles-banner-wrapper">
+                <div className="search-area sa-show-2" id="search-area-4">
+                    <Search/>
+                </div>
+                {/* Search area end */}
+            </div>
             {/*List homestay*/}
             <ListHomestay/>
 
