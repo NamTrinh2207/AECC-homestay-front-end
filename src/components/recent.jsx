@@ -23,7 +23,7 @@ export default function Recent() {
                 <div className="recent-properties content-area-2">
                     <div className="container">
                         <div className="main-title">
-                            <h1>Top 5 Homestays</h1>
+                            <h1>Top 4 Homestays</h1>
                             <span>Hãy đến với chúng tôi để thuê được nhiều nhà nhất!!!</span>
                         </div>
                         <div className="row">
