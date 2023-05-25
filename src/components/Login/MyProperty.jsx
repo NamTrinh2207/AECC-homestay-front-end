@@ -15,8 +15,6 @@ function MyProperty(props) {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        // Thực hiện các hành động khác khi chuyển trang
-        // ...
     };
 
     const renderPagination = () => {
@@ -59,7 +57,6 @@ function MyProperty(props) {
         return pageNumbers;
     };
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -84,6 +81,33 @@ function MyProperty(props) {
         setCurrentPage(currentPage + 1);
     };
 
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return 'Phòng trống';
+            case 2:
+                return 'Đang bảo trì';
+            case 3:
+                return 'Đang cho thuê';
+            default:
+                return 'Unknown';
+        }
+    };
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 1:
+                return 'green';
+            case 2:
+                return 'orange';
+            case 3:
+                return 'red';
+            default:
+                return 'transparent';
+        }
+    };
+
+
     const deleteHome = async (homeId) => {
         const confirmed = window.confirm('Bạn chắc chắn muốn xóa?');
         if (confirmed) {
@@ -96,46 +120,7 @@ function MyProperty(props) {
             }
         }
     };
-    // const handleChangeStatus = async (event, homeId) => {
-    //     const selectedStatus =parseInt(event.target.value);
-    //     console.log(selectedStatus)
-    //     try {
-    //         axios.get(`http://localhost:8080/homes/${homeId}`)
-    //             .then(res=>{
-    //                 const newHome=res.data;
-    //                setHome({
-    //                    "id": newHome.id,
-    //                    "name": newHome.name,
-    //                    "address": newHome.address,
-    //                    "bathroom": newHome.bathroom,
-    //                    "bedroom": newHome.bathroom,
-    //                    "description": newHome.description,
-    //                    "priceByDay": newHome.priceByDay,
-    //                    "image": newHome.image,
-    //                    "status": selectedStatus,
-    //                    "rating": newHome.rating,
-    //                    "comment": newHome.comment,
-    //                    "users": newHome.users,
-    //                    "homeType": newHome.homeType
-    //
-    //                });
-    //                 console.log(home);
-    //                 const updatedHomes =()=>{
-    //                     try {
-    //                         axios.put(`http://localhost:8080/homes/${homeId}`,home);
-    //                     } catch (error) {
-    //                         console.log(error);
-    //                     }
-    //                 };
-    //                 updatedHomes();
-    //
-    //             })
-    //     }catch (err){
-    //
-    //     }
-    //
-    //
-    // };
+
     const handleChangeStatus = async (event, homeId) => {
         let selectedStatus = event.target.value;
         console.log(selectedStatus);
@@ -188,13 +173,13 @@ function MyProperty(props) {
                                         <td className="action">
                                             <ul>
                                                 <li>
-                                                    <a href="#"><i className="fa fa-pencil"></i> Edit</a>
+                                                    <a href="#"><i className="fa fa-pencil"></i> Sửa</a>
                                                 </li>
                                                 <li>
-                                                    <select className="fa"
+                                                    <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
                                                         onChange={(event) => handleChangeStatus(event, home.id)}
-                                                    >   <option value={""}>--Trạng thái--</option>
-                                                        <option value={1}>Phòng Trống</option>
+                                                    >   <option value={""} >{getStatusLabel(home.status)}</option>
+                                                        <option value={1} >Phòng trống</option>
                                                         <option value={2}>Đang bảo trì</option>
                                                         <option value={3}>Đang cho thuê</option>
                                                     </select>
