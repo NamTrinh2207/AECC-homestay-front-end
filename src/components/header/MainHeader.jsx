@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import Search from "../Search";
 
 function MainHeader(props) {
     const data = localStorage.getItem("user");
@@ -71,13 +72,6 @@ function MainHeader(props) {
                                                                 </li>
 
                                                             </ul>
-                                                            <ul className="nav navbar-nav ml-auto  justify-content-end">
-                                                                <li className="nav-item">
-                                                                    <a href="/create" className="submit-btn">
-                                                                        Đăng tin
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
                                                         </>
                                                     ) : (
                                                         <>
@@ -102,7 +96,6 @@ function MainHeader(props) {
 
                                         </>
                                     )}
-
                                 </div>
                             </nav>
                         </div>
