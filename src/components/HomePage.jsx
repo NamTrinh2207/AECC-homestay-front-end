@@ -54,7 +54,7 @@ function HomePage(props) {
                         style={pageLinkStyle}
                         onClick={() => handlePageChange(i)}
                     >
-                        {i +1}
+                        {i + 1}
                     </button>
                 </li>
             );
@@ -68,7 +68,7 @@ function HomePage(props) {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
-                const { totalPages } = response.data;
+                const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
                 console.log("ban dau", response.data.content)
@@ -377,6 +377,7 @@ function HomePage(props) {
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
                 <div id="particles-banner-2"></div>
+
                 {/* Search area start */}
                 <div className="search-area sa-show-2" id="search-area-4">
                     <Search/>
@@ -452,20 +453,21 @@ function HomePage(props) {
                             ))}
                         </div>
 
-                        <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <button style={{border:"none", cursor:"pointer"}}
+                        <div className="pagination-container"
+                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <button style={{border: "none", cursor: "pointer"}}
                                     onClick={goToPreviousPage}
                                     disabled={currentPage === 0}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-left"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
                             </button>
                             {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                             {renderPagination()}
-                            <button style={{border:"none", cursor:"pointer"}}
-                                onClick={goToNextPage}
-                                disabled={currentPage === totalPages - 1}
+                            <button style={{border: "none", cursor: "pointer"}}
+                                    onClick={goToNextPage}
+                                    disabled={currentPage === totalPages - 1}
                             >
-                                <i style={{fontSize:25}} className="fa fa-angle-right"></i>
+                                <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
                             </button>
                         </div>
 
@@ -502,7 +504,7 @@ function HomePage(props) {
             </div>
 
             {/* Property Video Modal */}
-            <div className="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog"
+            <div className="modal property-modal fade" id="propertyModal" tabIndex="-1" role="dialog"
                  aria-labelledby="propertyModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content">
@@ -527,7 +529,7 @@ function HomePage(props) {
                                                 <div className="carousel-item active">
                                                     <iframe className="modalIframe"
                                                             src="https://www.youtube.com/embed/V7IrnC9MISU"
-                                                            allowfullscreen></iframe>
+                                                            allowFullScreen></iframe>
                                                 </div>
                                                 <div className="carousel-item">
                                                     <img src="assets/img/img-8.jpg" alt="Test ALT"/>

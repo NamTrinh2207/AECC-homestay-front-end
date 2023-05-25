@@ -70,7 +70,7 @@ and GPL-3.0 (http://opensource.org/licenses/GPL-3.0) licenses.
                 return dateData;
             };
             this.leadingZeros = function(num, length) {
-                if (length === null) {
+                if (length == null) {
                     length = 2;
                 }
                 num = String(num);
@@ -95,7 +95,7 @@ and GPL-3.0 (http://opensource.org/licenses/GPL-3.0) licenses.
                 return _this;
             };
             this.start = function(refresh) {
-                if (refresh === null) {
+                if (refresh == null) {
                     refresh = _this.options.refresh || $.countdown.defaultOptions.refresh;
                 }
                 if (_this.interval) {
