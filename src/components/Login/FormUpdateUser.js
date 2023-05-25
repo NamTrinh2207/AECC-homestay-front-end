@@ -61,9 +61,7 @@ function FormUpdateUser(props) {
                             <div className="send-btn">
                                 <button type="submit" className="btn btn-4">Cập nhật thông tin
                                 </button>
-                                <ToastContainer
-                                    autoClose={1000}
-                                    hideProgressBar={true}/>
+                                <ToastContainer autoClose={1000}/>
                             </div>
                         </div>
                     </div>
