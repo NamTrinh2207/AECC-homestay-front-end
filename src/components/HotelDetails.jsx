@@ -18,7 +18,7 @@ function HotelDetails(props) {
                 alert("Không tìm thấy homestay")
             })
     }, [])
-
+    console.log(home);
     const slideshowProperties = {
         duration: 5000,
         transitionDuration: 500,
@@ -44,7 +44,6 @@ function HotelDetails(props) {
 
     return (
         <>
-            {/* Top header start */}
             <TopHeader/>
             {/* Top header end */}
             <MainHeader/>
@@ -292,9 +291,8 @@ function HotelDetails(props) {
             {/* Properties details page start */}
 
             {/* Footer start */}
-            {/*<Footer/>*/}
+            <Footer/>
             {/* Footer end */}
-
             {/* Property Video Modal */}
         </>
     );
