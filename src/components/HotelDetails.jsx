@@ -14,12 +14,12 @@ function HotelDetails(props) {
         axios.get(`http://localhost:8080/homes/${id}`)
             .then((response) => {
                 setHome(response.data)
+                console.log(response.data)
             })
             .catch(() => {
                 setHome(null);
             })
-    }, [])
-    console.log(home);
+    }, [id])
     const slideshowProperties = {
         duration: 5000,
         transitionDuration: 500,

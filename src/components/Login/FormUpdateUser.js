@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
-import {Formik} from "formik";
+import {ErrorMessage, Formik} from "formik";
+import * as Yup from "yup";
 
 function FormUpdateUser(props) {
     const user = props.user;
@@ -13,6 +14,7 @@ function FormUpdateUser(props) {
         avatar: user.avatar ||  "",
         email: user.email || "",
     };
+
     return (
         <Formik initialValues={initialValue}
                 onSubmit={(values) => {
@@ -41,6 +43,8 @@ function FormUpdateUser(props) {
                                 <label>Số điện thoại</label>
                                 <input type="text" {...formik.getFieldProps("phoneNumber")} className="form-control"
                                        placeholder="Nhập số điện thoại"/>
+                                <span style={{color: 'red', fontSize: 12}}><ErrorMessage
+                                    name={"phoneNumber"}></ErrorMessage></span>
                             </div>
                         </div>
                         <div className="col-lg-12 ">
