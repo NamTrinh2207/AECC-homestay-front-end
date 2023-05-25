@@ -8,21 +8,21 @@ function Footer(props) {
                     <div className="row">
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div className="footer-item">
-                                <h4>Contact Us</h4>
+                                <h4>Liên lạc với chúng tôi</h4>
                                 <ul className="contact-info">
                                     <li>
-                                        <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>20/F
-                                        Green Road, Dhanmondi, Dhaka
+                                        <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
+                                        23 lô tt01 KĐT MonCity, Nỹ Đình, Nam Từ Liêm, Hà Nội
                                     </li>
                                     <li>
                                         <i className="fa fa-envelope"></i><a
-                                        href="mailto:sales@hotelempire.com">info@themevessel.com</a>
+                                        href="mailto:sales@hotelempire.com">nam@gmail.com.com</a>
                                     </li>
                                     <li>
-                                        <i className="fa fa-phone"></i><a href="tel:+55-417-634-7071">+0477 85X6 552</a>
+                                        <i className="fa fa-phone"></i><a href="tel:+55-417-634-7071">+084 999 999 999</a>
                                     </li>
                                     <li>
-                                        <i className="fa fa-fax"></i>+0487 85X6 224
+                                        <i className="fa fa-fax"></i>+08888 8888 888
                                     </li>
                                     <li>
                                         <i className="fa fa-skype"></i><a
@@ -32,80 +32,43 @@ function Footer(props) {
                             </div>
                         </div>
                         <div className="col-xl-2 col-lg-2 col-md-6 col-sm-6">
+
+                        </div>
+                        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                             <div className="footer-item">
                                 <h4>
-                                    Useful Links
+                                    Liên kết
                                 </h4>
                                 <ul className="links">
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Home</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Trang chủ</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>About us</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Thông tin chung</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Service</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Dịch vụ</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Contact Us</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Liên lạc</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Properties Grid</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Mạng lưới</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Blog Post</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i className="fa fa-angle-right"></i>Property Details</a>
+                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Bài đăng</a>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                            <div className="footer-item recent-posts">
-                                <h4>Recent Properties</h4>
-                                <div className="media mb-4">
-                                    <a href="properties-details.html">
-                                        <img src="assets/img/sub-property/sub-property.jpg" alt="sub-property"/>
-                                    </a>
-                                    <div className="media-body align-self-center">
-                                        <h5>
-                                            <a href="properties-details.html">Beautiful Single Home</a>
-                                        </h5>
-                                        <p>Feb 27, 2020 | $1045,000</p>
-                                    </div>
-                                </div>
-                                <div className="media mb-4">
-                                    <a href="properties-details.html">
-                                        <img src="assets/img/sub-property/sub-property-2.jpg" alt="sub-property-2"/>
-                                    </a>
-                                    <div className="media-body align-self-center">
-                                        <h5>
-                                            <a href="properties-details.html">Sweet Family Home</a>
-                                        </h5>
-                                        <p>Mar 14, 2020 | $944,000</p>
-                                    </div>
-                                </div>
-                                <div className="media">
-                                    <a href="properties-details.html">
-                                        <img src="assets/img/sub-property/sub-property-3.jpg" alt="sub-property-3"/>
-                                    </a>
-                                    <div className="media-body align-self-center">
-                                        <h5>
-                                            <a href="properties-details.html">Real Luxury Villa</a>
-                                        </h5>
-                                        <p>Apr 14, 2020 | $1420,000</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div className="col-xl-4 col-lg-3 col-md-6 col-sm-6">
                             <div className="footer-item clearfix">
                                 <div className="submitNewsletter">
-                                    <h4>Subscribe</h4>
+                                    <h4>Theo dõi</h4>
                                     <div className="Subscribe-box">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                            Lorem Ipsum has been the industry's standard dummy text ever since,</p>
+                                        <p>Tận dụng ngôi nhà của bạn và biến nó thành một homestay đáng yêu và độc đáo.
+                                            Với không gian ấm cúng và trải nghiệm độc đáo mà bạn cung cấp, hãy mở ra cánh
+                                            cửa để mang đến cho du khách một trải nghiệm tuyệt vời.!</p>
                                         <form action="#" method="GET">
                                             <input type="text" className="form-contact" name="email"
                                                    placeholder="Enter Address"/>

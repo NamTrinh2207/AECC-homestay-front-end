@@ -12,7 +12,7 @@ Version:    1.1.0
     *. HomePage Page Banner (Main HomePage) / .banner
     *. Video Banner / .banner_video_bg
     *. Banner Search Box / .search-area
-    *. Recent Properties / .recent-properties
+    *. Recent Properties / .recent.jsx-properties
     *. Featured Properties / .featured-properties
     *. Property Featured (Single Page)  / .features-opions
     *. Property Amenities  / .amenities-box
@@ -636,7 +636,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .content-area-2 {
-    padding: 100px 0 70px;
+    padding: 0px 0 70px;
 }
 
 .content-area-3 {
@@ -704,7 +704,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 .content-area-19 {
-    padding: 185px 0 70px;
+    padding: 70px 0 70px;
 }
 
 .content-area-20 {
@@ -1507,6 +1507,7 @@ a {
 
 .banner-bg{
     background: url(../img/banner/img-6.jpg);
+    height: 100vh;
 }
 
 .item-bg{
@@ -2151,8 +2152,8 @@ a {
     background: #fff;
 }
 
-.overlay-link:not([href]):not([tabindex]),
-.overlay-link:not([href]):not([tabindex]):hover {
+.overlay-link:not([href]):not([tabIndex]),
+.overlay-link:not([href]):not([tabIndex]):hover {
     color: #fff;
     opacity: 1;
 }
@@ -3187,7 +3188,6 @@ a {
     width: 0;
     height: 0;
     border-top: 0;
-    border-bottom: 10px solid transparent;
     bottom: -8px;
     left: 0;
 }
@@ -11479,7 +11479,7 @@ table {
 #search-area-4 {
     transition: all 0.4s;
     position: absolute;
-    bottom: -85px;
+    bottom: 15px;
     width: 100%;
 }
 
@@ -12457,7 +12457,7 @@ body.off-canvas-sidebar-open {
     .property-box-6 .info {
         padding: 0 30px;
     }
-    
+
     .main-title {
         margin-bottom: 40px;
     }
@@ -12614,9 +12614,9 @@ body.off-canvas-sidebar-open {
         line-height: normal;
     }
 
-   .banner .w-100{
-       width: auto!important;
-   }
+    .banner .w-100{
+        width: auto!important;
+    }
 
     .shop-info .inner {
         padding: 30px 30px 5px;
@@ -12861,7 +12861,7 @@ body.off-canvas-sidebar-open {
     }
 
     .services-info-3.s-brd-2{
-       border-bottom: none;
+        border-bottom: none;
     }
 
     .map-content-left{
@@ -13083,7 +13083,7 @@ body.off-canvas-sidebar-open {
     }
 
     .mbl {
-       margin: 0 0 30px 0;
+        margin: 0 0 30px 0;
     }
 
     .properties-list-fullwidth .property-box-5 .price-ratings-box {
@@ -13574,7 +13574,7 @@ body.off-canvas-sidebar-open {
     .content-area-24{
         padding: 60px 0 30px;
     }
-    
+
     .properties-banner{
         height: 400px;
     }

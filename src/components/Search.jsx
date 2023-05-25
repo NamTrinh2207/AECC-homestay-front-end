@@ -1,96 +1,138 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
+import {DatePicker} from "antd";
 
 function Search(props) {
+    const [homes, setHomes] = useState([]);
+    const [bedroom, setBedroom] = useState(null);
+    const [bathroom, setBathroom] = useState(null);
+    const [address, setAddress] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [minPrice, setMinPrice] = useState(null);
+    const [maxPrice, setMaxPrice] = useState(null);
+
+    const searchHomes = () => {
+        axios.get('http://localhost:8080/homes/search', {
+            params: {
+                bedroom: bedroom,
+                bathroom: bathroom,
+                address: address,
+                start_date: startDate,
+                end_date: endDate,
+                min_price: minPrice,
+                max_price: maxPrice
+            }
+        })
+            .then(response => {
+                setHomes(response.data);
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+    useEffect(() => {
+        searchHomes();
+    }, []);
+
     return (
         <div>
-            <div className="search-area sa-show" id="search-area-1">
-                <div className="container">
-                    <div className="search-area-inner">
-                        <div className="search-contents ">
-                            <form
-                                action="https://storage.googleapis.com/theme-vessel-items/checking-sites/xero-2-html/HTML/main/index.html"
-                                method="GET">
-                                <div className="row">
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="area">
-                                                <option>Area From</option>
-                                                <option>1500</option>
-                                                <option>1200</option>
-                                                <option>900</option>
-                                                <option>600</option>
-                                                <option>300</option>
-                                                <option>100</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="property-status">
-                                                <option>Property Status</option>
-                                                <option>For Sale</option>
-                                                <option>For Rent</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="location">
-                                                <option>Location</option>
-                                                <option>United Kingdom</option>
-                                                <option>American Samoa</option>
-                                                <option>Belgium</option>
-                                                <option>Canada</option>
-                                                <option>Delaware</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="category">
-                                                <option>Property Types</option>
-                                                <option>Residential</option>
-                                                <option>Commercial</option>
-                                                <option>Land</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="bedrooms">
-                                                <option>Bedrooms</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                                <option>7</option>
-                                                <option>8</option>
-                                                <option>9</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <select className="selectpicker search-fields" name="bathrooms">
-                                                <option>Bathrooms</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                            </select>
-                                        </div>
-                                    </div>
+            <div className="container">
+                <div className="search-area-inner">
+                    <div className="search-contents ">
+                        <form>
+                            <div className="row">
 
-                                    <div className="col-6 col-lg-3 col-md-6">
-                                        <div className="form-group">
-                                            <button className="btn btn-block btn-4" type="submit">Search</button>
-                                        </div>
+                                {/*nhap dia chi*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <input className={"form-box search-fields"} type="text" placeholder="Address"
+                                               value={address} onChange={(e) => setAddress(e.target.value)}/>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+
+                                {/*so phong ngu*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <select className="selectpicker search-fields" name="property-status"
+                                                value={bedroom} onChange={(e) => setBedroom(e.target.value)}>
+                                            <option value={""}>--Chọn phòng ngủ--</option>
+                                            <option value={"1"}>1 phòng ngủ</option>
+                                            <option value={"2"}>2 phòng ngủ</option>
+                                            <option value={"3"}>3 phòng ngủ</option>
+                                            <option value={"4"}>4 phòng ngủ</option>
+                                            <option value={"5"}>5 phòng ngủ</option>
+                                            <option value={"6"}>6 phòng ngủ</option>
+                                            <option value={"7"}>7 phòng ngủ</option>
+                                            <option value={"8"}>8 phòng ngủ</option>
+                                            <option value={"9"}>9 phòng ngủ</option>
+                                            <option value={"10"}>10 phòng ngủ</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/*so phong tam*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <select className="selectpicker search-fields" value={bathroom}
+                                                onChange={(e) => setBathroom(e.target.value)}>
+                                            <option>--Chọn phòng tắm--</option>
+                                            <option value={"1"}>1 phòng tắm</option>
+                                            <option value={"2"}>2 phòng tắm</option>
+                                            <option value={"3"}>3 phòng tắm</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/*nut tim kiem*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <button className="btn btn-block btn-4" onClick={searchHomes}>Tìm kiếm</button>
+                                    </div>
+                                </div>
+
+                                {/*check in*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <DatePicker selected={startDate}
+                                                    onChange={(date) => setStartDate(date)}
+                                                    dateFormat="yyyy/MM/dd"
+                                                    className={"form-box search-fields"}
+                                                    placeholder={"Chon ngay checkin"}
+                                        />
+                                    </div>
+                                </div>
+                                {/*checkout*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <DatePicker selected={endDate}
+                                                    onChange={(date) => setEndDate(date)}
+                                                    dateFormat="yyy/MM/dd"
+                                                    className={"form-box search-fields"}
+                                                    placeholder={"Chon ngay checkout"}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/*gia thap*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <input className={"form-box search-fields"} type="number"
+                                               placeholder="Min Price" value={minPrice}
+                                               onChange={(e) => setMinPrice(e.target.value)}/>
+                                    </div>
+                                </div>
+                                {/*gia sau*/}
+                                <div className="col-6 col-lg-3 col-md-3">
+                                    <div className="form-group">
+                                        <input className={"form-box search-fields"} type="number"
+                                               placeholder="Max Price" value={maxPrice}
+                                               onChange={(e) => setMaxPrice(e.target.value)}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
