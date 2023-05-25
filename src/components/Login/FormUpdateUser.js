@@ -2,7 +2,6 @@ import React from 'react';
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import {ErrorMessage, Formik} from "formik";
-import * as Yup from "yup";
 
 function FormUpdateUser(props) {
     const user = props.user;
