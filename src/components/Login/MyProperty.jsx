@@ -11,7 +11,7 @@ function MyProperty(props) {
     const [check, setCheck] = useState(false);
     const [home,setHome]=useState('')
 
-    const visiblePages = totalPages+1;
+    const visiblePages = totalPages + 1;
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -186,7 +186,7 @@ function MyProperty(props) {
                                                 </li>
                                                 <li>
                                                     <a onClick={() => deleteHome(home.id)} className="delete"><i
-                                                        className="fa fa-remove"></i> Delete</a>
+                                                        className="fa fa-remove"></i> Xóa</a>
                                                 </li>
                                             </ul>
                                         </td>

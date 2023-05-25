@@ -4,10 +4,13 @@ import Footer from "./footer/Footer";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import MainHeader from "./header/MainHeader";
+import Propose from "./Propose";
 
 function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
+    const [user, setUser] = useState(null);
+
     useEffect(() => {
         axios.get(`http://localhost:8080/homes/${id}`)
             .then((response) => {
@@ -18,13 +21,7 @@ function HotelDetails(props) {
             })
     }, [])
     console.log(home);
-    const slideshowProperties = {
-        duration: 5000,
-        transitionDuration: 500,
-        infinite: true,
-        indicators: true,
-        arrows: true,
-    };
+
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -62,6 +59,8 @@ function HotelDetails(props) {
 
             {/* Properties details page start */}
             <div className="properties-details-page content-area-2" key={home?.id}>
+                <p> </p>
+                <p> </p>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
@@ -358,101 +357,8 @@ function HotelDetails(props) {
                             </div>
 
                             {/* Related properties start */}
-                            <div className="related-properties hedin-mb-30">
-                                <h3 className="heading-3">Related Properties</h3>
-                                <div className="row">
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="property-box-7">
-                                            <div className="property-thumbnail">
-                                                <a href="properties-details.html" className="property-img">
-                                                    <div className="tag-2">For Sale</div>
-                                                    <div className="price-box"><span>$850.00</span> Per night</div>
-                                                    <img src="assets/img/property/img-4.jpg" alt="property-box-7" className="img-fluid"/>
-                                                </a>
-                                            </div>
-                                            <div className="detail">
-                                                <h1 className="title">
-                                                    <a href="properties-details.html">Real Luxury Villa</a>
-                                                </h1>
-                                                <div className="location">
-                                                    <a href="properties-details.html">
-                                                        <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
-                                                        Kathal St. Tampa City,
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <ul className="facilities-list clearfix">
-                                                <li>
-                                                    <span>Area</span>3600 Sqft
-                                                </li>
-                                                <li>
-                                                    <span>Beds</span> 3
-                                                </li>
-                                                <li>
-                                                    <span>Baths</span> 2
-                                                </li>
-                                                <li>
-                                                    <span>Garage</span> 1
-                                                </li>
-                                            </ul>
-                                            <div className="footer clearfix">
-                                                <div className="pull-left days">
-                                                    <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                                </div>
-                                                <ul className="pull-right">
-                                                    <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                                    <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="property-box-7">
-                                            <div className="property-thumbnail">
-                                                <a href="properties-details.html" className="property-img">
-                                                    <div className="tag-2">For Rent</div>
-                                                    <div className="price-box"><span>$850.00</span> Per night</div>
-                                                    <img src="assets/img/property/img-5.jpg" alt="property-box-7" className="img-fluid"/>
-                                                </a>
-                                            </div>
-                                            <div className="detail">
-                                                <h1 className="title">
-                                                    <a href="properties-details.html">Beautiful Single Home</a>
-                                                </h1>
-                                                <div className="location">
-                                                    <a href="properties-details.html">
-                                                        <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>123
-                                                        Kathal St. Tampa City,
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <ul className="facilities-list clearfix">
-                                                <li>
-                                                    <span>Area</span>3600 Sqft
-                                                </li>
-                                                <li>
-                                                    <span>Beds</span> 3
-                                                </li>
-                                                <li>
-                                                    <span>Baths</span> 2
-                                                </li>
-                                                <li>
-                                                    <span>Garage</span> 1
-                                                </li>
-                                            </ul>
-                                            <div className="footer clearfix">
-                                                <div className="pull-left days">
-                                                    <p><i className="fa fa-user"></i> Jhon Doe</p>
-                                                </div>
-                                                <ul className="pull-right">
-                                                    <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
-                                                    <li><a href="#"><i className="flaticon-calendar"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <Propose/>
+
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <div className="sidebar mbl">
