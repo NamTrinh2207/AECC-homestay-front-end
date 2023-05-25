@@ -47,3 +47,9 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+.numberOfRent {
+    position: absolute;
+    left: 16rem !important;
+    font-size: 20px;
+    white-space: nowrap;
+}

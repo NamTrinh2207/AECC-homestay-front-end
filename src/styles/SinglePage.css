@@ -165,7 +165,7 @@
     top: 55rem;
     background-color: white;
     width: 25rem;
-    height: 31rem;
+    height: 12rem;
     left: 60rem;
 
     border: 1px solid rgb(221, 221, 221);
@@ -192,10 +192,10 @@
 }
 
 .rev-card {
-    top: 1.6rem;
-    left: 13rem;
-    font-size: 18px;
-    font-style: italic;
+    font-weight: 400;
+    margin-top: 1.5rem;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
 
 .rev2-card {
@@ -217,11 +217,15 @@
 .reserve-date-button {
     background-color: #ff385c;
     height: 3.5rem;
-    width: 12rem;
+    margin-left: 0.5rem;
+    width: 11rem;
     transition: 400ms;
     font-weight: 600;
     font-size: 18px;
     color: white;
+    border-radius: 0.75rem;
+    border:none;
+    margin-top: 1.1rem;
 }
 
 .reserve-date-button:hover {
@@ -230,7 +234,7 @@
 
 .calendarHolder {
     position: absolute;
-    top: -84rem;
+    top: -89rem;
     left: -26rem;
     z-index: 9999999999999999999;
 }
@@ -255,9 +259,9 @@
 
 .days-updated {
     position: absolute;
-    top: 1rem;
+    top: -3rem;
     width: 7.8rem;
-    left: 14.8rem;
+    left: 12.8rem;
     white-space: nowrap;
 }
 
@@ -320,9 +324,9 @@
 @media(max-width:1340px) {
     .days-updated {
         position: absolute;
-        top: 1rem;
+        top: -3rem;
         width: 7.8rem;
-        left: 2rem;
+        left: 12.8rem;
         white-space: nowrap;
     }
 
@@ -331,8 +335,8 @@
 
 @media(max-width:620px) {
     .days-updated {
-        top: -3.2rem;
-        left: -12rem;
+        top: -3rem;
+        left: 12.8rem;
     }
 
     .rdrCalendarWrapper{

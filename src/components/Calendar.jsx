@@ -1,16 +1,15 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {DateRangePicker} from 'react-date-range';
-import {useState} from 'react';
 import {differenceInDays} from 'date-fns'
 import {Link} from 'react-router-dom';
+import "../styles/SinglePageMiddle.css"
 
 const CalendarFunc = (props) => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-
 
     const data = daysCheck;
 
@@ -28,8 +27,14 @@ const CalendarFunc = (props) => {
 
 
     var daysCheck = differenceInDays(endDate, startDate);
+    useEffect(()=>{
+        props.onDataChanged(daysCheck);
+    })
 
-
+    // const sendDataToParent = () => {
+    //     const newData = daysCheck;
+    //     props.onDataChanged(newData);
+    // };
     return (
         <div className='calendarHolder calendarHolder2'>
 
@@ -40,15 +45,14 @@ const CalendarFunc = (props) => {
             {props.buttonopenState &&
                 <button className='close-cal rounded-xl' onClick={props.closeFunc}>Đóng lịch</button>}
 
-            {daysCheck == 0 ? <p className={daysCheck == 0 ? "days-0" : "days-updated"}>days selected = 0</p> :
-                <p className='days-updated'>{daysCheck} days selected</p>}
+            {daysCheck === 0 ? <p className={daysCheck === 0 ? "days-0" : "days-updated"}></p> :
+                <p className='days-updated'>Tổng số ngày đã chọn là {daysCheck} ngày</p>}
 
-            {daysCheck == 0 ? "" : <Link to={"/coming-soon"} state={{data: data}}>
-                <button className={props.buttonCloseState === false ? "checkout-btn-after" : "checkout-btn"}>Thanh toán
-                </button>
-            </Link>}
-
-
+            {daysCheck === 0 ? "" :
+                <Link to={"/coming-soon"} state={{data: data}}>
+                    <button className={props.buttonCloseState === false ? "checkout-btn-after" : "checkout-btn"}>Thanh toán
+                    </button>
+                </Link>}
         </div>)
 }
 

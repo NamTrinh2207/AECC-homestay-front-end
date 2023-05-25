@@ -86,7 +86,7 @@ function HotelDetails(props) {
                                                     </div>
                                                     <div className="float-right">
                                                         <p><span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color:"orange"}} ></i>))}</p>
+                                                            <i className="fa fa-star" style={{color:"orange"}} key = {index} ></i>))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +280,7 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard/>
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating}  />
                                 </div>
                                 {/* Recent posts start */}
                             </div>
