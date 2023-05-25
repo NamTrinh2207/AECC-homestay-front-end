@@ -1,7 +1,6 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./components/HomePage";
-import Pages404 from "./components/pages-404";
 import CreateNewHotel from "./components/NewHotel";
 import ComingSoon from "./components/ComingSoon";
 import HotelDetails from "./components/HotelDetails";
@@ -17,7 +16,6 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path={'/'} element={<HomePage/>}></Route>
-                <Route path={'/404'} element={<Pages404/>}></Route>
                 <Route path={'/create'} element={<CreateNewHotel/>}></Route>
                 <Route path={'/coming-soon'} element={<ComingSoon/>}></Route>
                 <Route path={'/viewHome/:id'} element={<HotelDetails/>}></Route>

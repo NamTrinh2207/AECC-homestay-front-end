@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import MainHeader from "./header/MainHeader";
 import BookingCard from "./BookingCard";
+import Page404 from "./404/Page404";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -15,7 +16,7 @@ function HotelDetails(props) {
                 setHome(response.data)
             })
             .catch(() => {
-                alert("Không tìm thấy homestay")
+                setHome(null);
             })
     }, [])
     console.log(home);
@@ -40,7 +41,13 @@ function HotelDetails(props) {
         }
     };
 
-
+    if (home === null) {
+        return (
+            <>
+                <Page404/>
+            </>
+        )
+    }
 
     return (
         <>

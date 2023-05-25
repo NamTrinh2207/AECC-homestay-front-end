@@ -23,18 +23,12 @@ const CalendarFunc = (props) => {
         key: "selection"
     }
 
-    const storeId = props.placesId;
-
 
     var daysCheck = differenceInDays(endDate, startDate);
     useEffect(()=>{
         props.onDataChanged(daysCheck);
     })
 
-    // const sendDataToParent = () => {
-    //     const newData = daysCheck;
-    //     props.onDataChanged(newData);
-    // };
     return (
         <div className='calendarHolder calendarHolder2'>
 

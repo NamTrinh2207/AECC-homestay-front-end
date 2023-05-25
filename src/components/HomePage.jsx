@@ -28,7 +28,7 @@ function HomePage(props) {
     const [home, setHome] = useState([]);
 
 
-    const visiblePages = totalPages +1;
+    const visiblePages = totalPages + 1;
 
 
     const handlePageChange = (pageNumber) => {
@@ -153,10 +153,6 @@ function HomePage(props) {
         searchHomes();
     }, []);
 
-    if (loading) {
-        return <div>loading...</div>
-    }
-
     return (
         <div>
             {/*Top header start*/}
@@ -181,7 +177,8 @@ function HomePage(props) {
                                         {/*nhap dia chi*/}
                                         <div className="col-6 col-lg-3 col-md-3">
                                             <div className="form-group">
-                                                <input className={"form-box search-fields"} type="text" placeholder="Address"
+                                                <input className={"form-box search-fields"} type="text"
+                                                       placeholder="Address"
                                                        value={address} onChange={(e) => setAddress(e.target.value)}/>
                                             </div>
                                         </div>
@@ -222,7 +219,8 @@ function HomePage(props) {
                                         {/*nut tim kiem*/}
                                         <div className="col-6 col-lg-3 col-md-3">
                                             <div className="form-group">
-                                                <button className="btn btn-block btn-4" onClick={searchHomes}>Tìm kiếm</button>
+                                                <button className="btn btn-block btn-4" onClick={searchHomes}>Tìm kiếm
+                                                </button>
                                             </div>
                                         </div>
 
