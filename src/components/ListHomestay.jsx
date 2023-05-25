@@ -8,8 +8,6 @@ function ListHomestay(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages + 1;
-
-
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // Thực hiện các hành động khác khi chuyển trang
