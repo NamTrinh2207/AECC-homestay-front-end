@@ -17,7 +17,7 @@ function HotelDetails(props) {
                 alert("Không tìm thấy homestay")
             })
     }, [])
-
+    console.log(home);
     const slideshowProperties = {
         duration: 5000,
         transitionDuration: 500,
