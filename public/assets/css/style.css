@@ -1506,7 +1506,7 @@ a {
 }
 
 .banner-bg{
-    background: url(../img/banner/img-6.jpg);
+    background: url(../img/banner/real-estate-4955086_1280.jpg);
     height: 100vh;
 }
 
@@ -14600,3 +14600,13 @@ body.off-canvas-sidebar-open {
 
 }
 
+#change-font-size {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.avatar-custom {
+    border-radius: 50%;
+    height: 32px;
+    margin-right: 10px;
+}
