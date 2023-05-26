@@ -341,7 +341,7 @@ export default function EditHotel() {
                                                                     <div id="myDropZone"
                                                                          className="dropzone dropzone-design">
                                                                         <div className="dz-default dz-message">
-                                                                            <input {...getInputProps()} />
+                                                                            <input {...getInputProps()} name="image"/>
                                                                             <span>Kéo và thả hoặc nhấp để chọn file thêm ảnh mới</span>
                                                                         </div>
                                                                     </div>
@@ -349,7 +349,7 @@ export default function EditHotel() {
                                                             </div>
 
                                                             <div className="row mb-45">
-                                                                {imgUrls.length > 0 && (
+                                                                {img.length > 0 && (
                                                                     <div className="col-lg-12">
                                                                         <button className="btn btn-4"
                                                                                 onClick={openPreviewWindow}>Xem trước
