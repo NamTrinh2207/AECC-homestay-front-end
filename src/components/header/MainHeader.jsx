@@ -83,6 +83,16 @@ function MainHeader(props) {
                                                                         Cửa hàng
                                                                     </Link>
                                                                 </li>
+                                                                {/* cho dang sua*/}
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
+                                                                          id="navbarDropdownMenuLink2"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
+                                                                        Tài khoản
+                                                                    </Link>
+                                                                </li>
+                                                            {/* ket thu sua*/}
                                                             </ul>
                                                         </>
                                                     )}
