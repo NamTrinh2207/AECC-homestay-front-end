@@ -1,14 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 
 function TopHeader(props) {
-    const data=localStorage.getItem("user");
-    let user=null;
-    if (data!=null){
-        user=JSON.parse(localStorage.getItem("user"))
-    }else {
-        user=null;
+    const data = localStorage.getItem("user");
+
+    const [avatar, setAvatar] = useState("https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159");
+
+    let user = null;
+    if (data != null) {
+        user = JSON.parse(localStorage.getItem("user"))
+    } else {
+        user = null;
     }
+
+    useEffect(()=>{
+        if (user.avatar === null) {
+            user.avatar = avatar;
+        }
+    },[]);
 
     return (
         <div>
@@ -23,18 +32,26 @@ function TopHeader(props) {
                             {user ? (
                                 <>
                                     <ul className="top-social-media pull-right">
-                                        <li><a href="#" className="google"><i className="fa fa-google-plus"></i></a></li>
+                                        <Link to={"/user"}>
+                                        <img className="avatar-custom"
+                                             src={avatar}
+                                             alt="avatar">
+
+                                        </img></Link>
                                         <li>
-                                            <Link to={"/logout"} className="sign-in"><i className="fa fa-sign-in"> </i> Đăng xuất</Link>
+                                            <Link to={"/logout"} className="sign-in"><i
+                                                className="fa fa-sign-in"> </i> Đăng xuất</Link>
                                         </li>
                                     </ul>
                                 </>
-                            ):(
+                            ) : (
                                 <>
                                     <ul className="top-social-media pull-right">
-                                        <li><a href="#" className="google"><i className="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#" className="google"><i className="fa fa-google-plus"></i></a>
+                                        </li>
                                         <li>
-                                            <Link to={"/login"} className="sign-in"><i className="fa fa-sign-in"></i> Đăng nhập</Link>
+                                            <Link to={"/login"} className="sign-in"><i
+                                                className="fa fa-sign-in"></i> Đăng nhập</Link>
                                         </li>
                                     </ul>
                                 </>
