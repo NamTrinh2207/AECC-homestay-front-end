@@ -30,9 +30,7 @@ function BookingCard(props) {
     const handleDiffDate = (newData) => {
         setTransferDate(newData);
     }
-    console.log("day", transferDate);
     var price = transferDate * (props.price);
-    console.log("price ",price)
     return (
         <div>
             <div className='side-box-card absolute'>
@@ -50,15 +48,11 @@ function BookingCard(props) {
                     }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
                     <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                 </div>
-
-
             </div>
 
             <div className='reserve-date-button-holder'>
                 <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Đặt trước</button>
-
             </div>
-
 
             <div className="s">
                 <CalendarFunc placesId={id}

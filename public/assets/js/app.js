@@ -40,18 +40,18 @@ $(function () {
                     $('.sticky-header').addClass('header-shrink');
                 }
                 if ($('.do-sticky').length < 1) {
-                    $('.logo img').attr('src', 'assets/img/logos/black-logo.png');
+                    $('.logo2 img').attr('src', 'https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Fblack-logo.png?alt=media&token=c06f18ab-93d2-4f70-9173-6579873830ed');
                 }
             } else {
                 $('.sticky-header').removeClass('header-shrink');
                 if ($('.do-sticky').length < 1 && $('.fixed-header').length == 0 && $('.fixed-header2').length == 0) {
-                    $('.logo img').attr('src', 'assets/img/logos/logo.png');
+                    $('.logo2 img').attr('src', 'https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574');
                 } else {
-                    $('.logo img').attr('src', 'assets/img/logos/logo.png');
+                    $('.logo2 img').attr('src', 'https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574');
                 }
             }
         } else {
-            $('.logo img').attr('src', 'assets/img/logos/black-logo.png');
+            $('.logo2 img').attr('src', 'https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Fblack-logo.png?alt=media&token=c06f18ab-93d2-4f70-9173-6579873830ed');
         }
     }
 
