@@ -12,7 +12,7 @@ function MyProperty(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages+1;
-    const navigate=useNavigate();
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };

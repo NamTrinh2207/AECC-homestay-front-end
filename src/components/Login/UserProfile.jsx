@@ -9,6 +9,8 @@ import {Link} from "react-router-dom";
 import FormUpdateUser from "./FormUpdateUser";
 import FormChangePassword from "./FormChangePassword";
 import MyProperty from "./MyProperty";
+import ListBookingByOwner from "./ListBookingByOwner";
+import RentaHistory from "./RentaHistory";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
@@ -21,35 +23,67 @@ function UserProfile(props) {
     const [activeButton, setActiveButton] = useState('listHomes');
     const [showListBookings, setShowListBookings] = useState(true);
     const [activeButton1, setActiveButton1] = useState('listBookings');
+    const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
+    const [showListHistoryRental, setShowListHistoryRental] = useState(false);
 
     const handUpdateUserClick = () => {
         setShowUpdateUserForm(true);
         setShowChangePasswordForm(false);
         setShowListHomes(false)
+        setShowListBookingByOwner(false);
+        setShowListHistoryRental(false)
+        setShowListBookings(false);
         setActiveButton('profile');
+
     }
     const handleChangePasswordForm = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(true);
         setShowListHomes(false)
+        setShowListBookingByOwner(false);
+        setShowListHistoryRental(false)
+        setShowListBookings(false);
         setActiveButton('changePassword');
     }
 
     const handleShowListHomes = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
-        setShowListHomes(true)
+        setShowListHomes(true);
+        setShowListBookingByOwner(false);
+        setShowListHistoryRental(false);
+        setShowListBookings(false);
         setActiveButton('listHomes');
+
+    };
+    const handleHistoryRental = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(false);
+        setShowListHomes(false);
+        setShowListBookingByOwner(false);
+        setShowListHistoryRental(true)
+        setShowListBookings(false);
+        setActiveButton('history');
     }
 
-    // bat dau sua
     const handleShowListBooking = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
         setShowListBookings(true);
+        setShowListBookingByOwner(false);
+        setShowListHistoryRental(false)
         setActiveButton1('listBookings');
     }
-    // ket thuc sua
+    const handleShowListBookingByOwner = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(false);
+        setShowListBookingByOwner(true);
+        setShowListHomes(false)
+        setShowListHistoryRental(false)
+        setShowListBookings(false);
+        setActiveButton('listBookingByOwner');
+    }
+
     useEffect(() => {
         const savedProfile = localStorage.getItem('user');
         if (savedProfile) {
@@ -168,16 +202,33 @@ function UserProfile(props) {
                                                                 <i className="flaticon-add"></i>Tạo mới nhà
                                                             </Link>
                                                         </li>
+                                                        <li>
+                                                            <a onClick={handleShowListBookingByOwner}
+                                                               className={activeButton === "listBookingByOwner" ? 'active' : ''}>
+                                                                <i className="flaticon-user"></i>Danh sách người thuê
+                                                            </a>
+                                                        </li>
                                                     </>
                                                 ) : (
                                                     <>
                                                         {role === "ROLE_CUSTOMER" ? (
                                                                 <>
                                                                     <li>
-                                                                        <a onClick={handleShowListHomes}
-                                                                           className={activeButton === "listHomes" ? 'active' : ''}>
+                                                                        <a onClick={handleShowListBooking}
+                                                                           className={activeButton === "listBookings" ? 'active' : ''}>
                                                                             <i className="flaticon-house"></i>Danh sách
                                                                             booking
+                                                                        </a>
+                                                                    </li>
+
+                                                                    <li>
+                                                                        <Link to={"/create"}>
+                                                                            <i className="flaticon-add"></i>Thuê nhà ngay
+                                                                        </Link>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a onClick={handleHistoryRental} className={activeButton === "history" ? 'active' : ''}>
+                                                                            <i className="flaticon-house"></i>Lịch sử thuê nhà
                                                                         </a>
                                                                     </li>
 
@@ -239,13 +290,19 @@ function UserProfile(props) {
                                                             <MyProperty user={user}/>
                                                         </div>
                                                     ) : null}
+                                                    {showListBookingByOwner ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Danh sách người thuê</h3>
+                                                            <ListBookingByOwner user={user}/>
+                                                        </div>
+                                                    ) : null}
                                                 </>
                                             ) : role === "ROLE_CUSTOMER" ? (
                                                 <>
-                                                    {showListBookings ? (
+                                                    {showListHistoryRental ? (
                                                         <div>
-                                                            <h3 className="heading-3">Danh sách booking</h3>
-                                                            {/*    thêm code vào đây*/}
+                                                            <h3 className="heading-3">Lịch sử thuê nhà</h3>
+                                                            <RentaHistory user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>

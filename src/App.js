@@ -11,7 +11,6 @@ import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
 import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
-import MyProperty from "./components/Login/MyProperty";
 
 function App() {
     return (
