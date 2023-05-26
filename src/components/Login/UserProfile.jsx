@@ -127,18 +127,18 @@ function UserProfile(props) {
                                 <div className="detail clearfix">
                                     <ul>
                                         <li>
-                                            <a onClick={handUpdateUserClick} className={activeButton === "profile" ? 'active' : ''}>
-                                                <i className="flaticon-user"></i>Hồ sơ
+                                            <a onClick={handleShowListHomes} className={activeButton === "listHomes" ? 'active' : ''}>
+                                                <i className="flaticon-house"></i>Danh sách homestay
                                             </a>
                                         </li>
                                         <li>
-                                            <a onClick={handleShowListHomes} className={activeButton === "listHomes" ? 'active' : ''}>
-                                                <i className="flaticon-house"></i>Danh sách nhà
+                                            <a onClick={handUpdateUserClick} className={activeButton === "profile" ? 'active' : ''}>
+                                                <i className="flaticon-user"></i>Hồ sơ cá nhân
                                             </a>
                                         </li>
                                         <li>
                                             <Link to={"/create"}>
-                                                <i className="flaticon-add"></i>Tạo mới nhà
+                                                <i className="flaticon-add"></i>Tạo mới homestay
                                             </Link>
                                         </li>
                                         <li>
