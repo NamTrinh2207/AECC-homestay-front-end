@@ -111,18 +111,19 @@ function ListHomestay(props) {
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
-                            <h1>Danh sách nhà</h1>
+                            <h1>Danh sách homestay</h1>
                         </div>
-                        <div className="row wow fadeInUp delay-02s">
+                        <div className="row wow fadeInUp delay-04s">
                             {homes.map(home => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
+                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
+                                     data-category="3, 2">
                                     <div className="property-box-7">
-                                        <div>
+                                        <div className="property-thumbnail">
                                             <Link className="property-img" to={`/viewHome/${home.id}`}>
                                                 <div style={{backgroundColor: getStatusColor(home.status)}}
                                                      className="tag-2">{getStatusLabel(home.status)}</div>
                                                 <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
-                                                <img height={300} src={home.image[0]} alt="property-box-7"/>
+                                                <img height={250} src={home.image[0]} alt="property-box-7"/>
                                             </Link>
                                         </div>
                                         <div className="detail">
@@ -190,7 +191,7 @@ function ListHomestay(props) {
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
-                            <h1>Danh sách nhà trống</h1>
+                            <h1>Danh sách trống</h1>
                         </div>
                     </div>
                 </div>
