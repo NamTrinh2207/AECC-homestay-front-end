@@ -3,8 +3,9 @@ import {Link} from "react-router-dom";
 
 function TopHeader(props) {
     const data = localStorage.getItem("user");
+    const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159";
 
-    const [avatar, setAvatar] = useState("https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159");
+    let [avatar, setAvatar] = useState(defaultAvatar);
 
     let user = null;
     if (data != null) {
@@ -13,11 +14,15 @@ function TopHeader(props) {
         user = null;
     }
 
-    useEffect(()=>{
-        if (user.avatar === null) {
-            user.avatar = avatar;
+    useEffect(() => {
+        if (user !=null){
+            if (user.avatar === null) {
+                user.avatar = avatar;
+            } else {
+                setAvatar(user.avatar);
+            }
         }
-    },[]);
+    },[defaultAvatar]);
 
     return (
         <div>
@@ -33,11 +38,11 @@ function TopHeader(props) {
                                 <>
                                     <ul className="top-social-media pull-right">
                                         <Link to={"/user"}>
-                                        <img className="avatar-custom"
-                                             src={avatar}
-                                             alt="avatar">
+                                            <img className="avatar-custom"
+                                                 src={avatar}
+                                                 alt="avatar">
 
-                                        </img></Link>
+                                            </img></Link>
                                         <li>
                                             <Link to={"/logout"} className="sign-in"><i
                                                 className="fa fa-sign-in"> </i> Đăng xuất</Link>
