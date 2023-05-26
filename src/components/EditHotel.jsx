@@ -19,7 +19,8 @@ export default function EditHotel() {
     const [homeTypes, setHomeTypes] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
-    const [home,setHome]=useState('')
+    const [home,setHome]=useState('');
+    const [img,setImg]=useState([]);
 
 
     // const validationSchema = ;
@@ -40,6 +41,7 @@ export default function EditHotel() {
             try {
                 const res = await axios.get(`http://localhost:8080/homes/${id}`);
                 setHome(res.data);
+                setImg(res.data.image)
             } catch (error) {
                 console.log(error.message);
             }
@@ -177,9 +179,9 @@ export default function EditHotel() {
                             <div className="sub-banner">
                                 <div className="container">
                                     <div className="breadcrumb-area">
-                                        <h1>Đăng nhà</h1>
+                                        <h1>Sửa Nhà</h1>
                                         <ul className="breadcrumbs">
-                                            <li><a href="/">Trang chủ</a></li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -328,14 +330,19 @@ export default function EditHotel() {
 
 
                                                             {/*Ảnh*/}
-                                                            <h3 className="heading-3">Ảnh nhà</h3>
+                                                            <h3 className="heading-3">Ảnh nhà hiện tại</h3>
                                                             <div className="row mb-45" {...getRootProps()}>
                                                                 <div className="col-lg-12">
+                                                                    <div className="col-lg-12">
+                                                                        {img.map(( index) => (
+                                                                            <img key={index} src={index} alt="uploaded file" height={200} />
+                                                                        ))}
+                                                                    </div>
                                                                     <div id="myDropZone"
                                                                          className="dropzone dropzone-design">
                                                                         <div className="dz-default dz-message">
                                                                             <input {...getInputProps()} />
-                                                                            <span>Kéo và thả hoặc nhấp để chọn file</span>
+                                                                            <span>Kéo và thả hoặc nhấp để chọn file thêm ảnh mới</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
