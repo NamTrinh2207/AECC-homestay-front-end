@@ -64,6 +64,7 @@
 
 .tag-2:after {
     border-left: 8px solid #3f56ff;
+    color: #fff;
 }
 
 .property-box-4 h4{
@@ -763,7 +764,8 @@ blockquote footer{
 }
 
 .property-box-7:hover .tag-2 {
-    color: #3f56ff;
+    /*color: #3f56ff;*/
+    color: #fff;
 }
 
 .property-box-8:hover .tag-for{

@@ -74,7 +74,6 @@ function UserProfile(props) {
         setShowListHistoryRental(false)
         setActiveButton1('listBookings');
     }
-
     const handleShowListBookingByOwner = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);

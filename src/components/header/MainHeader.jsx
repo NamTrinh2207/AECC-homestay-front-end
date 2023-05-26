@@ -19,7 +19,9 @@ function MainHeader(props) {
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
                                 <a className="navbar-brand logo2" href="/">
-                                    <img src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574"} height={'55px'} alt="logo"/>
+                                    <img
+                                        src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574"}
+                                        height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
                                     <span className="fa fa-bars"></span>
@@ -29,7 +31,7 @@ function MainHeader(props) {
                                     <ul className="navbar-nav  justify-content-center">
                                         <li className="nav-item dropdown active">
                                             <Link className="nav-link dropdown-toggle" to={"/"}
-                                                  id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                  id="change-font-size" data-toggle="dropdown"
                                                   aria-haspopup="true" aria-expanded="false">
                                                 Trang chủ
                                             </Link>
@@ -42,7 +44,7 @@ function MainHeader(props) {
                                                     <ul className="navbar-nav  justify-content-center">
                                                         <li className="nav-item dropdown">
                                                             <Link to={""} className="nav-link dropdown-toggle" href="#"
-                                                                  id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                                                                  id="change-font-size" data-toggle="dropdown"
                                                                   aria-haspopup="true" aria-expanded="false">
                                                                 Danh sách tài khoản
                                                             </Link>
@@ -55,16 +57,18 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
-                                                                       id="navbarDropdownMenuLink2"
-                                                                       data-toggle="dropdown" aria-haspopup="true"
-                                                                       aria-expanded="false">
+                                                                    <Link to={"/user"}
+                                                                          className="nav-link dropdown-toggle" href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
                                                                         Tài khoản
                                                                     </Link>
                                                                 </li>
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle" href="#"
-                                                                          id="navbarDropdownMenuLink7"
+                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size"
                                                                           data-toggle="dropdown" aria-haspopup="true"
                                                                           aria-expanded="false">
                                                                         Danh sách homestay
@@ -77,12 +81,24 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
-                                                                          id="navbarDropdown3" role="button" data-toggle="dropdown"
+                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size" role="button"
+                                                                          data-toggle="dropdown"
                                                                           aria-haspopup="true" aria-expanded="false">
-                                                                        Tài Khoản
+                                                                        Cửa hàng
                                                                     </Link>
                                                                 </li>
+                                                                {/* cho dang sua*/}
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
+                                                                          id="navbarDropdownMenuLink2"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
+                                                                        Tài khoản
+                                                                    </Link>
+                                                                </li>
+                                                                {/* ket thu sua*/}
                                                             </ul>
                                                         </>
                                                     )}
