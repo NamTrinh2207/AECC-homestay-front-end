@@ -5,7 +5,7 @@ function TopHeader(props) {
     const data = localStorage.getItem("user");
     const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159";
 
-    let [avatar, setAvatar] = useState(defaultAvatar);
+    let [avatar, setAvatar] = useState("");
 
     let user = null;
     if (data != null) {
@@ -16,13 +16,13 @@ function TopHeader(props) {
 
     useEffect(() => {
         if (user !=null){
-            if (user.avatar === null) {
-                user.avatar = avatar;
-            } else {
+            if (user.avatar != null) {
                 setAvatar(user.avatar);
+            } else {
+                setAvatar(defaultAvatar);
             }
         }
-    },[defaultAvatar]);
+    });
 
     return (
         <div>
