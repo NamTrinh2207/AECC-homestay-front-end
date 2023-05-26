@@ -6,6 +6,7 @@ import axios from "axios";
 import MainHeader from "./header/MainHeader";
 import BookingCard from "./BookingCard";
 import Page404 from "./404/Page404";
+import ScrollToElement from "./scrollToElement/Scroll";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -41,13 +42,13 @@ function HotelDetails(props) {
         }
     };
 
-    if (home === null) {
-        return (
-            <>
-                <Page404/>
-            </>
-        )
-    }
+    // if (home === null) {
+    //     return (
+    //         <>
+    //             <Page404/>
+    //         </>
+    //     )
+    // }
 
     return (
         <>
@@ -60,15 +61,20 @@ function HotelDetails(props) {
                     <div className="breadcrumb-area">
                         <h1>Thông tin chi tiết</h1>
                         <ul className="breadcrumbs">
+
                             <li><a href="/">Trang chủ</a></li>
                             <li className="active">Chi tiết homestay</li>
-                        </ul>
+                        </ul><br/><br/>
+                        <ScrollToElement targetId={"main-home"}></ScrollToElement>
+                        <div id={"main-home"}></div>
                     </div>
                 </div>
             </div>
             {/* Sub banner end */}
 
             {/* Properties details page start */}
+
+            {/*<div id="main-home"></div>*/}
             <div className="properties-details-page content-area-2" key={home?.id}>
                 <div className="container">
                     <div className="row">
@@ -83,17 +89,24 @@ function HotelDetails(props) {
                                                 <div>
                                                     <div className="float-left">
                                                         <ul className="clearfix">
-                                                            <li><i className="flaticon-bed"></i> Phòng ngủ: {home?.bedroom}</li>
-                                                            <li><i className="flaticon-bath"></i> Phòng tắm: {home?.bathroom}</li>
-                                                            <li><i className="flaticon-house"></i> Loại phòng: {home?.homeType.name}</li>
-                                                            <li><i className="flaticon-calendar"></i> Trạng thái: {getStatusLabel(home?.status)}
+                                                            <li><i className="flaticon-bed"></i> Phòng
+                                                                ngủ: {home?.bedroom}</li>
+                                                            <li><i className="flaticon-bath"></i> Phòng
+                                                                tắm: {home?.bathroom}</li>
+                                                            <li><i className="flaticon-house"></i> Loại
+                                                                phòng: {home?.homeType.name}</li>
+                                                            <li><i className="flaticon-calendar"></i> Trạng
+                                                                thái: {getStatusLabel(home?.status)}
                                                             </li>
-                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng thái: {getStatusLabel(home?.status)}</li>
+                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng
+                                                                thái: {getStatusLabel(home?.status)}</li>
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p><span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color:"orange"}} key = {index} ></i>))}</p>
+                                                        <p>
+                                                            <span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
+                                                            <i className="fa fa-star" style={{color: "orange"}}
+                                                               key={index}></i>))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -107,7 +120,8 @@ function HotelDetails(props) {
                                             key={index}
                                             className={`item carousel-item ${index === 0 ? 'active' : ''}`}
                                             data-slide-number={index}
-                                        ><img  style={{height:"600px",width:1500}} src={image}  alt="properties-photo" />
+                                        ><img style={{height: "600px", width: 1500}} src={image}
+                                              alt="properties-photo"/>
                                         </div>
                                     ))}
                                 </div>
@@ -120,7 +134,8 @@ function HotelDetails(props) {
                                                 data-slide-to={index}
                                                 data-target="#propertiesDetailsSlider"
                                             >
-                                                <img  style={{height:"150px",left:0}} src={image} className="img-fluid p-1" alt="properties-photo-smale" />
+                                                <img style={{height: "150px", left: 0}} src={image}
+                                                     className="img-fluid p-1" alt="properties-photo-smale"/>
                                             </a>
                                         </li>
                                     ))}
@@ -185,14 +200,18 @@ function HotelDetails(props) {
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span>
+                                            </li>
+                                            <li><span><i
+                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li><span><i className="flaticon-draw-check-mark"></i> 1 Garage</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
@@ -287,7 +306,7 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating}  />
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}/>
                                 </div>
                                 {/* Recent posts start */}
                             </div>

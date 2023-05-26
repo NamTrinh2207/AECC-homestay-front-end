@@ -5,7 +5,9 @@ import {useParams} from "react-router-dom";
 import CalendarFunc from "./Calendar";
 
 function BookingCard(props) {
+    const data = localStorage.getItem("user");
 
+    // Đang lấy user ID
     const [buttonOpen, setButtonOpen] = useState(false);
     const [buttonClose, setButtonClose] = useState(true);
 
@@ -13,6 +15,9 @@ function BookingCard(props) {
     const {id} = params;
 
     const [transferDate, setTransferDate] = useState('')
+
+
+    console.log("home id",props.homeId);
 
 
     const buttonOpenHandler = (event) => {

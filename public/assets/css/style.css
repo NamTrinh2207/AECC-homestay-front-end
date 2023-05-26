@@ -71,7 +71,7 @@ Version:    1.1.0
 body {
     font-family: 'Open Sans', sans-serif;
     color: #535353;
-    background: #fff9f7;
+    background: #ffffff;
 }
 
 .index-body{
@@ -14600,3 +14600,13 @@ body.off-canvas-sidebar-open {
 
 }
 
+#change-font-size {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.avatar-custom {
+    border-radius: 50%;
+    height: 32px;
+    margin-right: 10px;
+}
