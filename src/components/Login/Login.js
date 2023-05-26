@@ -6,6 +6,7 @@ import {ErrorMessage, Formik} from "formik";
 import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/apiRequest";
+import Toast from "../toast/Toast";
 
 
 function Login(props) {
@@ -18,7 +19,7 @@ function Login(props) {
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
-        password: Yup.string().required("mật khẩu không được để trống !"),
+        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").max(8,"mật khẩu không được quá 8 ký tự").required("mật khẩu không được để trống !"),
     });
     const handleLogin = (values) => {
         const newUser = {
@@ -76,7 +77,7 @@ function Login(props) {
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <button type={"submit"} className="btn btn-blue text-center">ĐĂNG NHẬP</button>
+                                                <Toast name={"Đăng Nhập"}/>
                                             </div>
                                         </form>
                                     )}

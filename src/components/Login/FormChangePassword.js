@@ -3,6 +3,7 @@ import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import {ErrorMessage, Formik} from "formik";
 import * as Yup from "yup";
+import Toast from "../toast/Toast";
 
 function FormChangePassword(props) {
     const user = props.user;
@@ -72,8 +73,7 @@ function FormChangePassword(props) {
                         </div>
                         <div className="col-lg-12">
                             <div className="send-btn">
-                                <button type="submit" className="btn btn-4">Đổi mật khẩu</button>
-                                <ToastContainer autoClose={1000}/>
+                                <Toast name={"Đổi mật khẩu"}/>
                             </div>
                         </div>
                     </div>

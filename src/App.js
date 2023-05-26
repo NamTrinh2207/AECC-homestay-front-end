@@ -11,6 +11,9 @@ import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
 import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
+import {ToastContainer} from "react-toastify";
+import React from "react";
+
 
 function App() {
     return (
@@ -27,6 +30,13 @@ function App() {
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/recent'} element={<Recent/>}></Route>
             </Routes>
+            <ToastContainer
+                hideProgressBar={true}
+                position="top-center"
+                autoClose={700}
+                className="toast-container"
+                toastClassName="toast"
+            />
         </BrowserRouter>
     )
 }

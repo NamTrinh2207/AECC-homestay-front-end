@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from "axios";
-import {toast, ToastContainer} from "react-toastify";
 import {ErrorMessage, Formik} from "formik";
+import {toast} from "react-toastify";
+import Toast from "../toast/Toast";
 
 function FormUpdateUser(props) {
     const user = props.user;
@@ -22,8 +23,8 @@ function FormUpdateUser(props) {
                         .then(() => {
                             toast.success("Sửa thông tin thành công")
                         })
-                        .catch(function (error) {
-                            console.log(error)
+                        .catch(function (err) {
+                            toast.error(err)
                         })
                 }}
                 enableReinitialize={true}>
@@ -62,9 +63,7 @@ function FormUpdateUser(props) {
                         </div>
                         <div className="col-lg-12">
                             <div className="send-btn">
-                                <button type="submit" className="btn btn-4">Cập nhật thông tin
-                                </button>
-                                <ToastContainer autoClose={1000}/>
+                                <Toast name={"Cập nhật"}/>
                             </div>
                         </div>
                     </div>

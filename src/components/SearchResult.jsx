@@ -41,10 +41,10 @@ function SearchResult(props) {
                                 <div className="property-box-7">
                                     <div>
                                         <Link className="property-img" to={`/viewHome/${search[0]}`}>
-                                            <div style={{backgroundColor: getStatusColor(search[7])}}
-                                                 className="tag-2">{getStatusLabel(search[7])}</div>
+                                            <div style={{backgroundColor: getStatusColor(search[6])}}
+                                                 className="tag-2">{getStatusLabel(search[6])}</div>
                                             <div className="price-box"><span>{search[5]} VNĐ</span>/ngày</div>
-                                            <img height={300} src={search[10]} alt="property-box-7"/>
+                                            <img height={300} src={search[9]} alt="property-box-7"/>
                                         </Link>
                                     </div>
                                     <div className="detail">
@@ -60,7 +60,7 @@ function SearchResult(props) {
 
                                     <ul className="facilities-list clearfix">
                                         <li>
-                                            <span><i className="fa fa-home"></i></span>{search[12]}
+                                            <span><i className="fa fa-home"></i></span>{search[11]}
                                         </li>
                                         <li>
                                             <span><i className="fa fa-bed"></i></span> {search[3]}
@@ -68,14 +68,10 @@ function SearchResult(props) {
                                         <li>
                                             <span><i className="fa fa-bath"></i></span> {search[2]}
                                         </li>
-                                        <li className="float-right">
-                                            <span>Đánh giá</span>{[...Array(search[6])].map((_, index) => (
-                                            <i className="fa fa-star" style={{color: "orange"}}></i>))}
-                                        </li>
                                     </ul>
                                     <div className="footer clearfix">
                                         <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i>{search[11]}</p>
+                                            <p><i className="fa fa-user"></i>{search[10]}</p>
                                         </div>
                                         <ul className="pull-right">
                                             <li><a href="#"><i
