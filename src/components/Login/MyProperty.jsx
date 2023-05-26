@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Field} from "formik";
+import {Link, useNavigate} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import EditHotel from "../EditHotel";
 
 function MyProperty(props) {
     const userId = props.user;
-    // const [user, setUser] = useState(null);
     const [homes, setHomes] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
-    const [home,setHome]=useState('')
-
     const visiblePages = totalPages+1;
-
+    const navigate=useNavigate();
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -57,7 +57,7 @@ function MyProperty(props) {
         return pageNumbers;
     };
 
-    useEffect(() => {
+    useEffect(() =>{
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/${userId.id}/homes?page=${currentPage}`);
@@ -121,25 +121,26 @@ function MyProperty(props) {
         }
     };
 
+
     const handleChangeStatus = async (event, homeId) => {
-        let selectedStatus = event.target.value;
+        const selectedStatus = parseInt(event.target.value);
+
         console.log(selectedStatus);
         try {
             let response = await axios.get(`http://localhost:8080/homes/${homeId}`);
             let newHome = response.data;
-            console.log(newHome)
             let updateHome = {
                 ...newHome,
                 status: selectedStatus
-            }
-
-
+            };
             await axios.put(`http://localhost:8080/homes/${homeId}`, updateHome ,{
                 headers: {
                     'Content-Type': 'application/json'
                 }
+            }).then(res=>{
+                alert("đổi trạng thái thành công");
+                window.location.reload()
             });
-            setHome(updateHome);
         } catch (error) {
             console.log(error);
         }
@@ -172,22 +173,44 @@ function MyProperty(props) {
                                         </td>
                                         <td className="action">
                                             <ul>
-                                                <li>
-                                                    <a href="#"><i className="fa fa-pencil"></i> Sửa</a>
-                                                </li>
-                                                <li>
-                                                    <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
-                                                        onChange={(event) => handleChangeStatus(event, home.id)}
-                                                    >   <option value={""} >{getStatusLabel(home.status)}</option>
-                                                        <option value={1} >Phòng trống</option>
-                                                        <option value={2}>Đang bảo trì</option>
-                                                        <option value={3}>Đang cho thuê</option>
-                                                    </select>
-                                                </li>
-                                                <li>
-                                                    <a onClick={() => deleteHome(home.id)} className="delete"><i
-                                                        className="fa fa-remove"></i> Delete</a>
-                                                </li>
+                                                {home.status===3?(
+                                                    <>
+                                                        <li>
+                                                            <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
+                                                                    onChange={(event) => handleChangeStatus(event, home.id)}
+                                                            >   <option value={""} >{getStatusLabel(home.status)}</option>
+                                                                <option value={1} >Phòng trống</option>
+                                                                <option value={2}>Đang bảo trì</option>
+                                                                <option value={3}>Đang cho thuê</option>
+                                                            </select>
+                                                        </li>
+                                                    </>
+                                                ):(
+
+                                                    <>
+                                                        <li >
+
+                                                            <Link  to={`/edit/${home.id}`}><i className="fa fa-pencil" ></i> Sửa</Link>
+                                                        </li>
+                                                        <li>
+                                                            <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
+                                                                    onChange={(event) => handleChangeStatus(event, home.id)}
+                                                            >   <option value={""} >{getStatusLabel(home.status)}</option>
+                                                                <option value={1} >Phòng trống</option>
+                                                                <option value={2}>Đang bảo trì</option>
+                                                                <option value={3}>Đang cho thuê</option>
+                                                            </select>
+                                                        </li>
+                                                        <li >
+                                                            <a onClick={() => deleteHome(home.id)} className="delete"><i
+                                                                className="fa fa-remove"></i> Delete</a>
+                                                        </li>
+                                                    </>
+                                                )}
+
+
+
+
                                             </ul>
                                         </td>
                                     </tr>

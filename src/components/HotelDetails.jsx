@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import MainHeader from "./header/MainHeader";
 import BookingCard from "./BookingCard";
+import Page404 from "./404/Page404";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -13,12 +14,12 @@ function HotelDetails(props) {
         axios.get(`http://localhost:8080/homes/${id}`)
             .then((response) => {
                 setHome(response.data)
+                console.log(response.data)
             })
             .catch(() => {
-                alert("Không tìm thấy homestay")
+                setHome(null);
             })
-    }, [])
-    console.log(home);
+    }, [id])
     const slideshowProperties = {
         duration: 5000,
         transitionDuration: 500,
@@ -40,7 +41,13 @@ function HotelDetails(props) {
         }
     };
 
-
+    if (home === null) {
+        return (
+            <>
+                <Page404/>
+            </>
+        )
+    }
 
     return (
         <>
@@ -86,7 +93,7 @@ function HotelDetails(props) {
                                                     </div>
                                                     <div className="float-right">
                                                         <p><span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color:"orange"}} ></i>))}</p>
+                                                            <i className="fa fa-star" style={{color:"orange"}} key = {index} ></i>))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +287,7 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard/>
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating}  />
                                 </div>
                                 {/* Recent posts start */}
                             </div>

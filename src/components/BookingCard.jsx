@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {FaStar} from "react-icons/fa";
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
 import {useParams} from "react-router-dom";
@@ -13,6 +12,9 @@ function BookingCard(props) {
     const params = useParams();
     const {id} = params;
 
+    const [transferDate, setTransferDate] = useState('')
+
+
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
@@ -25,35 +27,47 @@ function BookingCard(props) {
         setButtonOpen(false)
 
     }
-
+    const handleDiffDate = (newData) => {
+        setTransferDate(newData);
+    }
+    var price = transferDate * (props.price);
     return (
         <div>
             <div className='side-box-card absolute'>
-                <p className='single-page-price font-semibold text-2xl'> Giá tiền </p>
+                <div>
+                    <span style={
+                        {fontSize: `20px`}
+                    }>Giá phòng: {props.price} VNĐ</span>
+                    <span
+                        className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                </div>
 
-                <p className='rev-card absolute'>đánh giá</p>
-                <p className='rev2-card font-semibold'>
-                    <p>lượt thuê</p>
-                </p>
-
+                <div className='rev-card absolute'>
+                    <span style={
+                        {fontSize: '20px'}
+                    }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
+                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                </div>
             </div>
 
             <div className='reserve-date-button-holder'>
                 <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Đặt trước</button>
-
             </div>
-
 
             <div className="s">
-                <CalendarFunc placesId={id}  buttonopenState={buttonOpen}
-                              buttonCloseState={buttonClose} closeFunc={buttonCloseHandler}/>
+                <CalendarFunc placesId={id}
+                              buttonopenState={buttonOpen}
+                              buttonCloseState={buttonClose}
+                              closeFunc={buttonCloseHandler}
+                              onDataChanged={handleDiffDate}
+                />
             </div>
 
-            <div className='line-total text-gray-300'>_____________________________________________________</div>
+            <div className='line-total text-gray-300'>________________________________________________</div>
 
-            <div className='price-total-text absolute font-semibold text-xl uppercase'>Total</div>
-
-            <p className='price-total absolute font-semibold text-xl'>Calculated At Checkout</p>
+            <div className='price-total-text absolute font-semibold text-xl uppercase'>
+                Tổng phải thanh toán: {price} VNĐ
+            </div>
         </div>
     );
 }

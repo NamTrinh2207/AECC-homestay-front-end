@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import Search from "../Search";
 
 function MainHeader(props) {
     const data = localStorage.getItem("user");
@@ -17,8 +18,8 @@ function MainHeader(props) {
                     <div className="row">
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
-                                <a className="navbar-brand" href="/">
-                                    <img src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Fblack-logo.png?alt=media&token=c06f18ab-93d2-4f70-9173-6579873830ed"} height={'55px'} alt="logo"/>
+                                <a className="navbar-brand logo2" href="/">
+                                    <img src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574"} height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
                                     <span className="fa fa-bars"></span>
@@ -71,13 +72,6 @@ function MainHeader(props) {
                                                                 </li>
 
                                                             </ul>
-                                                            <ul className="nav navbar-nav ml-auto  justify-content-end">
-                                                                <li className="nav-item">
-                                                                    <a href="/create" className="submit-btn">
-                                                                        Đăng tin
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
                                                         </>
                                                     ) : (
                                                         <>
@@ -102,7 +96,6 @@ function MainHeader(props) {
 
                                         </>
                                     )}
-
                                 </div>
                             </nav>
                         </div>
