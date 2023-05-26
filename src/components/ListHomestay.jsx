@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import TruncatedLink from "./truncate/TruncateLink";
+import TruncatedText from "./truncate/TruncateText";
 
 function ListHomestay(props) {
     const [homes, setHomes] = useState([]);
@@ -128,12 +130,10 @@ function ListHomestay(props) {
                                         </div>
                                         <div className="detail">
                                             <h1 className="title">
-                                                <Link style={{textDecoration: "none"}}
-                                                      to={`/viewHome/${home.id}`}>{home.name}</Link>
+                                                <TruncatedLink url={`/viewHome/${home.id}`} text={home.name} maxLength={28}></TruncatedLink>
                                             </h1>
                                             <div className="location">
-                                                <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                                {home.address}
+                                                <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                             </div>
                                         </div>
                                         <ul className="facilities-list clearfix">
