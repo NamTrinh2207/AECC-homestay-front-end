@@ -77,10 +77,10 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle" href="#"
+                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
                                                                           id="navbarDropdown3" role="button" data-toggle="dropdown"
                                                                           aria-haspopup="true" aria-expanded="false">
-                                                                        Cửa hàng
+                                                                        Tài Khoản
                                                                     </Link>
                                                                 </li>
                                                             </ul>
