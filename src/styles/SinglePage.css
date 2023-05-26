@@ -225,7 +225,8 @@
     color: white;
     border-radius: 0.75rem;
     border:none;
-    margin-top: 1.1rem;
+    position: absolute;
+    top: 16rem;
 }
 
 .reserve-date-button:hover {
@@ -329,7 +330,9 @@
         left: 12.8rem;
         white-space: nowrap;
     }
-
+    .reserve-date-button{
+        position: absolute;
+    }
 }
 
 

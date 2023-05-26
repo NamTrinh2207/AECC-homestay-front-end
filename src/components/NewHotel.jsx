@@ -9,6 +9,7 @@ import {useDropzone} from 'react-dropzone';
 import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
+import Page404 from "./404/Page404";
 
 export default function CreateNewHotel(props) {
     // const nav = useNavigate();
@@ -96,12 +97,23 @@ export default function CreateNewHotel(props) {
             }
         },
     });
+
+
+    if (user != null) {
+        var roles = user.roles[0].authority;
+        // ROLE_CUSTOMER: khach thue nha
+        // ROLE_ADMIN: admin
+        // ROLE_USER: chu nha
+    } else {
+        roles = null;
+    }
+
     if (user === null) {
         return (
             <>
                 <h1>Bạn chưa đăng nhập, bạn sẽ chuyển đến trang đăng nhập sau 3 giây</h1>
             </>)
-    } else {
+    } else if (roles === "ROLE_USER") {
         const userId = user.id;
         return (
             <div>
@@ -365,6 +377,12 @@ export default function CreateNewHotel(props) {
                 </Formik>
             </div>
         );
+    } else {
+        return (
+            <>
+                <Page404/>
+            </>
+        )
     }
 
 
