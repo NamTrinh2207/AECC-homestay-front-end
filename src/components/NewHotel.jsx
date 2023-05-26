@@ -10,6 +10,8 @@ import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
 import Page404 from "./404/Page404";
+import Toast from "./toast/Toast";
+import {toast} from "react-toastify";
 
 export default function CreateNewHotel(props) {
     // const nav = useNavigate();
@@ -44,7 +46,7 @@ export default function CreateNewHotel(props) {
     const handleImageChange = async (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             if (!isFileValid(file)) {
-                alert('Chỉ được chọn file định dạng ảnh JPG/JPEG/PNG.');
+                toast.error('Chỉ được chọn file định dạng ảnh JPG/JPEG/PNG.');
             } else {
                 const storageRef = ref(storage, `files/${file.name}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
@@ -55,7 +57,7 @@ export default function CreateNewHotel(props) {
                         setProgressPercent((prevPercent) => [...prevPercent, progress]);
                     },
                     (error) => {
-                        alert(error);
+                        toast.error(error);
                     },
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -222,7 +224,8 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'name'}>Tên nhà</label>
                                                                         <Field className="form-control"
                                                                                name={'name'}></Field>
-                                                                        <ErrorMessage name={'name'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"name"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
                                                                 {/*loại phòng*/}
@@ -241,7 +244,8 @@ export default function CreateNewHotel(props) {
                                                                                 )
                                                                             })}
                                                                         </Field>
-                                                                        <ErrorMessage name={'homeType'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"homeType"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -251,7 +255,8 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'address'}>Địa chỉ</label>
                                                                         <Field className="form-control"
                                                                                name={'address'}></Field>
-                                                                        <ErrorMessage name={'address'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"address"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -262,13 +267,14 @@ export default function CreateNewHotel(props) {
                                                                             ngủ</label>
                                                                         <Field as="select" name="bedroom"
                                                                                className="selectpicker search-fields">
-                                                                            <option>Số phòng ngủ</option>
+                                                                            <option value={""}>Chọn số lượng</option>
                                                                             {[...Array(10)].map((_, index) => (
                                                                                 <option key={index + 1}
                                                                                         value={index + 1}>{index + 1}</option>
                                                                             ))}
                                                                         </Field>
-                                                                        <ErrorMessage name="bedroom"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"bedroom"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -279,13 +285,14 @@ export default function CreateNewHotel(props) {
                                                                             tắm</label>
                                                                         <Field as="select" name="bathroom"
                                                                                className="selectpicker search-fields">
-                                                                            <option>Số phòng tắm</option>
+                                                                            <option>Chọn số lượng</option>
                                                                             {[...Array(3)].map((_, index) => (
                                                                                 <option key={index + 1}
                                                                                         value={index + 1}>{index + 1}</option>
                                                                             ))}
                                                                         </Field>
-                                                                        <ErrorMessage name="bathroom"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"bathroom"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -295,7 +302,8 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'priceByDay'}>Giá tiền</label>
                                                                         <Field className="form-control" type={'number'}
                                                                                name={'priceByDay'}></Field>
-                                                                        <ErrorMessage name={'priceByDay'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"priceByDay"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -306,7 +314,8 @@ export default function CreateNewHotel(props) {
                                                                         <Field className="form-control" as='textarea'
                                                                                name={'description'}
                                                                                style={{height: "100px"}}></Field>
-                                                                        <ErrorMessage name={'description'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"description"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -317,12 +326,12 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor="status">Trạng thái nhà</label>
                                                                         <Field as="select" name="status"
                                                                                className="selectpicker search-fields">
-                                                                            <option value="">--Trạng thái--</option>
                                                                             <option value={1}>Còn trống</option>
                                                                             {/*<option value={2}>Đã có người thuê</option>*/}
                                                                             <option value={3}>Đang nâng cấp</option>
                                                                         </Field>
-                                                                        <ErrorMessage name="status"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"status"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -353,8 +362,7 @@ export default function CreateNewHotel(props) {
                                                             </div>
 
                                                             <div className="col-lg-12">
-                                                                <button type={'submit'} className="btn btn-4">Đăng tin
-                                                                </button>
+                                                                <Toast name={"ĐĂNG TIN"}/>
                                                             </div>
 
                                                         </Form>
@@ -394,9 +402,9 @@ export default function CreateNewHotel(props) {
         }
         data.image = imgArr;
         axios.post('http://localhost:8080/homes/create', data).then(() => {
-            alert('Đã tạo mới nhà.')
+            toast.success("Đăng tin thành công")
         }).catch((err) => {
-            console.error(err)
+            toast.error(err)
         })
     }
 }

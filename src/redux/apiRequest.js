@@ -8,13 +8,12 @@ export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
     try {
         const res = await axios.post("http://localhost:8080/login", user);
-        localStorage.setItem("user", JSON.stringify(res.data));
-        toast.success("Đăng nhập thành công", {
-            onClose: () => {
-                navigate("/");
-            }
-        });
         dispatch(loginSuccess(res.data));
+        localStorage.setItem("user", JSON.stringify(res.data));
+        toast.success("Đăng nhập thành công");
+        setTimeout(() => {
+            navigate("/");
+        }, 1500);
     } catch {
         toast.error("Sai tài khoản mật khẩu hoặc bạn chưa xác thực email đăng ký !");
         dispatch(loginFailed());
@@ -23,13 +22,15 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     await axios.post("http://localhost:8080/signup", user).then((res) => {
-        alert(res.data.message)
+        toast.success(res.data.message)
         dispatch(registerSuccess());
         if (res.data.message === "Vui lòng truy cập email để xác nhận đăng ký"){
-            navigate("/login")
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000);
         }
     }).catch((error) => {
-        alert(error.message)
+        toast.error(error.message)
         dispatch(registerFailed())
     })
 }

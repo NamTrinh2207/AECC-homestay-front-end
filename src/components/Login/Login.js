@@ -19,7 +19,7 @@ function Login(props) {
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
-        password: Yup.string().required("mật khẩu không được để trống !"),
+        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").max(8,"mật khẩu không được quá 8 ký tự").required("mật khẩu không được để trống !"),
     });
     const handleLogin = (values) => {
         const newUser = {

@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Field} from "formik";
 import {Link, useNavigate} from "react-router-dom";
-import {Button} from "react-bootstrap";
-import EditHotel from "../EditHotel";
-
+import {toast} from "react-toastify";
+import {Button, Modal} from "antd";
 function MyProperty(props) {
     const userId = props.user;
     const [homes, setHomes] = useState([]);
@@ -12,7 +10,8 @@ function MyProperty(props) {
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages+1;
-    const navigate=useNavigate();
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [deletingHomeId, setDeletingHomeId] = useState(null);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -64,9 +63,8 @@ function MyProperty(props) {
                 const { totalPages } = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
             } catch (error) {
-                console.log(error);
+                toast.success(error);
             }
         };
         fetchData();
@@ -107,18 +105,26 @@ function MyProperty(props) {
         }
     };
 
+    const showDeleteModal = (homeId) => {
+        setDeletingHomeId(homeId);
+        setDeleteModalVisible(true);
+    };
 
-    const deleteHome = async (homeId) => {
-        const confirmed = window.confirm('Bạn chắc chắn muốn xóa?');
-        if (confirmed) {
-            try {
-                await axios.delete(`http://localhost:8080/homes/${homeId}`);
-                const updatedHomes = homes.filter((home) => home.id !== homeId);
-                setHomes(updatedHomes);
-            } catch (error) {
-                console.log(error);
-            }
+    const hideDeleteModal = () => {
+        setDeleteModalVisible(false);
+        setDeletingHomeId(null);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/homes/${deletingHomeId}`);
+            const updatedHomes = homes.filter((home) => home.id !== deletingHomeId);
+            setHomes(updatedHomes);
+            toast.success('Xóa thành công');
+        } catch (error) {
+            toast.error('Đã xảy ra lỗi khi xóa');
         }
+        hideDeleteModal();
     };
 
 
@@ -138,11 +144,13 @@ function MyProperty(props) {
                     'Content-Type': 'application/json'
                 }
             }).then(res=>{
-                alert("đổi trạng thái thành công");
-                window.location.reload()
+                toast.success("đổi trạng thái thành công");
+                setTimeout(() => {
+                    window.location.reload()
+                },1000)
             });
         } catch (error) {
-            console.log(error);
+            toast.error(error);
         }
     };
 
@@ -189,11 +197,10 @@ function MyProperty(props) {
 
                                                     <>
                                                         <li >
-
-                                                            <Link  to={`/edit/${home.id}`}><i className="fa fa-pencil" ></i> Sửa</Link>
+                                                            <Button style={{width:'90%'}}><Link  to={`/edit/${home.id}`}><i className="fa fa-pencil" ></i> Sửa</Link></Button>
                                                         </li>
                                                         <li>
-                                                            <select className="fa"  style={{border:"none", backgroundColor:"#fff"}}
+                                                            <select className="fa "  style={{border:"1px solid #d9d9d9",borderRadius:5,height:30, backgroundColor:"#fff"}}
                                                                     onChange={(event) => handleChangeStatus(event, home.id)}
                                                             >   <option value={""} >{getStatusLabel(home.status)}</option>
                                                                 <option value={1} >Phòng trống</option>
@@ -202,15 +209,20 @@ function MyProperty(props) {
                                                             </select>
                                                         </li>
                                                         <li >
-                                                            <a onClick={() => deleteHome(home.id)} className="delete"><i
-                                                                className="fa fa-remove"></i> Delete</a>
+                                                            <Button style={{width:'90%'}} onClick={() => showDeleteModal(home.id)}><i className="fa fa-trash" ></i>&nbsp;&nbsp;Xóa</Button>
+                                                            <Modal
+                                                                visible={deleteModalVisible}
+                                                                title="Xác nhận xóa"
+                                                                onCancel={hideDeleteModal}
+                                                                onOk={confirmDelete}
+                                                                okText="Xóa"
+                                                                cancelText="Hủy"
+                                                            >
+                                                                <p>Bạn chắc chắn muốn xóa?</p>
+                                                            </Modal>
                                                         </li>
                                                     </>
                                                 )}
-
-
-
-
                                             </ul>
                                         </td>
                                     </tr>
@@ -243,7 +255,7 @@ function MyProperty(props) {
             <div className="featured-properties content-area-19">
                 <div className="container">
                     <div className="main-title">
-                        <h1>Danh sách nhà trống</h1>
+                        <h1>Danh sách trống</h1>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import {registerUser} from "../../redux/apiRequest";
 import {Formik, ErrorMessage} from "formik";
 import * as Yup from "yup";
+import Toast from "../toast/Toast";
 
 
 function Register(props) {
@@ -107,7 +108,7 @@ function Register(props) {
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <button className="btn btn-blue text-center">ĐĂNG KÝ</button>
+                                                <Toast name={"ĐĂNG KÝ"}/>
                                             </div>
                                         </form>
                                     )}
