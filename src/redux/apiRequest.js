@@ -7,14 +7,17 @@ export const loginUser = async (user, dispatch, navigate) => {
 
     dispatch(loginStart());
     try {
-        const res = await axios.post("http://localhost:8080/login", user)
+        const res = await axios.post("http://localhost:8080/login", user);
+        localStorage.setItem("user", JSON.stringify(res.data));
+        toast.success("Đăng nhập thành công", {
+            onClose: () => {
+                navigate("/");
+            }
+        });
         dispatch(loginSuccess(res.data));
-        localStorage.setItem("user", JSON.stringify(res.data))
-        alert("Đăng nhập thành công")
-        navigate("/")
-    } catch (error) {
-        alert("Sai tài khoản mật khẩu hoặc bạn chưa xác thực email đăng ký !")
-        dispatch(loginFailed())
+    } catch {
+        toast.error("Sai tài khoản mật khẩu hoặc bạn chưa xác thực email đăng ký !");
+        dispatch(loginFailed());
     }
 }
 export const registerUser = async (user, dispatch, navigate) => {
