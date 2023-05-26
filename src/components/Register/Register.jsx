@@ -21,7 +21,7 @@ function Register(props) {
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
-        password: Yup.string().required("mật khẩu không được để trống !"),
+        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").max(8,"mật khẩu không được quá 8 ký tự").required("mật khẩu không được để trống !"),
         email: Yup.string().email("vui lòng nhập đúng định dạng email !").required("email không được để trống !"),
         roles: Yup.string().required("Vui lòng chọn vai trò người dùng!")
     });
