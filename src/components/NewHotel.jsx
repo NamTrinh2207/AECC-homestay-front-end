@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -12,6 +11,7 @@ import MainHeader from "./header/MainHeader";
 import Page404 from "./404/Page404";
 import Toast from "./toast/Toast";
 import {toast} from "react-toastify";
+import Swal from 'sweetalert2';
 
 export default function CreateNewHotel(props) {
     // const nav = useNavigate();
@@ -395,16 +395,25 @@ export default function CreateNewHotel(props) {
 
 
     function saveHome(data) {
-        console.log(data)
         let imgArr = [];
         for (let i = 0; i < imgUrls.length; i++) {
             imgArr[i] = imgUrls[i];
         }
         data.image = imgArr;
-        axios.post('http://localhost:8080/homes/create', data).then(() => {
-            toast.success("Đăng tin thành công")
-        }).catch((err) => {
-            toast.error(err)
-        })
+        axios.post('http://localhost:8080/homes/create', data)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng tin thành công',
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đã xảy ra sự cố',
+                });
+            });
     }
 }
