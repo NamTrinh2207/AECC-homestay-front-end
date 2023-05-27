@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {DatePicker} from "antd";
+import Swal from 'sweetalert2';
 
 function Search(props) {
     const [bedroom, setBedroom] = useState('');
@@ -23,8 +24,31 @@ function Search(props) {
                     min_price: minPrice,
                     max_price: maxPrice
                 }
-            });
-            props.onHomesReceived(response.data)
+            }).then(() => {
+                let timerInterval
+                Swal.fire({
+                    title: 'Đang tìm kiếm',
+                    html: 'Vui lòng đợi <b></b> s.',
+                    timer: 500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+                props.onHomesReceived(response.data)
+            })
         } catch (error) {
             console.error(error);
         }

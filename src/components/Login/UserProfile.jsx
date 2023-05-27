@@ -122,7 +122,7 @@ function UserProfile(props) {
         <div>
 
             {/*Top header start*/}
-            <TopHeader/>
+            <TopHeader avatar={user.avatar}/>
             {/* Top header end */}
 
             {/* main header start */}
@@ -152,13 +152,10 @@ function UserProfile(props) {
                             <div className="user-profile-box mrb">
                                 {/*header */}
                                 <div className="header clearfix">
-                                    {/*Tên*/}
-                                    <h2>{user.name}</h2>
-                                    <br/><br/>
                                     {/*hình ảnh*/}
                                     <br/>
                                     <div className="avatar-container">
-                                        <img style={{borderRadius: '50%'}} width={150} height={150}
+                                        <img style={{borderRadius: '50%', marginTop:50}} width={200} height={200}
                                              src={imgUrl || user.avatar} alt=""/>
                                         <label htmlFor="avatar-input" className="avatar-label">
                                             <i className="fa fa-camera"></i>
@@ -227,8 +224,10 @@ function UserProfile(props) {
                                                                         </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a onClick={handleHistoryRental} className={activeButton === "history" ? 'active' : ''}>
-                                                                            <i className="flaticon-house"></i>Lịch sử thuê nhà
+                                                                        <a onClick={handleHistoryRental}
+                                                                           className={activeButton === "history" ? 'active' : ''}>
+                                                                            <i className="flaticon-house"></i>Lịch sử thuê
+                                                                            nhà
                                                                         </a>
                                                                     </li>
 

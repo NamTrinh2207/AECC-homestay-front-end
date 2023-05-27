@@ -7,11 +7,14 @@ import {registerUser} from "../../redux/apiRequest";
 import {Formik, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import Toast from "../toast/Toast";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 function Register(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const initialValues = {
         username: "",
         password: "",
@@ -33,6 +36,17 @@ function Register(props) {
             email: values.email,
             roles: [values.roles]
         };
+        MySwal.fire({
+            title: 'Đang đăng ký tài khoản',
+            html: 'Vui lòng chờ trong giây lát...',
+            icon: 'info',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            didOpen: () => {
+                MySwal.showLoading();
+            }
+        })
         registerUser(newUser, dispatch, navigate);
     };
     return (
@@ -79,7 +93,7 @@ function Register(props) {
                                             <div className="row px-3">
                                                 <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu</h6>
                                                 </label>
-                                                <input {...formik.getFieldProps("password")} type="text"/>
+                                                <input {...formik.getFieldProps("password")} type="password"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"password"}></ErrorMessage></span>
                                             </div>
