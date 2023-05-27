@@ -1,8 +1,11 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import TruncatedLink from "./truncate/TruncateLink";
+import TruncatedText from "./truncate/TruncateText";
 
 function SearchResult(props) {
     const {searchResult} = props;
+    console.log(searchResult)
     const getStatusColor = (status) => {
         switch (status) {
             case 1:
@@ -36,42 +39,40 @@ function SearchResult(props) {
                         <h1>Kết quả tìm kiếm</h1>
                     </div>
                     <div className="row wow fadeInUp delay-02s">
-                        {searchResult.map(search => (
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
+                        {searchResult.map(home => (
+                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
+                                 data-category="3, 2">
                                 <div className="property-box-7">
-                                    <div>
-                                        <Link className="property-img" to={`/viewHome/${search[0]}`}>
-                                            <div style={{backgroundColor: getStatusColor(search[6])}}
-                                                 className="tag-2">{getStatusLabel(search[6])}</div>
-                                            <div className="price-box"><span>{search[5]} VNĐ</span>/ngày</div>
-                                            <img height={300} src={search[9]} alt="property-box-7"/>
+                                    <div className="property-thumbnail">
+                                        <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                            <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                 className="tag-2">{getStatusLabel(home.status)}</div>
+                                            <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
+                                            <img height={250} src={home.image} alt="property-box-7"/>
                                         </Link>
                                     </div>
                                     <div className="detail">
                                         <h1 className="title">
-                                            <Link style={{textDecoration: "none"}}
-                                                  to={`/viewHome/${search[0]}`}>{search[4]}</Link>
+                                            <TruncatedLink url={`/viewHome/${home.id}`} text={home.homeName} maxLength={28}></TruncatedLink>
                                         </h1>
                                         <div className="location">
-                                            <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                            {search[1]}
+                                            <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                         </div>
                                     </div>
-
                                     <ul className="facilities-list clearfix">
                                         <li>
-                                            <span><i className="fa fa-home"></i></span>{search[11]}
+                                            <span><i className="fa fa-home"></i></span>{home.homeType}
                                         </li>
                                         <li>
-                                            <span><i className="fa fa-bed"></i></span> {search[3]}
+                                            <span><i className="fa fa-bed"></i></span> {home.bedroom}
                                         </li>
                                         <li>
-                                            <span><i className="fa fa-bath"></i></span> {search[2]}
+                                            <span><i className="fa fa-bath"></i></span> {home.bathroom}
                                         </li>
                                     </ul>
                                     <div className="footer clearfix">
                                         <div className="pull-left days">
-                                            <p><i className="fa fa-user"></i>{search[10]}</p>
+                                            <p><i className="fa fa-user"></i>{home.username}</p>
                                         </div>
                                         <ul className="pull-right">
                                             <li><a href="#"><i
