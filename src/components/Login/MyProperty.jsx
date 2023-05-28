@@ -171,7 +171,7 @@ function MyProperty(props) {
                                                 {home.address} </p>
                                         </td>
                                         <td className="date">
-                                            7.02.2020
+                                            {/*7.02.2020*/}
                                         </td>
                                         <td className="action">
                                             <ul>
