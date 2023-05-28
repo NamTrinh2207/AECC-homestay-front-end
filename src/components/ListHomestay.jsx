@@ -136,7 +136,7 @@ function ListHomestay(props) {
                                                 <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                             </div>
                                         </div>
-                                        <ul className="facilities-list clearfix">
+                                        <ul style={{backgroundColor:'#FFFFFF'}}  className="facilities-list clearfix">
                                             <li>
                                                 <span><i className="fa fa-home"></i></span>{home.homeType.name}
                                             </li>

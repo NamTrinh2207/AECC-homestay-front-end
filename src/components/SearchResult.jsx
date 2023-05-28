@@ -39,15 +39,17 @@ function SearchResult(props) {
                     </div>
                     <div className="row wow fadeInUp delay-02s">
                         {searchResult.map(home => (
-                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                 data-category="3, 2">
+                            <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
                                 <div className="property-box-7">
                                     <div className="property-thumbnail">
                                         <Link className="property-img" to={`/viewHome/${home.id}`}>
-                                            <div style={{backgroundColor: getStatusColor(home.status)}}
-                                                 className="tag-2">{getStatusLabel(home.status)}</div>
-                                            <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
-                                            <img height={250} src={home.image} alt="property-box-7"/>
+                                            <div style={{ backgroundColor: getStatusColor(home.status) }} className="tag-2">
+                                                {getStatusLabel(home.status)}
+                                            </div>
+                                            <div className="price-box">
+                                                <span>{home.priceByDay} VNĐ</span>/ngày
+                                            </div>
+                                            <img height={250} src={home.image} alt="property-box-7" />
                                         </Link>
                                     </div>
                                     <div className="detail">
@@ -58,7 +60,7 @@ function SearchResult(props) {
                                             <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                         </div>
                                     </div>
-                                    <ul className="facilities-list clearfix">
+                                    <ul style={{backgroundColor:'#FFFFFF'}} className="facilities-list clearfix">
                                         <li>
                                             <span><i className="fa fa-home"></i></span>{home.homeType}
                                         </li>
@@ -70,19 +72,28 @@ function SearchResult(props) {
                                         </li>
                                     </ul>
                                     <div className="footer clearfix">
+                                        {home.checkin && home.checkout ? (
+                                            <div className="check-in-out">
+                                            <p>Ngày thuê: {home.checkin}</p>
+                                            <p>Ngày trả phòng: {home.checkout}</p>
+                                        </div>) : (
+                                            <div className="check-in-out">
+                                                <p>Ngày thuê: ... </p>
+                                                <p>Ngày trả phòng: ...</p>
+                                            </div>
+                                        )}
                                         <div className="pull-left days">
                                             <p><i className="fa fa-user"></i>{home.username}</p>
                                         </div>
                                         <ul className="pull-right">
-                                            <li><a href="#"><i
-                                                className="flaticon-heart-shape-outline"></i></a></li>
-                                            <li><a href="#"><i className="flaticon-calendar"></i></a>
-                                            </li>
+                                            <li><a href="#"><i className="flaticon-heart-shape-outline"></i></a></li>
+                                            <li><a href="#"><i className="flaticon-calendar"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         ))}
+
                     </div>
                 </div>
             </div>
