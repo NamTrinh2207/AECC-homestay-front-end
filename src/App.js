@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Outlet, Route, Routes} from "react-router-dom";
 import HomePage from "./components/HomePage";
 import CreateNewHotel from "./components/NewHotel";
 import ComingSoon from "./components/ComingSoon";
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
 import React from "react";
+import Page404 from "./components/404/Page404";
 
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
                 <Route path={'/user'} element={<UserProfile/>}></Route>
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/recent'} element={<Recent/>}></Route>
+                <Route path={"*"} element={<Page404/>}></Route>
             </Routes>
+            <Outlet/>
         </BrowserRouter>
     )
 }
