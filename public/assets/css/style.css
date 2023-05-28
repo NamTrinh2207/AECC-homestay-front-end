@@ -14662,3 +14662,14 @@ body.off-canvas-sidebar-open {
 .numberOfRent {
     padding-left: 30px;
 }
+
+.disable-button {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/*.rental {*/
+/*    background-color: #0b0b0b;*/
+/*    background-image: url(../css/images/rental.png);*/
+/*    height: 100%;*/
+/*}*/
