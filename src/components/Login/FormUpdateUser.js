@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from "axios";
 import {ErrorMessage, Formik} from "formik";
-import {toast} from "react-toastify";
 import Toast from "../toast/Toast";
+import Swal from 'sweetalert2';
 
 function FormUpdateUser(props) {
     const user = props.user;
@@ -14,18 +14,28 @@ function FormUpdateUser(props) {
         avatar: user.avatar ||  "",
         email: user.email || "",
     };
-
     return (
         <Formik initialValues={initialValue}
                 onSubmit={(values) => {
                     values.avatar = imgUrl;
-                    axios.put(`http://localhost:8080/${user.id}`, values)
+                    axios
+                        .put(`http://localhost:8080/${user.id}`, values)
                         .then(() => {
-                            toast.success("Sửa thông tin thành công")
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sửa thông tin thành công',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
                         })
-                        .catch(function (err) {
-                            toast.error(err)
-                        })
+                        .catch((err) => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Đã xảy ra sự cố',
+                                text: `${err}`,
+                            });
+                        });
                 }}
                 enableReinitialize={true}>
             {formik => (
