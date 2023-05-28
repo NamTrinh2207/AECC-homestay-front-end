@@ -147,12 +147,6 @@ function HotelDetails(props) {
                         <div className="col-lg-8 col-md-12 slider">
                             {/* Search area start */}
 
-                            {/* Property description start */}
-                            <div className="property-description mb-60">
-                                <h3 className="heading-3">Mô tả</h3>
-                                <p>{home?.description}</p>
-                            </div>
-                            {/* Property details start */}
                             <div className="property-details mb-45">
                                 <h3 className="heading-3">Thông tin chi tiết</h3>
                                 <div className="row">
@@ -298,7 +292,12 @@ function HotelDetails(props) {
                                     </div>
                                 </div>
                             </div>
-
+                            {/* Property description start */}
+                            <div className="property-description mb-60">
+                                <h3 className="heading-3">Mô tả</h3>
+                                <p>{home?.description}</p>
+                            </div>
+                            {/* Property details start */}
                             {/* Related properties start */}
 
                         </div>
