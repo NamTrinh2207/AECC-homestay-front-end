@@ -71,7 +71,7 @@ function BookingCard(props) {
             </div>
             {transferDate === 0 ?
                 <div className='reserve-date-button-holder'>
-                    <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Đặt trước</button>
+                    <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Chọn ngày</button>
                 </div> :
                 <div className='reserve-date-button-holder'>
                     <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Chọn lại ngày</button>
@@ -120,7 +120,7 @@ function BookingCard(props) {
                             <input type="hidden" name={"users.id"}/>
                             <input type="hidden" name={"homes.id"}/>
                             {price === 0 ? "" :
-                                <button className={"checkout-btn"}>Thanh toán</button>
+                                <button className={"checkout-btn"}>Xác nhận</button>
                             }
                         </Form>
                     </>
