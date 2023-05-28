@@ -42,7 +42,7 @@ export default function CreateNewHotel(props) {
             if (!isFileValid(file)) {
                 toast.error('Chỉ được chọn file định dạng ảnh JPG/JPEG/PNG.');
             } else {
-                const storageRef = ref(storage, `test/${file.name}`);
+                const storageRef = ref(storage, `files/${file.name}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
                 uploadTask.on(
                     'state_changed',
