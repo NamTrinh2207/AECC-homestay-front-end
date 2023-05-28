@@ -14610,3 +14610,51 @@ body.off-canvas-sidebar-open {
     height: 32px;
     margin-right: 10px;
 }
+
+
+.image-table {
+    width: 100%;
+    border: 2px dashed #d0d0d0;
+    display: table;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.image-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-cell {
+    flex-basis: 25%;
+    padding: 15px;
+}
+
+.image-wrapper {
+    position: relative;
+}
+
+.image-wrapper img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.btn-remove {
+    position: absolute;
+    top: 5px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.legend {
+    position: absolute;
+    top: -19px;
+    left: 60px;
+    z-index: 99999999999;
+    background: #fff9f7;
+}

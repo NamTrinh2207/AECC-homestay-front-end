@@ -5,9 +5,7 @@ import {useParams} from "react-router-dom";
 import CalendarFunc from "./Calendar";
 
 function BookingCard(props) {
-    const data = localStorage.getItem("user");
-
-    // Đang lấy user ID
+    const user = JSON.parse(localStorage.getItem("user"));
     const [buttonOpen, setButtonOpen] = useState(false);
     const [buttonClose, setButtonClose] = useState(true);
 
@@ -17,7 +15,7 @@ function BookingCard(props) {
     const [transferDate, setTransferDate] = useState('')
 
 
-    console.log("home id",props.homeId);
+    console.log("home id", props.homeId);
 
 
     const buttonOpenHandler = (event) => {
@@ -35,7 +33,17 @@ function BookingCard(props) {
     const handleDiffDate = (newData) => {
         setTransferDate(newData);
     }
+
+    // lấy id người dùng và id của nhà, giá tiền của nhà.
     var price = transferDate * (props.price);
+
+    if (user != null) {
+        var userId = user.id;
+        console.log("user", userId);
+    }
+
+    var homeId = props.homeId;
+
     return (
         <div>
             <div className='side-box-card absolute'>
