@@ -202,16 +202,21 @@
 
 .checkout-btn {
     background-color: #ff385c;
-    height: 3.8rem;
-    width: 12rem;
+    height: 3.5rem;
+    margin-left: 13.5rem;
+    width: 11rem;
     transition: 400ms;
     font-weight: 600;
     font-size: 18px;
     color: white;
-    left: 19rem !important;
-    margin-top: 1rem;
+    border-radius: 0.75rem;
+    border:none;
     position: absolute;
+    top: 16rem;
+}
 
+.checkout-btn:hover {
+    transform: scale(1.1);
 }
 
 .checkout-btn-after {
