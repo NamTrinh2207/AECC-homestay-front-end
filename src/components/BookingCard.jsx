@@ -1,21 +1,23 @@
 import React, {useState} from 'react';
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import CalendarFunc from "./Calendar";
+import axios from "axios";
+import Swal from "sweetalert2";
+import {Form, Formik} from "formik";
 
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
     const [buttonOpen, setButtonOpen] = useState(false);
     const [buttonClose, setButtonClose] = useState(true);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     const params = useParams();
     const {id} = params;
 
     const [transferDate, setTransferDate] = useState('')
-
-
-    console.log("home id", props.homeId);
 
 
     const buttonOpenHandler = (event) => {
@@ -30,19 +32,24 @@ function BookingCard(props) {
         setButtonOpen(false)
 
     }
-    const handleDiffDate = (newData) => {
+    const handleDiffDate = (newData, startDate, endDate) => {
         setTransferDate(newData);
+        setStartDate(startDate);
+        setEndDate(endDate);
     }
 
     // lấy id người dùng và id của nhà, giá tiền của nhà.
-    var price = transferDate * (props.price);
-
+    const price = transferDate * (props.price);
     if (user != null) {
         var userId = user.id;
-        console.log("user", userId);
     }
-
     var homeId = props.homeId;
+
+    console.log("check in ", startDate);
+    console.log("check out ", endDate);
+    console.log("total price ", price);
+    console.log("home id", homeId);
+    console.log("user id", userId);
 
     return (
         <div>
@@ -62,10 +69,14 @@ function BookingCard(props) {
                     <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                 </div>
             </div>
+            {transferDate === 0 ?
+                <div className='reserve-date-button-holder'>
+                    <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Đặt trước</button>
+                </div> :
+                <div className='reserve-date-button-holder'>
+                    <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Chọn lại ngày</button>
+                </div>}
 
-            <div className='reserve-date-button-holder'>
-                <button className='reserve-date-button rounded-xl' onClick={buttonOpenHandler}>Đặt trước</button>
-            </div>
 
             <div className="s">
                 <CalendarFunc placesId={id}
@@ -81,8 +92,53 @@ function BookingCard(props) {
             <div className='price-total-text absolute font-semibold text-xl uppercase'>
                 Tổng phải thanh toán: {price} VNĐ
             </div>
+            <Formik
+                initialValues={{
+                    checkin: startDate,
+                    checkout: endDate,
+                    totalPrice: price,
+                    isPaid: false,
+                    users: {
+                        id: userId
+                    },
+                    homes: {
+                        id: homeId
+                    }
+                }}
+                onSubmit={(values) => {
+                    newBooking(values)
+                }}
+                enableReinitialize={true}
+            >
+                {(formik) => (
+                    <>
+                        <Form onSubmit={formik.handleSubmit}>
+                            <input type="hidden" name={"checkin"}/>
+                            <input type="hidden" name={"checkout"}/>
+                            <input type="hidden" name={"totalPrice"}/>
+                            <input type="hidden" name={"isPaid"}/>
+                            <input type="hidden" name={"users.id"}/>
+                            <input type="hidden" name={"homes.id"}/>
+                            {price === 0 ? "" :
+                                <button className={"checkout-btn"}>Thanh toán</button>
+                            }
+                        </Form>
+                    </>
+                )}
+            </Formik>
         </div>
-    );
+    )
+        ;
+
+    function newBooking(data) {
+        axios.post('http://localhost:8080/bookings/create', data)
+            .then(() => {
+                alert("ok")
+            })
+            .catch((error) => {
+                console.log(error.message)
+            });
+    }
 }
 
 export default BookingCard;

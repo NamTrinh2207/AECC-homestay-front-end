@@ -25,8 +25,9 @@ const CalendarFunc = (props) => {
 
 
     var daysCheck = differenceInDays(endDate, startDate);
+
     useEffect(()=>{
-        props.onDataChanged(daysCheck);
+        props.onDataChanged(daysCheck, startDate, endDate);
     })
 
     return (
@@ -42,11 +43,11 @@ const CalendarFunc = (props) => {
             {daysCheck === 0 ? <p className={daysCheck === 0 ? "days-0" : "days-updated"}></p> :
                 <p className='days-updated'>Tổng số ngày đã chọn là {daysCheck} ngày</p>}
 
-            {daysCheck === 0 ? "" :
-                <Link to={"/coming-soon"} state={{data: data}}>
-                    <button className={props.buttonCloseState === false ? "checkout-btn-after" : "checkout-btn"}>Thanh toán
-                    </button>
-                </Link>}
+            {/*{daysCheck === 0 ? "" :*/}
+            {/*    <Link to={"/coming-soon"} state={{data: data}}>*/}
+            {/*        <button className={props.buttonCloseState === false ? "checkout-btn-after" : "checkout-btn"}>Thanh toán*/}
+            {/*        </button>*/}
+            {/*    </Link>}*/}
         </div>)
 }
 

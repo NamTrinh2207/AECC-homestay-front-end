@@ -14658,3 +14658,7 @@ body.off-canvas-sidebar-open {
     z-index: 99999999999;
     background: #fff9f7;
 }
+
+.numberOfRent {
+    padding-left: 30px;
+}
