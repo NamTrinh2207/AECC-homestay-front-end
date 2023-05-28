@@ -5,7 +5,6 @@ import TruncatedText from "./truncate/TruncateText";
 
 function SearchResult(props) {
     const {searchResult} = props;
-    console.log(searchResult)
     const getStatusColor = (status) => {
         switch (status) {
             case 1:

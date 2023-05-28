@@ -133,12 +133,23 @@ function BookingCard(props) {
     function newBooking(data) {
         axios.post('http://localhost:8080/bookings/create', data)
             .then(() => {
-                alert("ok")
+                Swal.fire({
+                    title: 'Thành công',
+                    text: 'Thanh toán thành công !',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
             })
             .catch((error) => {
-                console.log(error.message)
+                Swal.fire({
+                    title: 'Đã xảy ra lỗi',
+                    text: error.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
     }
+
 }
 
 export default BookingCard;
