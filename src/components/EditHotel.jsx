@@ -12,7 +12,6 @@ import MainHeader from "./header/MainHeader";
 
 export default function EditHotel() {
     const { id } = useParams();
-    console.log(id)
     // const nav = useNavigate();
     const [imgUrls, setImgUrls] = useState([]);
     const [progressPercent, setProgressPercent] = useState([]);
@@ -48,7 +47,6 @@ export default function EditHotel() {
         };
         getHome();
     }, []);
-    console.log(home)
 
     useEffect(() => {
         // Ẩn thanh tiến trình sau khi tải xong ảnh
@@ -387,7 +385,6 @@ export default function EditHotel() {
 
 
     function saveHome(data) {
-        console.log(data)
         let imgArr = [];
         for (let i = 0; i < imgUrls.length; i++) {
             imgArr[i] = imgUrls[i];

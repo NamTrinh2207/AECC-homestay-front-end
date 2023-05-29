@@ -45,13 +45,6 @@ function BookingCard(props) {
     }
     var homeId = props.homeId;
 
-    console.log("check in ", startDate);
-    console.log("check out ", endDate);
-    console.log("total price ", price);
-    console.log("home id", homeId);
-    console.log("user id", userId);
-
-    if (homeStatus === 1) {
         return (
             <div>
                 <div className='side-box-card absolute'>
@@ -70,7 +63,7 @@ function BookingCard(props) {
                         <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                     </div>
                 </div>
-                {transferDate === 0 ?
+                {(transferDate === 0) ?
                     <div className='reserve-date-button-holder'>
                         <button className={'reserve-date-button rounded-xl'}
                                 onClick={buttonOpenHandler}>Chọn ngày
@@ -133,36 +126,12 @@ function BookingCard(props) {
                 </Formik>
             </div>
         );
-    } else return (
-        <div>
-            <div className='side-box-card absolute'>
-                {/*<div>*/}
-                {/*    <span style={*/}
-                {/*        {fontSize: `20px`}*/}
-                {/*    }>Giá phòng: {props.price} VNĐ</span>*/}
-                {/*    <span*/}
-                {/*        className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>*/}
-                {/*</div>*/}
 
-                {/*<div className='rev-card absolute'>*/}
-                {/*    <span style={*/}
-                {/*        {fontSize: '20px'}*/}
-                {/*    }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (*/}
-                {/*    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}*/}
-                {/*</div>*/}
-
-                <div className={"rental"}>
-                    <h1>Nhà này đã có người thuê</h1>
-                </div>
-            </div>
-        </div>
-    )
 
     function newBooking(data) {
-        axios.post('http://localhost:8080/user/bookings/create', data)
+        axios.post('http://localhost:8080/bookings/create', data)
             .then(() => {
                 alert("ok")
-                console.log("homeid", data.homes.id)
             })
             .catch((error) => {
                 console.log(error.message)
