@@ -132,10 +132,11 @@ export function Income(props) {
         return nameMatch && monthMatch;
     });
 
-    const filteredTotalIncome = filteredIncome.reduce(
-        (total, item) => total + item.income,
-        0
-    );
+    let totalIncome = 0;
+    income.forEach((item) => {
+        totalIncome += item.income;
+    });
+
     return (
         <div className="container">
             <div className="chart-container">
@@ -180,7 +181,7 @@ export function Income(props) {
                     <th style={{justifyContent: 'center'}}>
                         <input
                             placeholder="Lọc theo tháng"
-                            style={{width: 130, height: 30, textAlign: 'center',marginLeft:40}}
+                            style={{width: 130, height: 30, textAlign: 'center', marginLeft: 40}}
                             type="text"
                             onChange={handleMonthFilter}
                         />
@@ -203,7 +204,7 @@ export function Income(props) {
                     <td style={{padding: '8px', textAlign: 'left', fontWeight: 'bold'}}>Tổng tất cả thu nhập:</td>
                     <td style={{padding: '8px', textAlign: 'center'}}></td>
                     <td style={{padding: '8px', textAlign: 'center', fontWeight: 'bold'}}>
-                        {filteredTotalIncome >= 1000000 ? filteredTotalIncome.toLocaleString() : filteredTotalIncome} VNĐ
+                        {totalIncome >= 1000000 ? totalIncome.toLocaleString() : totalIncome} VNĐ
                     </td>
                 </tr>
                 </tbody>
