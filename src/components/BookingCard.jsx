@@ -159,7 +159,7 @@ function BookingCard(props) {
     )
 
     function newBooking(data) {
-        axios.post('http://localhost:8080/user/bookings/create', data)
+        axios.post('http://localhost:8080/bookings/create', data)
             .then(() => {
                 Swal.fire({
                     title: 'Thành công',

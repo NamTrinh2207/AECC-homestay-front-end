@@ -171,13 +171,13 @@ function MyProperty(props) {
                                         </td>
                                         <td className="title-container">
                                             <h5><a href="#">{home.name}</a></h5>
-                                            <h6><span>{home.priceByDay}</span> VNĐ/Ngày</h6>
+                                            <h6><span>{home.priceByDay}</span> VNĐ/ngày</h6>
                                             <p><i
                                                 className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
                                                 {home.address} </p>
                                         </td>
                                         <td className="date">
-                                            7.02.2020
+                                            {/*7.02.2020*/}
                                         </td>
                                         <td className="action">
                                             <ul>
@@ -244,7 +244,7 @@ function MyProperty(props) {
                             disabled={currentPage === 0}
                     >
                         <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
-                    </button>
+                    </button>&nbsp;
                     {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                     {renderPagination()}
                     <button style={{border: "none", cursor: "pointer"}}
