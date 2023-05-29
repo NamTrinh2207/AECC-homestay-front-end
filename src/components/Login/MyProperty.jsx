@@ -117,8 +117,14 @@ function MyProperty(props) {
                     'success',
                 );
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    title: 'Đã xảy ra sự cố',
+                    text: "Không thể xóa vì đang có người thuê !",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
+
         }
     };
 
