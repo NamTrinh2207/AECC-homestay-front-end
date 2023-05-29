@@ -12,7 +12,7 @@ function Footer(props) {
                                 <ul className="contact-info">
                                     <li>
                                         <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                        23 lô tt01 KĐT MonCity, Nỹ Đình, Nam Từ Liêm, Hà Nội
+                                        23 lô tt01 KĐT MonCity, Mỹ Đình, Nam Từ Liêm, Hà Nội
                                     </li>
                                     <li>
                                         <i className="fa fa-envelope"></i><a
