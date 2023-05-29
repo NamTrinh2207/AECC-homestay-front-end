@@ -3,17 +3,31 @@ import axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import TruncatedLink from "./truncate/TruncateLink";
 import TruncatedText from "./truncate/TruncateText";
+import MainHeader from "./header/MainHeader";
+import TopHeader from "./header/TopHeader";
+import Footer from "./footer/Footer";
+import Search from "./Search";
+import SearchResult from "./SearchResult";
+import ListHomestay from "./ListHomestay";
 
-function ListHomestay(props) {
-    const [homes, setHomes] = useState([]);
+function ListHomeByHomeType(props) {
+    const [home, setHome] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages + 1;
+    const { id } = useParams();
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         // Thực hiện các hành động khác khi chuyển trang
         // ...
+    };
+    const [homes, setHomes] = useState([]);
+    const [showSearchResult, setShowSearchResult] = useState(false);
+
+    const handleHomesReceived = (homes) => {
+        setHomes(homes);
+        setShowSearchResult(true)
     };
 
     const renderPagination = () => {
@@ -55,21 +69,19 @@ function ListHomestay(props) {
 
         return pageNumbers;
     };
-
-
     useEffect(() => {
-        const fetchData = async () => {
+        const listHomeByCategory = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
+                const response=await axios.get(`http://localhost:8080/homes/${id}/home-type?page=${currentPage}`);
                 const {totalPages} = response.data;
-                setHomes(response.data.content);
+                setHome(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
-            } catch (error) {
-                console.log(error);
+                console.log("typy", homes)
+            }catch (errr){
+                console.log(errr)
             }
-        };
-        fetchData();
+        }
+        listHomeByCategory();
     }, [check, currentPage]);
 
     const goToPreviousPage = () => {
@@ -109,51 +121,72 @@ function ListHomestay(props) {
     };
     return (
         <div>
-            {homes.length > 0 ? (
+            {home.length > 0 ? (
+                <>
+                    <TopHeader/>
+                    {/* Top header end */}
+
+                    {/* main header start */}
+                    <MainHeader/>
+                    <div className="banner banner-bg" id="particles-banner-wrapper">
+                        <div id="particles-banner-2"></div>
+                        <div className="search-area sa-show-2" id="search-area-4">
+                            <Search onHomesReceived={handleHomesReceived}/>
+                        </div>
+                        {/* Search area end */}
+                    </div>
+                    {/*List homestay*/}
+                    <div>
+                        {showSearchResult ? (
+                            <SearchResult searchResult={homes} />
+                        ) : (
+                            <></>
+                        )}
+                    </div>
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
-                            <h1>Danh sách homestay</h1>
+                                    <h1>Danh sách {home[0].homeType.name}</h1>
                         </div>
                         <div className="row wow fadeInUp delay-04s">
-                            {homes.map(home => (
+                            {home.map(home1 => (
                                 <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
                                      data-category="3, 2">
                                     <div className="property-box-7">
                                         <div className="property-thumbnail">
-                                            <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                            <Link className="property-img" to={`/viewHome/${home1.id}`}>
                                                 <div style={{backgroundColor: getStatusColor(home.status)}}
-                                                     className="tag-2">{getStatusLabel(home.status)}</div>
-                                                <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
-                                                <img height={250} src={home.image[0]} alt="property-box-7"/>
+                                                     className="tag-2">{getStatusLabel(home1.status)}</div>
+                                                <div className="price-box"><span>{home1.priceByDay} VNĐ</span>/ngày</div>
+                                                <img height={250} src={home1.image[0]} alt="property-box-7"/>
                                             </Link>
                                         </div>
                                         <div className="detail">
                                             <h1 className="title">
-                                                <TruncatedLink url={`/viewHome/${home.id}`} text={home.name} maxLength={28}></TruncatedLink>
+                                                <TruncatedLink url={`/viewHome/${home1.id}`} text={home1.name} maxLength={28}></TruncatedLink>
                                             </h1>
                                             <div className="location">
-                                                <TruncatedText text={home.address} maxLength={35}></TruncatedText>
+                                                <TruncatedText text={home1.address} maxLength={35}></TruncatedText>
                                             </div>
                                         </div>
                                         <ul className="facilities-list clearfix">
                                             <li>
-                                                <span><i className="fa fa-home"></i></span>{home.homeType.name}
+                                                <span><i className="fa fa-home"></i></span>{home1.homeType.name}
                                             </li>
                                             <li>
-                                                <span><i className="fa fa-bed"></i></span> {home.bedroom}
+                                                <span><i className="fa fa-bed"></i></span> {home1.bedroom}
                                             </li>
                                             <li>
-                                                <span><i className="fa fa-bath"></i></span> {home.bathroom}
+                                                <span><i className="fa fa-bath"></i></span> {home1.bathroom}
                                             </li>
                                             <li className="float-right">
-                                                <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
+                                                <span>Đánh giá</span>{[...Array(home1.rating)].map((_, index) => (
                                                 <i className="fa fa-star" style={{color: "orange"}}></i>))}
                                             </li>
                                         </ul>
                                         <div className="footer clearfix">
                                             <div className="pull-left days">
-                                                <p><i className="fa fa-user"></i>{home.users.name}</p>
+                                                <p><i className="fa fa-user"></i>{home1.users.name}</p>
                                             </div>
                                             <ul className="pull-right">
                                                 <li><a href="#"><i
@@ -187,6 +220,8 @@ function ListHomestay(props) {
 
                     </div>
                 </div>
+                    <Footer/>
+                </>
             ) : (
                 <div className="featured-properties content-area-19">
                     <div className="container">
@@ -197,7 +232,9 @@ function ListHomestay(props) {
                 </div>
             )}
         </div>
+            
+                
     );
 }
 
-export default ListHomestay;
+export default ListHomeByHomeType;

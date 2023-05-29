@@ -101,7 +101,7 @@ function MainHeader(props) {
                                                                     <ul className="dropdown-menu"
                                                                         aria-labelledby="navbarDropdownMenuLink">
                                                                         {categoryHome.map((category,index)=>(
-                                                                            <li><Link className="dropdown-item" to={`/category/${category.id}`}>{category.name}</Link></li>
+                                                                            <li><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
                                                                         ))}
 
                                                                     </ul>
