@@ -202,7 +202,7 @@ function UserProfile(props) {
                                                         <li>
                                                             <a onClick={handleShowListBookingByOwner}
                                                                className={activeButton === "listBookingByOwner" ? 'active' : ''}>
-                                                                <i className="flaticon-user"></i>Danh sách người thuê
+                                                                <i className="flaticon-user"></i>Danh sách khách hàng
                                                             </a>
                                                         </li>
                                                     </>
@@ -291,7 +291,7 @@ function UserProfile(props) {
                                                     ) : null}
                                                     {showListBookingByOwner ? (
                                                         <div>
-                                                            <h3 className="heading-3">Danh sách người thuê</h3>
+                                                            <h3 className="heading-3">Danh sách khách hàng</h3>
                                                             <ListBookingByOwner user={user}/>
                                                         </div>
                                                     ) : null}
