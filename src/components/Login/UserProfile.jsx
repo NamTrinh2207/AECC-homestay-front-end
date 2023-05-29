@@ -241,7 +241,7 @@ function UserProfile(props) {
                                                                     </li>
 
                                                                     <li>
-                                                                        <Link to={"/create"}>
+                                                                        <Link to={"/"}>
                                                                             <i className="flaticon-add"></i>Thuê nhà ngay
                                                                         </Link>
                                                                     </li>
