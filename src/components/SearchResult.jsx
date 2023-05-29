@@ -74,11 +74,11 @@ function SearchResult(props) {
                                     <div className="footer clearfix">
                                         {home.checkin && home.checkout ? (
                                             <div className="check-in-out">
-                                            <p>Ngày thuê: {home.checkin}</p>
+                                            <p>Ngày thuê phòng: {home.checkin}</p>
                                             <p>Ngày trả phòng: {home.checkout}</p>
                                         </div>) : (
                                             <div className="check-in-out">
-                                                <p>Ngày thuê: ... </p>
+                                                <p>Ngày thuê phòng: ... </p>
                                                 <p>Ngày trả phòng: ...</p>
                                             </div>
                                         )}

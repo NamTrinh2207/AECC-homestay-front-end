@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {useDropzone} from 'react-dropzone';
 import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
+import Swal from 'sweetalert2';
 
 export default function EditHotel() {
     const { id } = useParams();
@@ -335,7 +336,7 @@ export default function EditHotel() {
                                                                 <div className="col-lg-12">
                                                                     <div className="col-lg-12">
                                                                         {img.map(( index) => (
-                                                                            <img key={index} src={index} alt="uploaded file" height={200} />
+                                                                            <img key={index} src={index} alt="uploaded file" width={215} height={200} />
                                                                         ))}
                                                                     </div>
                                                                     <div id="myDropZone"
@@ -359,7 +360,7 @@ export default function EditHotel() {
                                                             </div>
 
                                                             <div className="col-lg-12">
-                                                                <button type={'submit'} className="btn btn-4">Cập Nhập
+                                                                <button type={'submit'} className="btn btn-4">Cập nhật
                                                                 </button>
                                                             </div>
 
@@ -398,9 +399,21 @@ export default function EditHotel() {
                 'Content-Type': 'application/json'
             }
         }).then(() => {
-            alert('Đã cập nhập.')
+            Swal.fire({
+                position:"center",
+                icon:"success",
+                title: "Thành công",
+                text: "Cập nhật thành công",
+                showConfirmButton: true,
+            })
         }).catch((err) => {
-            console.error(err)
+            Swal.fire({
+                position:"center",
+                icon:"error",
+                title: "Đã xảy ra sự cố",
+                text: err.message,
+                showConfirmButton: true,
+            })
         })
     }
 }
