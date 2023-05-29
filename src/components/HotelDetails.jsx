@@ -305,7 +305,7 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}/>
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id} homeStatus={home?.status}/>
                                 </div>
                                 {/* Recent posts start */}
                             </div>
