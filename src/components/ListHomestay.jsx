@@ -174,7 +174,7 @@ function ListHomestay(props) {
                                     disabled={currentPage === 0}
                             >
                                 <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
-                            </button>
+                            </button>&nbsp;
                             {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
                             {renderPagination()}
                             <button style={{border: "none", cursor: "pointer"}}
