@@ -181,9 +181,9 @@ function BookingCard(props) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            params: {
-                id: homeId
-            }
+            // params: {
+            //     id: homeId
+            // }
         })
             .then(() => {
                 console.log("change")
