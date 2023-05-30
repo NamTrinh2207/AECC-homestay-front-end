@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
@@ -197,7 +196,6 @@ export default function ListBookingByOwner(props) {
                 </button>
             </div>
         </div>
-
     );
 }
 
