@@ -2,83 +2,30 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
-import {Button} from "antd";
+import {Button, Pagination} from "antd";
 import Swal from 'sweetalert2';
 
 function MyProperty(props) {
     const userId = props.user;
     const [homes, setHomes] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [check, setCheck] = useState(false);
-    const visiblePages = totalPages + 1;
-    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    const [deletingHomeId, setDeletingHomeId] = useState(null);
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    const renderPagination = () => {
-        const pageNumbers = [];
-        const halfVisiblePages = Math.floor(visiblePages / 2);
-        let startPage = currentPage - halfVisiblePages;
-        if (startPage < 0) startPage = 0;
-        let endPage = startPage + visiblePages - 1;
-        if (endPage > totalPages) {
-            endPage = totalPages;
-            startPage = endPage - visiblePages + 1;
-            if (startPage < 0) startPage = 0;
-        }
-
-        for (let i = startPage; i < endPage; i++) {
-            const pageItemStyle = {
-                marginRight: '5px', // Khoảng cách giữa các số trang
-                display: 'inline-block', // Hiển thị trên cùng một dòng
-                cursor: 'pointer', // Con trỏ chuột thành dạng tay
-                fontWeight: currentPage === i ? 'bold' : 'normal', // Trang hiện tại được đậm
-            };
-            const pageLinkStyle = {
-                cursor: "pointer",
-                padding: '5px 10px', // Kích thước nút số trang
-                backgroundColor: currentPage === i ? '#ccc' : 'transparent', // Màu nền của trang hiện tại
-            };
-            pageNumbers.push(
-                <li key={i} style={pageItemStyle}>
-                    <button
-                        className="page-link"
-                        style={pageLinkStyle}
-                        onClick={() => handlePageChange(i)}
-                    >
-                        {i + 1}
-                    </button>
-                </li>
-            );
-        }
-
-        return pageNumbers;
-    };
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 6;
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/${userId.id}/homes?page=${currentPage}`);
-                const {totalPages} = response.data;
-                setHomes(response.data.content);
-                setTotalPages(totalPages);
-            } catch (error) {
-                toast.success(error);
-            }
-        };
-        fetchData();
-    }, [check, currentPage]);
+        axios
+            .get(`http://localhost:8080/${userId.id}/homes`)
+            .then((response) => {
+                setHomes(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
-    const goToPreviousPage = () => {
-        setCheck(!check);
-        setCurrentPage(currentPage - 1);
-    };
 
-    const goToNextPage = () => {
-        setCurrentPage(currentPage + 1);
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     const getStatusLabel = (status) => {
@@ -152,12 +99,18 @@ function MyProperty(props) {
         }
     };
 
+    const totalItems = homes.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalItems);
+    const paginatedIncome = homes.slice(startIndex, endIndex);
+
 
     return (
-        homes.length > 0 ? (
+        paginatedIncome.length > 0 ? (
             <div>
                 <div>
-                    {homes.map((home, index) => (
+                    {paginatedIncome.map((home, index) => (
                         <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
                                 <table className="manage-table" key={index}>
@@ -230,27 +183,17 @@ function MyProperty(props) {
                                     </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="pagination-container"
-                     style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <button style={{border: "none", cursor: "pointer"}}
-                            onClick={goToPreviousPage}
-                            disabled={currentPage === 0}
-                    >
-                        <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
-                    </button>&nbsp;
-                    {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
-                    {renderPagination()}
-                    <button style={{border: "none", cursor: "pointer"}}
-                            onClick={goToNextPage}
-                            disabled={currentPage === totalPages - 1}
-                    >
-                        <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
-                    </button>
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                    <Pagination
+                        current={currentPage}
+                        total={totalItems}
+                        pageSize={pageSize}
+                        onChange={handlePageChange}
+                    />
                 </div>
             </div>
 
