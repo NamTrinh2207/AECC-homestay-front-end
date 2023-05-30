@@ -22,7 +22,7 @@ const CalendarFunc = (props) => {
     useEffect(() => {
         const getBooking = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/bookings/home/${id}`);
+                const res = await axios.get(`http://localhost:8080/customer/bookings/home/${id}`);
                 setBooking(res.data);
                 setBookingCheckin(res.data.map(booking => booking.checkin)); // Lưu các giá trị checkin vào mảng checkinDate
                 setBookingCheckout(res.data.map(booking => booking.checkout)); // Lưu các giá trị checkin vào mảng checkinDate
