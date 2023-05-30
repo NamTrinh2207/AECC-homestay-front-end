@@ -7,10 +7,8 @@ import HotelDetails from "./components/HotelDetails";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import UserProfile from "./components/Login/UserProfile";
-import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
 import EditHotel from "./components/EditHotel";
-import Recent from "./components/recent";
 import React from "react";
 import Page404 from "./components/404/Page404";
 import ListHomeByHomeType from "./components/ListHomeByHomeType";
@@ -25,7 +23,6 @@ function App() {
                 <Route path={'/coming-soon'} element={<ComingSoon/>}></Route>
                 <Route path={'/viewHome/:id'} element={<HotelDetails/>}></Route>
                 <Route path={'/login'} element={<Login />}></Route>
-                <Route path={'/logout'} element={<Logout />}></Route>
                 <Route path={'/register'} element={<Register/>}></Route>
                 <Route path={'/user'} element={<UserProfile/>}></Route>
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
