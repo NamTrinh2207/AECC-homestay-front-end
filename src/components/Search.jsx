@@ -104,7 +104,7 @@ function Search(props) {
 
         return text.replace(/[áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]/g, function (matched) {
             return mapChars[matched];
-        }).replace(/[^a-zA-Z0-9 ]/g, ''); // Loại bỏ các kí tự đặc biệt
+        }).replace(/[^a-zA-Z0-9 ]/g, '');
     }
 
     const handleSearch = () => {
@@ -135,7 +135,7 @@ function Search(props) {
                 text: `Không tìm thấy ngôi nhà nào phù hợp với tiêu chí của bạn`,
                 icon: 'error',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 1500
             })
         }
     };
@@ -150,10 +150,11 @@ function Search(props) {
                             {/*nhap dia chi*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="">Địa chỉ:</label>
                                     <input
                                         type="text"
                                         className="selectpicker search-fields"
-                                        value={address} placeholder={"Địa chỉ..."}
+                                        value={address} placeholder={" Nhập địa chỉ..."}
                                         onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
@@ -162,9 +163,10 @@ function Search(props) {
                             {/*so phong ngu*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="">Phòng ngủ:</label>
                                     <select className="selectpicker search-fields"
                                             value={bedrooms} onChange={(e) => setBedrooms(e.target.value)}>
-                                        <option value={""}>Số phòng ngủ</option>
+                                        <option value={""}>Chọn số phòng ngủ</option>
                                         <option value={"1"}>1 phòng ngủ</option>
                                         <option value={"2"}>2 phòng ngủ</option>
                                         <option value={"3"}>3 phòng ngủ</option>
@@ -182,9 +184,10 @@ function Search(props) {
                             {/*so phong tam*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="">Phòng tắm:</label>
                                     <select className="selectpicker search-fields" value={bathrooms}
                                             onChange={(e) => setBathrooms(e.target.value)}>
-                                        <option value={""}>Số phòng tắm</option>
+                                        <option value={""}>Chọn số phòng tắm</option>
                                         <option value={"1"}>1 phòng tắm</option>
                                         <option value={"2"}>2 phòng tắm</option>
                                         <option value={"3"}>3 phòng tắm</option>
@@ -195,13 +198,14 @@ function Search(props) {
                             {/*nut tim kiem*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <button className="btn btn-block btn-4" onClick={handleSearch}>Tìm kiếm</button>
+                                    <button style={{marginTop:32}} className="btn btn-block btn-4" onClick={handleSearch}>Tìm kiếm</button>
                                 </div>
                             </div>
 
                             {/*check in*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="checkInInput">Ngày đặt:</label>
                                     <input
                                         type="date"
                                         value={checkIn}
@@ -214,7 +218,9 @@ function Search(props) {
                             {/*checkout*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="checkoutInput">Ngày trả:</label>
                                     <input
+                                        id={"checkoutInput"}
                                         type="date" className="form-box search-fields form-control"
                                         value={checkOut}
                                         onChange={(e) => setCheckOut(e.target.value)}
@@ -225,16 +231,18 @@ function Search(props) {
                             {/*gia thap*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="">Giá thấp nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="Giá thấp nhất" value={minPrice}
+                                           placeholder="  Giá thấp nhất" value={minPrice}
                                            onChange={(e) => setMinPrice(e.target.value)}/>
                                 </div>
                             </div>
                             {/*gia sau*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
+                                    <label htmlFor="">Giá cao nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="Giá cao nhất" value={maxPrice}
+                                           placeholder="  Giá cao nhất" value={maxPrice}
                                            onChange={(e) => setMaxPrice(e.target.value)}/>
                                 </div>
                             </div>
