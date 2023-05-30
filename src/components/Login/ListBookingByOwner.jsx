@@ -101,7 +101,7 @@ export default function ListBookingByOwner(props) {
 
         if (confirmed) {
             try {
-                const response = await axios.delete(`http://localhost:8080/bookings/delete/${bookingId}`);
+                const response = await axios.delete(`http://localhost:8080/customer/bookings/delete/${bookingId}`);
                 await Swal.fire(
                     'Đã hủy!',
                     'Đơn đặt phòng đã được hủy thành công',
