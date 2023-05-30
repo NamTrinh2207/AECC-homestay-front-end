@@ -1,7 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function TopHeader(props) {
+    const handleLogout = () => {
+        Swal.fire({
+            title: 'Xác nhận đăng xuất',
+            text: 'Bạn có chắc chắn muốn đăng xuất?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đăng xuất',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('user');
+                window.location.href = '/';
+            }
+        });
+    };
     const data = localStorage.getItem("user");
     const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159";
 
@@ -44,8 +62,8 @@ function TopHeader(props) {
 
                                             </img></Link>
                                         <li>
-                                            <Link to={"/logout"} className="sign-in"><i
-                                                className="fa fa-sign-in"> </i> Đăng xuất</Link>
+                                            <a onClick={handleLogout} className="sign-in"><i
+                                                className="fa fa-sign-in"> </i> Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </>

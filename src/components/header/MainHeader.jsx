@@ -78,15 +78,6 @@ function MainHeader(props) {
                                                                     </Link>
                                                                 </li>
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle"
-                                                                          href="#"
-                                                                          id="change-font-size"
-                                                                          data-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false">
-                                                                        Danh sách homestay
-                                                                    </Link>
-                                                                </li>
-                                                                <li className="nav-item dropdown">
                                                                     <Link to={"/"} className="nav-link dropdown-toggle"
                                                                           href="#"
                                                                           id="change-font-size" role="button"

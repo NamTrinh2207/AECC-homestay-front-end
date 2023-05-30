@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import TruncatedLink from "./truncate/TruncateLink";
 import TruncatedText from "./truncate/TruncateText";
 import {Pagination} from "antd";
@@ -9,7 +9,6 @@ function ListHomestay(props) {
     const [homes, setHomes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 6;
-
     useEffect(() => {
         axios
             .get(`http://localhost:8080/homes?page=${currentPage}`)
@@ -85,7 +84,8 @@ function ListHomestay(props) {
                                                 <TruncatedLink url={`/viewHome/${home.id}`} text={home.name} maxLength={28}></TruncatedLink>
                                             </h1>
                                             <div className="location">
-                                                <TruncatedText text={home.address} maxLength={35}></TruncatedText>
+                                                <TruncatedText text={home.address} maxLength={35}>
+                                                </TruncatedText>
                                             </div>
                                         </div>
                                         <ul style={{backgroundColor:'#FFFFFF'}}  className="facilities-list clearfix">
