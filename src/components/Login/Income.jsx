@@ -64,7 +64,7 @@ export const options = {
 export function Income(props) {
     const [income, setIncome] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 7;
+    const pageSize = 8;
 
     useEffect(() => {
         axios
@@ -126,7 +126,7 @@ export function Income(props) {
         setMonthFilter(month);
     };
 
-    const filteredIncome = paginatedIncome.filter((item) => {
+    const filteredIncome = income.filter((item) => {
         const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
         const monthMatch = item.month.toLowerCase().includes(monthFilter.toLowerCase());
         return nameMatch && monthMatch;
@@ -142,7 +142,7 @@ export function Income(props) {
             <div className="chart-container">
                 <Line options={options} data={chartData}/>
             </div>
-            <div style={{color: 'red', fontSize: 13, textAlign: "center"}}>Chú thích: Bấm vào ô có màu tương ứng để xem
+            <div style={{color: 'red', fontSize: 13, textAlign: "center"}}>Chú thích: Chọn ô có màu tương ứng để xem
                 chi tiết biến động thu nhập của từng homestay
             </div>
             <table className="table mt-3" style={{borderCollapse: 'collapse', width: '100%'}}>
