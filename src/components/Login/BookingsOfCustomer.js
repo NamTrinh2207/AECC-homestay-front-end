@@ -67,7 +67,8 @@ function BookingsOfCustomer(props) {
 
         let updateBooking = {
             ...newBooking,
-            checkinB: true
+            checkinB: true,
+            checkoutB: false
         };
         if (checkIn === currentDate){
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
@@ -84,16 +85,47 @@ function BookingsOfCustomer(props) {
                 setCheck(!check);
             });
             console.log("check-in thafnh cong");
-            console.log(newBooking.checkinB, "nhu cut");
         } else {
             console.log("khong the check-in");
+        }
+    };
+    const checkoutButton = async (bookingId) => {
+        const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
+        const newBooking = response.data;
+        const checkIn = format(new Date(newBooking.checkin), 'dd/M/yyyy');
+        const currentDate = new Date().toLocaleDateString();
+        console.log("current date",currentDate);
+        console.log("check in",checkIn);
+
+        let updateBooking = {
+            ...newBooking,
+            checkinB: true,
+            checkoutB: true
+        };
+        if (checkIn === currentDate){
+            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                Swal.fire({
+                    title: 'Thành công',
+                    text: 'Check-out thành công !',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                setCheck(!check);
+            });
+            console.log("check-out thanh cong");
+        } else {
+            console.log("khong the check-out");
         }
     };
 
     useEffect(() =>{
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/customer/bookings/${userId.id}?page=${currentPage}`);
+                const response = await axios.get(`http://localhost:8080/customer/bookings/status/${userId.id}?page=${currentPage}&`);
                 const { totalPages } = response.data;
                 setBookings(response.data.content);
                 setTotalPages(totalPages);
@@ -142,10 +174,9 @@ function BookingsOfCustomer(props) {
                                             {booking.checkout}
                                         </td>
                                         <td>
-                                        <th><button onClick={() => checkinButton(booking.id)} disabled={booking.checkinB} className="">Check-in</button></th>
-                                        {/*<th><button onClick={() => checkinButton(booking.id)} className="">Check-in</button></th>*/}
-                                        {/*<th><button onClick={() => CheckinButton(booking.id)} className="delete">Hủy phòng</button></th>*/}
-                                        {/*<th><button onClick={() => CheckinButton(booking.id)} className="delete">Check-out</button></th>*/}
+                                        <th><button style={{width: "100px"}} onClick={() => checkinButton(booking.id)} disabled={booking.checkinB} className="btn-danger btn-secondary btn btn-blue">Check-in</button></th>
+                                        <th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} disabled={booking.checkoutB} className="btn-danger btn-secondary btn btn-blue">Check-out</button></th>
+                                        <th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>
                                         </td>
                                     </tr>
                                     </tbody>
