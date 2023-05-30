@@ -15,6 +15,8 @@ import RentaHistory from "./RentaHistory";
 import BookingsOfCustomer from "./BookingsOfCustomer";
 
 import Income from "./Income";
+import Swal from 'sweetalert2';
+
 
 
 function UserProfile(props) {
@@ -31,6 +33,24 @@ function UserProfile(props) {
     const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
     const [showListHistoryRental, setShowListHistoryRental] = useState(false);
     const [showIncome, setShowIncome] = useState(false);
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: 'Xác nhận đăng xuất',
+            text: 'Bạn có chắc chắn muốn đăng xuất?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đăng xuất',
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('user');
+                window.location.href = '/';
+            }
+        });
+    };
 
     // ROLE USER
     const handUpdateUserClick = () => {
@@ -75,6 +95,16 @@ function UserProfile(props) {
         setShowIncome(true)
         setActiveButton('income');
     }
+    const handleShowListBookingByOwner = () => {
+        setShowUpdateUserForm(false);
+        setShowChangePasswordForm(false);
+        setShowListBookingByOwner(true);
+        setShowListHomes(false)
+        setShowListHistoryRental(false)
+        setShowListBookings(false);
+        setShowIncome(false)
+        setActiveButton('listBookingByOwner');
+    }
 
     // ROLE CUSTOMER
     const handleHistoryRental = () => {
@@ -84,25 +114,19 @@ function UserProfile(props) {
         setShowListBookingByOwner(false);
         setShowListHistoryRental(true)
         setShowListBookings(false);
+        setShowIncome(false)
         setActiveButton('history');
     }
 
     const handleShowListBooking = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
-        setShowListBookings(true);
-        setShowListBookingByOwner(false);
-        setShowListHistoryRental(false)
-        setActiveButton1('listBookings');
-    }
-    const handleShowListBookingByOwner = () => {
-        setShowUpdateUserForm(false);
-        setShowChangePasswordForm(false);
+        setShowListHomes(false);
         setShowListBookingByOwner(true);
-        setShowListHomes(false)
         setShowListHistoryRental(false)
         setShowListBookings(false);
-        setActiveButton('listBookingByOwner');
+        setShowIncome(false)
+        setActiveButton1('listBookings');
     }
 
     useEffect(() => {
@@ -302,9 +326,9 @@ function UserProfile(props) {
                                             </a>
                                         </li>
                                         <li>
-                                            <Link to={"/logout"} className="border-bto2">
+                                            <a onClick={handleLogout} className="border-bto2">
                                                 <i className="flaticon-logout"></i>Đăng xuất
-                                            </Link>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>

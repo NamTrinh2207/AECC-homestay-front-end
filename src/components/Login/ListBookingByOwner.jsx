@@ -68,7 +68,7 @@ export default function ListBookingByOwner(props) {
         }
     };
     useEffect(() => {
-        setCurrentPage(0); // Reset trang về trang đầu tiên khi thay đổi bộ lọc
+        setCurrentPage(0);
     }, [isPaidFilter]);
 
     useEffect(() => {
@@ -82,7 +82,7 @@ export default function ListBookingByOwner(props) {
         if (timeDiff <= oneDayInMs) {
             await Swal.fire({
                 title: 'Không thể hủy !',
-                text: 'Không thể hủy đặt phòng vì thời gian checkin của khách còn ít hơn 1 ngày',
+                text: 'Không thể hủy trong trường hợp khách đang thuê hoặc thời gian checkin của khách còn ít hơn 1 ngày',
                 icon: 'warning'
             });
             return;
@@ -95,13 +95,13 @@ export default function ListBookingByOwner(props) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Hủy',
-            cancelButtonText: 'Thoát'
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
         }).then((result) => result.isConfirmed);
 
         if (confirmed) {
             try {
-                const response = await axios.delete(`http://localhost:8080/bookings/delete/${bookingId}`);
+                const response = await axios.delete(`http://localhost:8080/customer/bookings/delete/${bookingId}`);
                 await Swal.fire(
                     'Đã hủy!',
                     'Đơn đặt phòng đã được hủy thành công',
@@ -132,8 +132,8 @@ export default function ListBookingByOwner(props) {
     return (
         <div>
             <div>
-                <Button onClick={() => setIsPaidFilter(false)}>Khách hàng đặt phòng</Button>
-                <Button onClick={() => setIsPaidFilter(true)}>Xem lại lịch sử</Button>
+                <Button onClick={() => setIsPaidFilter(false)}>Chưa thanh toán</Button>
+                <Button onClick={() => setIsPaidFilter(true)}>Đã thanh toán</Button>
             </div>
             <div>
                 {booking.map((bookings, index) => (
@@ -153,10 +153,10 @@ export default function ListBookingByOwner(props) {
 
                                     </td>
                                     <td>
-                                        <h6><span style={{color: "blue"}}>check in:</span> {bookings.checkin}</h6>
-                                        <p><h6><span style={{color: "red"}}>check out:</span> {bookings.checkout}
+                                        <h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>
+                                        <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}
                                         </h6></p>
-                                        <p><h6><span>Tổng tiền:</span> {bookings.totalPrice}</h6></p>
+                                        <p><h6><span>Tổng tiền:</span> {bookings.totalPrice >=10000 ? bookings.totalPrice.toLocaleString(): bookings.totalPrice}</h6></p>
                                     </td>
                                     <td className="action">
                                         <ul>

@@ -17,28 +17,28 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const labels = [
     'Tháng 01',
-    'Tháng 02',
-    'Tháng 03',
-    'Tháng 04',
-    'Tháng 05',
-    'Tháng 06',
-    'Tháng 07',
-    'Tháng 08',
-    'Tháng 09',
-    'Tháng 10',
-    'Tháng 11',
-    'Tháng 12',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
 ];
 
 export const options = {
     responsive: true,
     plugins: {
         legend: {
-            position: 'top',
+            position: 'bottom',
         },
         title: {
             display: true,
-            text: 'Biểu đồ thống kê',
+            text: 'Biểu đồ thống kê thu nhập năm 2023',
         },
     },
     elements: {
@@ -50,7 +50,7 @@ export const options = {
     scales: {
         x: {
             grid: {
-                display: false,
+                display: true,
             },
         },
         y: {
@@ -64,7 +64,7 @@ export const options = {
 export function Income(props) {
     const [income, setIncome] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 7;
+    const pageSize = 8;
 
     useEffect(() => {
         axios
@@ -97,7 +97,7 @@ export function Income(props) {
     const endIndex = Math.min(startIndex + pageSize, totalItems);
     const paginatedIncome = income.slice(startIndex, endIndex);
 
-    const colorPalette = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+    const colorPalette = ['#d90a0a', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 
     const chartData = {
         labels: labels,
@@ -126,7 +126,7 @@ export function Income(props) {
         setMonthFilter(month);
     };
 
-    const filteredIncome = paginatedIncome.filter((item) => {
+    const filteredIncome = income.filter((item) => {
         const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
         const monthMatch = item.month.toLowerCase().includes(monthFilter.toLowerCase());
         return nameMatch && monthMatch;
@@ -142,7 +142,10 @@ export function Income(props) {
             <div className="chart-container">
                 <Line options={options} data={chartData}/>
             </div>
-            <table className="table mt-5" style={{borderCollapse: 'collapse', width: '100%'}}>
+            <div style={{color: 'red', fontSize: 13, textAlign: "center"}}>Chú thích: Chọn ô có màu tương ứng để xem
+                chi tiết biến động thu nhập của từng homestay
+            </div>
+            <table className="table mt-3" style={{borderCollapse: 'collapse', width: '100%'}}>
                 <thead>
                 <tr>
                     <th scope="col" style={{

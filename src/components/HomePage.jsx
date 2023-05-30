@@ -6,6 +6,7 @@ import ListHomestay from "./ListHomestay";
 import Search from "./Search";
 import React, {useState} from "react";
 import SearchResult from "./SearchResult";
+import MapPage from "./map/MapPage";
 
 
 function HomePage(props) {
@@ -49,11 +50,9 @@ function HomePage(props) {
             <Recent/>
             {/*Recent hear end*/}
 
-
             {/* Footer start */}
             <Footer/>
             {/* Footer end */}
-
         </div>
     );
 }
