@@ -241,7 +241,7 @@
 }
 
 .calendarHolder2 {
-    z-index: 99999999;
+    z-index: 999;
     position: absolute;
     left: -19rem;
 }

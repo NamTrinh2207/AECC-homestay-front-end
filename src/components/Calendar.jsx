@@ -59,7 +59,7 @@ const CalendarFunc = (props) => {
                     (selectedStartDate <= date.startDate && selectedEndDate >= date.endDate)) {
                     Swal.fire({
                         title: "Ngày bạn vừa chọn đã có người booking trong khoảng thời gian từ " +
-                            date.startDate.toLocaleDateString() + " đến " + date.endDate.toLocaleDateString() + ". Mời chọn lại ngày khác",
+                            format(date.startDate, 'dd-MM-yyyy') + " đến " + format(date.endDate, 'dd-MM-yyyy') + ". Mời chọn lại ngày khác",
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
