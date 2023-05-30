@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Field} from "formik";
-import {Link, useNavigate} from "react-router-dom";
-import {Button} from "react-bootstrap";
 import {differenceInDays, format} from "date-fns";
+import {toast} from "react-toastify";
+import Swal from "sweetalert2";
 
 
 function BookingsOfCustomer(props) {
@@ -13,7 +12,6 @@ function BookingsOfCustomer(props) {
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages+1;
     const [bookings, setBookings] = useState([]);
-    const [isCheckinDay, setIsCheckinDay] = useState(true);
 
 
     const handlePageChange = (pageNumber) => {
@@ -67,9 +65,26 @@ function BookingsOfCustomer(props) {
         console.log("current date",currentDate);
         console.log("check in",checkIn);
 
+        let updateBooking = {
+            ...newBooking,
+            checkinB: true
+        };
         if (checkIn === currentDate){
-            setIsCheckinDay(false);
-            console.log(isCheckinDay);
+            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                Swal.fire({
+                    title: 'Thành công',
+                    text: 'Check-in thành công !',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                setCheck(!check);
+            });
+            console.log("check-in thafnh cong");
+            console.log(newBooking.checkinB, "nhu cut");
         } else {
             console.log("khong the check-in");
         }
@@ -127,7 +142,7 @@ function BookingsOfCustomer(props) {
                                             {booking.checkout}
                                         </td>
                                         <td>
-                                        <th><button onClick={() => checkinButton(booking.id)} disabled={!isCheckinDay} className="">Check-in</button></th>
+                                        <th><button onClick={() => checkinButton(booking.id)} disabled={booking.checkinB} className="">Check-in</button></th>
                                         {/*<th><button onClick={() => checkinButton(booking.id)} className="">Check-in</button></th>*/}
                                         {/*<th><button onClick={() => CheckinButton(booking.id)} className="delete">Hủy phòng</button></th>*/}
                                         {/*<th><button onClick={() => CheckinButton(booking.id)} className="delete">Check-out</button></th>*/}
