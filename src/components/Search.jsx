@@ -30,27 +30,114 @@ function Search(props) {
                 console.error(error);
             });
     };
+
+    function convertVietnamese(text) {
+        const mapChars = {
+            'á': 'a',
+            'à': 'a',
+            'ả': 'a',
+            'ã': 'a',
+            'ạ': 'a',
+            'â': 'a',
+            'ấ': 'a',
+            'ầ': 'a',
+            'ẩ': 'a',
+            'ẫ': 'a',
+            'ậ': 'a',
+            'ă': 'a',
+            'ắ': 'a',
+            'ằ': 'a',
+            'ẳ': 'a',
+            'ẵ': 'a',
+            'ặ': 'a',
+            'đ': 'd',
+            'é': 'e',
+            'è': 'e',
+            'ẻ': 'e',
+            'ẽ': 'e',
+            'ẹ': 'e',
+            'ê': 'e',
+            'ế': 'e',
+            'ề': 'e',
+            'ể': 'e',
+            'ễ': 'e',
+            'ệ': 'e',
+            'í': 'i',
+            'ì': 'i',
+            'ỉ': 'i',
+            'ĩ': 'i',
+            'ị': 'i',
+            'ó': 'o',
+            'ò': 'o',
+            'ỏ': 'o',
+            'õ': 'o',
+            'ọ': 'o',
+            'ô': 'o',
+            'ố': 'o',
+            'ồ': 'o',
+            'ổ': 'o',
+            'ỗ': 'o',
+            'ộ': 'o',
+            'ơ': 'o',
+            'ớ': 'o',
+            'ờ': 'o',
+            'ở': 'o',
+            'ỡ': 'o',
+            'ợ': 'o',
+            'ú': 'u',
+            'ù': 'u',
+            'ủ': 'u',
+            'ũ': 'u',
+            'ụ': 'u',
+            'ư': 'u',
+            'ứ': 'u',
+            'ừ': 'u',
+            'ử': 'u',
+            'ữ': 'u',
+            'ự': 'u',
+            'ý': 'y',
+            'ỳ': 'y',
+            'ỷ': 'y',
+            'ỹ': 'y',
+            'ỵ': 'y'
+        };
+
+        return text.replace(/[áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]/g, function (matched) {
+            return mapChars[matched];
+        }).replace(/[^a-zA-Z0-9 ]/g, ''); // Loại bỏ các kí tự đặc biệt
+    }
+
     const handleSearch = () => {
         const filteredHomes = search.filter(home => {
             return (
                 (bedrooms === '' || home.bedroom == bedrooms) &&
                 (bathrooms === '' || home.bathroom == bathrooms) &&
-                (address === '' || home.address.toLowerCase().trim().includes(address.toLowerCase().trim())) &&
+                (address === '' || convertVietnamese(home.address).toLowerCase().trim().includes(address.toLowerCase().trim())) &&
                 (checkIn === '' || home.checkin <= checkIn || home.checkin >= checkIn) &&
                 (checkOut === '' || home.checkout >= checkOut) &&
                 (minPrice === '' || home.priceByDay >= minPrice) &&
                 (maxPrice === '' || home.priceByDay <= maxPrice)
             );
         });
-        Swal.fire({
-            title: 'Đang tìm kiếm...',
-            text: `Tìm thấy ${filteredHomes.length} ngôi nhà phù hợp với tiêu chí của bạn.`,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500
-        }).then(() => {
-            props.onHomesReceived(filteredHomes);
-        });
+        if (filteredHomes.length !== 0) {
+            Swal.fire({
+                title: 'Đang tìm kiếm...',
+                text: `Tìm thấy ${filteredHomes.length} ngôi nhà phù hợp với tiêu chí của bạn.`,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                props.onHomesReceived(filteredHomes);
+            });
+        } else {
+            Swal.fire({
+                title: 'Đang tìm kiếm...',
+                text: `Không tìm thấy ngôi nhà nào phù hợp với tiêu chí của bạn`,
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        }
     };
 
 
