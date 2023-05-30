@@ -2,10 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Search from "../Search";
 import axios from "axios";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBell, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 function MainHeader(props) {
     const [categoryHome, setCategoryHome] = useState([])
     const data = localStorage.getItem("user");
+
     let roles = null;
     if (data != null) {
         roles = JSON.parse(localStorage.getItem("user")).roles[0].authority
@@ -84,6 +87,30 @@ function MainHeader(props) {
                                                                         Danh sách homestay
                                                                     </Link>
                                                                 </li>
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={"/"} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size" role="button"
+                                                                          data-toggle="dropdown"
+                                                                          aria-haspopup="true" aria-expanded="false">
+                                                                        Danh Mục
+                                                                    </Link>
+                                                                    <ul className="dropdown-menu"
+                                                                        aria-labelledby="navbarDropdownMenuLink">
+                                                                        {categoryHome.map((category,index)=>(
+                                                                            <li><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                        ))}
+
+                                                                    </ul>
+                                                                </li>
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
+                                                                    </Link>
+                                                                </li>
 
                                                             </ul>
                                                         </>
@@ -114,6 +141,14 @@ function MainHeader(props) {
                                                                           data-toggle="dropdown" aria-haspopup="true"
                                                                           aria-expanded="false">
                                                                         Tài khoản
+                                                                    </Link>
+                                                                </li>
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
                                                                     </Link>
                                                                 </li>
                                                                 {/* ket thu sua*/}
