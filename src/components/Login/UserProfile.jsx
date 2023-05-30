@@ -11,8 +11,12 @@ import FormChangePassword from "./FormChangePassword";
 import MyProperty from "./MyProperty";
 import ListBookingByOwner from "./ListBookingByOwner";
 import RentaHistory from "./RentaHistory";
+
+import BookingsOfCustomer from "./BookingsOfCustomer";
+
 import Income from "./Income";
 import Swal from 'sweetalert2';
+
 
 
 function UserProfile(props) {
@@ -374,6 +378,12 @@ function UserProfile(props) {
                                                         <div>
                                                             <h3 className="heading-3">Lịch sử thuê nhà</h3>
                                                             <RentaHistory user={user}/>
+                                                        </div>
+                                                    ) : null}
+                                                    {showListBookings ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <BookingsOfCustomer user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>
