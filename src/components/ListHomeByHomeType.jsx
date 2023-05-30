@@ -9,19 +9,13 @@ import Footer from "./footer/Footer";
 import Search from "./Search";
 import SearchResult from "./SearchResult";
 import ListHomestay from "./ListHomestay";
+import {Pagination} from "antd";
 
 function ListHomeByHomeType(props) {
     const [home, setHome] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [check, setCheck] = useState(false);
-    const visiblePages = totalPages + 1;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 6;
     const { id } = useParams();
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        // Thực hiện các hành động khác khi chuyển trang
-        // ...
-    };
     const [homes, setHomes] = useState([]);
     const [showSearchResult, setShowSearchResult] = useState(false);
 
@@ -30,68 +24,27 @@ function ListHomeByHomeType(props) {
         setShowSearchResult(true)
     };
 
-    const renderPagination = () => {
-        const pageNumbers = [];
-        const halfVisiblePages = Math.floor(visiblePages / 2);
-        let startPage = currentPage - halfVisiblePages;
-        if (startPage < 0) startPage = 0;
-        let endPage = startPage + visiblePages - 1;
-        if (endPage > totalPages) {
-            endPage = totalPages;
-            startPage = endPage - visiblePages + 1;
-            if (startPage < 0) startPage = 0;
-        }
-
-        for (let i = startPage; i < endPage; i++) {
-            const pageItemStyle = {
-                marginRight: '5px', // Khoảng cách giữa các số trang
-                display: 'inline-block', // Hiển thị trên cùng một dòng
-                cursor: 'pointer', // Con trỏ chuột thành dạng tay
-                fontWeight: currentPage === i ? 'bold' : 'normal', // Trang hiện tại được đậm
-            };
-            const pageLinkStyle = {
-                cursor: "pointer",
-                padding: '5px 10px', // Kích thước nút số trang
-                backgroundColor: currentPage === i ? '#ccc' : 'transparent', // Màu nền của trang hiện tại
-            };
-            pageNumbers.push(
-                <li key={i} style={pageItemStyle}>
-                    <button
-                        className="page-link"
-                        style={pageLinkStyle}
-                        onClick={() => handlePageChange(i)}
-                    >
-                        {i + 1}
-                    </button>
-                </li>
-            );
-        }
-
-        return pageNumbers;
-    };
     useEffect(() => {
-        const listHomeByCategory = async () => {
-            try {
-                const response=await axios.get(`http://localhost:8080/homes/${id}/home-type?page=${currentPage}`);
-                const {totalPages} = response.data;
-                setHome(response.data.content);
-                setTotalPages(totalPages);
-                console.log("typy", homes)
-            }catch (errr){
-                console.log(errr)
-            }
-        }
-        listHomeByCategory();
-    }, [check, currentPage]);
+        axios
+            .get(`http://localhost:8080/homes/${id}/home-type?page=${currentPage}`)
+            .then((response) => {
+                setHome(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
-    const goToPreviousPage = () => {
-        setCheck(!check);
-        setCurrentPage(currentPage - 1);
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
-    const goToNextPage = () => {
-        setCurrentPage(currentPage + 1);
-    };
+    const totalItems = home.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalItems);
+    const paginatedHome = home.slice(startIndex, endIndex);
 
 
     const getStatusColor = (status) => {
@@ -121,7 +74,7 @@ function ListHomeByHomeType(props) {
     };
     return (
         <div>
-            {home.length > 0 ? (
+            {paginatedHome.length > 0 ? (
                 <>
                     <TopHeader/>
                     {/* Top header end */}
@@ -149,13 +102,13 @@ function ListHomeByHomeType(props) {
                                     <h1>Danh sách {home[0].homeType.name}</h1>
                         </div>
                         <div className="row wow fadeInUp delay-04s">
-                            {home.map(home1 => (
+                            {paginatedHome.map(home1 => (
                                 <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
                                      data-category="3, 2">
                                     <div className="property-box-7">
                                         <div className="property-thumbnail">
                                             <Link className="property-img" to={`/viewHome/${home1.id}`}>
-                                                <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                <div style={{backgroundColor: getStatusColor(home1.status)}}
                                                      className="tag-2">{getStatusLabel(home1.status)}</div>
                                                 <div className="price-box"><span>{home1.priceByDay} VNĐ</span>/ngày</div>
                                                 <img height={250} src={home1.image[0]} alt="property-box-7"/>
@@ -199,25 +152,14 @@ function ListHomeByHomeType(props) {
                                 </div>
                             ))}
                         </div>
-
-                        <div className="pagination-container"
-                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <button style={{border: "none", cursor: "pointer"}}
-                                    onClick={goToPreviousPage}
-                                    disabled={currentPage === 0}
-                            >
-                                <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
-                            </button>&nbsp;
-                            {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
-                            {renderPagination()}
-                            <button style={{border: "none", cursor: "pointer"}}
-                                    onClick={goToNextPage}
-                                    disabled={currentPage === totalPages - 1}
-                            >
-                                <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
-                            </button>
+                        <div style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
+                            <Pagination
+                                current={currentPage}
+                                total={totalItems}
+                                pageSize={pageSize}
+                                onChange={handlePageChange}
+                            />
                         </div>
-
                     </div>
                 </div>
                     <Footer/>
