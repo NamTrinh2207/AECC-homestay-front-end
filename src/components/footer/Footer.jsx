@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 function Footer(props) {
     return (
@@ -16,17 +17,17 @@ function Footer(props) {
                                     </li>
                                     <li>
                                         <i className="fa fa-envelope"></i><a
-                                        href="mailto:sales@hotelempire.com">nam@gmail.com.com</a>
+                                        href="mailto:sales@hotelempire.com">trinhnam180697@gmail.com</a>
                                     </li>
                                     <li>
-                                        <i className="fa fa-phone"></i><a href="tel:+55-417-634-7071">+084 999 999 999</a>
+                                        <i className="fa fa-phone"></i><a href="tel:+55-417-634-7071">+084 369 324 197</a>
                                     </li>
                                     <li>
                                         <i className="fa fa-fax"></i>+08888 8888 888
                                     </li>
                                     <li>
                                         <i className="fa fa-skype"></i><a
-                                        href="mailto:info@green.com">info@green.com</a>
+                                        href="mailto:info@green.com">hoanggh2108@gmail.com</a>
                                     </li>
                                 </ul>
                             </div>
@@ -41,7 +42,7 @@ function Footer(props) {
                                 </h4>
                                 <ul className="links">
                                     <li>
-                                        <a href="/coming-soon"><i className="fa fa-angle-right"></i>Trang chủ</a>
+                                        <Link to={"/"} ><i className="fa fa-angle-right"></i>Trang chủ</Link>
                                     </li>
                                     <li>
                                         <a href="/coming-soon"><i className="fa fa-angle-right"></i>Thông tin chung</a>
@@ -86,7 +87,7 @@ function Footer(props) {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 col-md-12">
-                                <p className="copy">© 2023 <a href="#">AECC</a> All Rights Reserved.</p>
+                                <p className="copy">© 2023 <a href="#">AECC</a> Đã đăng ký bản quyền.</p>
                             </div>
                             <div className="col-lg-4 col-md-12">
                                 <ul className="social-list clearfix">

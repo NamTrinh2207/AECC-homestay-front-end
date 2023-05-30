@@ -12,6 +12,7 @@ import EditHotel from "./components/EditHotel";
 import React from "react";
 import Page404 from "./components/404/Page404";
 import ListHomeByHomeType from "./components/ListHomeByHomeType";
+import MapPage from "./components/map/MapPage";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/category/:id'} element={<ListHomeByHomeType/>}></Route>
+                <Route path={'/map'} element={<MapPage/>}></Route>
                 <Route path={"*"} element={<Page404/>}></Route>
             </Routes>
             <Outlet/>
