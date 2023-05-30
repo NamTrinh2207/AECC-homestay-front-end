@@ -11,23 +11,30 @@ import ScrollToElement from "./scrollToElement/Scroll";
 function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
+
     useEffect(() => {
-        axios.get(`http://localhost:8080/homes/${id}`)
-            .then((response) => {
-                setHome(response.data)
-                console.log(response.data)
-            })
-            .catch(() => {
-                setHome(null);
-            })
-    }, [id])
+        const getHome = async () => {
+            try {
+                if (!home) {
+                    const response = await axios.get(`http://localhost:8080/homes/${id}`);
+                    setHome(response.data);
+                }
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+
+        getHome();
+    }, [home, id]);
+
     const slideshowProperties = {
-        duration: 5000,
-        transitionDuration: 500,
-        infinite: true,
-        indicators: true,
-        arrows: true,
-    };
+            duration: 5000,
+            transitionDuration: 500,
+            infinite: true,
+            indicators: true,
+            arrows: true,
+        }
+    ;
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -41,14 +48,6 @@ function HotelDetails(props) {
                 return 'Unknown';
         }
     };
-
-    // if (home === null) {
-    //     return (
-    //         <>
-    //             <Page404/>
-    //         </>
-    //     )
-    // }
 
     return (
         <>
@@ -64,7 +63,8 @@ function HotelDetails(props) {
 
                             <li><a href="/">Trang chủ</a></li>
                             <li className="active">Chi tiết homestay</li>
-                        </ul><br/><br/>
+                        </ul>
+                        <br/><br/>
                         <ScrollToElement targetId={"main-home"}></ScrollToElement>
                         <div id={"main-home"}></div>
                     </div>
@@ -305,7 +305,8 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id} homeStatus={home?.status}/>
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}
+                                                 homeStatus={home?.status}/>
                                 </div>
                                 {/* Recent posts start */}
                             </div>

@@ -14673,3 +14673,8 @@ body.off-canvas-sidebar-open {
 /*    background-image: url(../css/images/rental.png);*/
 /*    height: 100%;*/
 /*}*/
+
+.rdrDefinedRangesWrapper {
+    display: none;
+}
+

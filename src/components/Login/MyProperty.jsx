@@ -130,8 +130,6 @@ function MyProperty(props) {
 
     const handleChangeStatus = async (event, homeId) => {
         const selectedStatus = parseInt(event.target.value);
-
-        console.log(selectedStatus);
         try {
             let response = await axios.get(`http://localhost:8080/homes/${homeId}`);
             let newHome = response.data;

@@ -64,7 +64,6 @@ function ListHomestay(props) {
                 const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }
@@ -136,7 +135,7 @@ function ListHomestay(props) {
                                                 <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                             </div>
                                         </div>
-                                        <ul className="facilities-list clearfix">
+                                        <ul style={{backgroundColor:'#FFFFFF'}}  className="facilities-list clearfix">
                                             <li>
                                                 <span><i className="fa fa-home"></i></span>{home.homeType.name}
                                             </li>

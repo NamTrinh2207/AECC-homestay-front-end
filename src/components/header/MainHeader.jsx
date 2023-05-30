@@ -12,7 +12,6 @@ function MainHeader(props) {
     let roles = null;
     if (data != null) {
         roles = JSON.parse(localStorage.getItem("user")).roles[0].authority
-        console.log(roles)
     } else {
         roles = null;
     };
