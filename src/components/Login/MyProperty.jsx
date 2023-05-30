@@ -66,12 +66,11 @@ function MyProperty(props) {
             } catch (error) {
                 Swal.fire({
                     title: 'Đã xảy ra sự cố',
-                    text: "Không thể xóa vì đang có người thuê !",
+                    text: "Không thể xóa !",
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
-
         }
     };
 

@@ -68,7 +68,7 @@ export default function ListBookingByOwner(props) {
         }
     };
     useEffect(() => {
-        setCurrentPage(0); // Reset trang về trang đầu tiên khi thay đổi bộ lọc
+        setCurrentPage(0);
     }, [isPaidFilter]);
 
     useEffect(() => {
@@ -82,7 +82,7 @@ export default function ListBookingByOwner(props) {
         if (timeDiff <= oneDayInMs) {
             await Swal.fire({
                 title: 'Không thể hủy !',
-                text: 'Không thể hủy đặt phòng vì thời gian checkin của khách còn ít hơn 1 ngày',
+                text: 'Không thể hủy trong trường hợp khách đang thuê hoặc thời gian checkin của khách còn ít hơn 1 ngày',
                 icon: 'warning'
             });
             return;
@@ -95,13 +95,13 @@ export default function ListBookingByOwner(props) {
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Hủy',
-            cancelButtonText: 'Thoát'
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
         }).then((result) => result.isConfirmed);
 
         if (confirmed) {
             try {
-                const response = await axios.delete(`http://localhost:8080/bookings/delete/${bookingId}`);
+                const response = await axios.delete(`http://localhost:8080/customer/bookings/delete/${bookingId}`);
                 await Swal.fire(
                     'Đã hủy!',
                     'Đơn đặt phòng đã được hủy thành công',
