@@ -41,7 +41,7 @@ function BookingCard(props) {
     }
     console.log("2", isValid)
     // lấy id người dùng và id của nhà, giá tiền của nhà.
-    const price = transferDate * (props.price);
+    const price = transferDate * (props.price >=10000 ? props.price.toLocaleString(): props.price);
     if (user != null) {
         var userId = user.id;
     }
@@ -53,7 +53,7 @@ function BookingCard(props) {
                 <div>
                     <span style={
                         {fontSize: `20px`}
-                    }>Giá phòng: {props.price} VNĐ</span>
+                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
                     <span
                         className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
                 </div>

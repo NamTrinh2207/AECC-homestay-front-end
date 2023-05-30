@@ -75,7 +75,7 @@ function ListHomestay(props) {
                                             <Link className="property-img" to={`/viewHome/${home.id}`}>
                                                 <div style={{backgroundColor: getStatusColor(home.status)}}
                                                      className="tag-2">{getStatusLabel(home.status)}</div>
-                                                <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
+                                                <div className="price-box"><span>{home.priceByDay >=10000 ? home.priceByDay.toLocaleString(): home.priceByDay} VNĐ</span>/ngày</div>
                                                 <img height={250} src={home.image[0]} alt="property-box-7"/>
                                             </Link>
                                         </div>
