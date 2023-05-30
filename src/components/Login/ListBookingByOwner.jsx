@@ -82,7 +82,7 @@ export default function ListBookingByOwner(props) {
         if (timeDiff <= oneDayInMs) {
             await Swal.fire({
                 title: 'Không thể hủy !',
-                text: 'Không thể hủy đặt phòng vì thời gian checkin của khách còn ít hơn 1 ngày',
+                text: 'Không thể hủy trong trường hợp khách đang thuê hoặc thời gian checkin của khách còn ít hơn 1 ngày !',
                 icon: 'warning'
             });
             return;
@@ -153,8 +153,8 @@ export default function ListBookingByOwner(props) {
 
                                     </td>
                                     <td>
-                                        <h6><span style={{color: "blue"}}>check in:</span> {bookings.checkin}</h6>
-                                        <p><h6><span style={{color: "red"}}>check out:</span> {bookings.checkout}
+                                        <h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>
+                                        <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}
                                         </h6></p>
                                         <p><h6><span>Tổng tiền:</span> {bookings.totalPrice}</h6></p>
                                     </td>
