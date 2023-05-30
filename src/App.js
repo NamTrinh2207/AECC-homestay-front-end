@@ -11,6 +11,7 @@ import Logout from "./components/Login/Logout";
 import 'react-toastify/dist/ReactToastify.css';
 import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
+import BookingsOfCustomer from "./components/Login/BookingsOfCustomer";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path={'/user'} element={<UserProfile/>}></Route>
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
                 <Route path={'/recent'} element={<Recent/>}></Route>
+                <Route path={'/bookings'} element={<BookingsOfCustomer/>}></Route>
             </Routes>
         </BrowserRouter>
     )

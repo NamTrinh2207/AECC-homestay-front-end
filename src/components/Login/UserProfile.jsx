@@ -11,6 +11,7 @@ import FormChangePassword from "./FormChangePassword";
 import MyProperty from "./MyProperty";
 import ListBookingByOwner from "./ListBookingByOwner";
 import RentaHistory from "./RentaHistory";
+import BookingsOfCustomer from "./BookingsOfCustomer";
 
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
@@ -303,6 +304,12 @@ function UserProfile(props) {
                                                         <div>
                                                             <h3 className="heading-3">Lịch sử thuê nhà</h3>
                                                             <RentaHistory user={user}/>
+                                                        </div>
+                                                    ) : null}
+                                                    {showListBookings ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Lịch sử đặt phòng</h3>
+                                                            <BookingsOfCustomer user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>
