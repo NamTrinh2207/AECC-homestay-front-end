@@ -85,7 +85,7 @@ function HotelDetails(props) {
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="informeson">
-                                                <h1>{home?.name}<span>{home?.priceByDay} VNĐ/Ngày</span></h1>
+                                                <h1>{home?.name}<span>{home?.priceByDay} VNĐ/ngày</span></h1>
                                                 <div>
                                                     <div className="float-left">
                                                         <ul className="clearfix">
@@ -159,7 +159,7 @@ function HotelDetails(props) {
                                                 <strong>Phân khúc:</strong>{home?.homeType.name}
                                             </li>
                                             <li>
-                                                <strong>Giá thuê:</strong>{home?.priceByDay} VNĐ/Ngày
+                                                <strong>Giá thuê:</strong>{home?.priceByDay} VNĐ/ngày
                                             </li>
                                         </ul>
                                     </div>

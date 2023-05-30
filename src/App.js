@@ -13,6 +13,7 @@ import EditHotel from "./components/EditHotel";
 import Recent from "./components/recent";
 import React from "react";
 import Page404 from "./components/404/Page404";
+import ListHomeByHomeType from "./components/ListHomeByHomeType";
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
                 <Route path={'/register'} element={<Register/>}></Route>
                 <Route path={'/user'} element={<UserProfile/>}></Route>
                 <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
-                <Route path={'/recent'} element={<Recent/>}></Route>
+                <Route path={'/edit/:id'} element={<EditHotel/>}></Route>
+                <Route path={'/category/:id'} element={<ListHomeByHomeType/>}></Route>
                 <Route path={"*"} element={<Page404/>}></Route>
             </Routes>
             <Outlet/>
