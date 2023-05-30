@@ -227,6 +227,26 @@ function UserProfile(props) {
                                                                 <i className="fa fa-money"></i>Thống kê thu nhập
                                                             </a>
                                                         </li>
+                                                        <li>
+                                                            <a onClick={handleShowListBooking}
+                                                               className={activeButton === "listBookings" ? 'active' : ''}>
+                                                                <i className="flaticon-house"></i>Danh sách
+                                                                booking
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <Link to={"/"}>
+                                                                <i className="flaticon-add"></i>Thuê nhà ngay
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <a onClick={handleHistoryRental}
+                                                               className={activeButton === "history" ? 'active' : ''}>
+                                                                <i className="flaticon-house"></i>Lịch sử thuê
+                                                                nhà
+                                                            </a>
+                                                        </li>
                                                     </div>
                                                 ) : (
                                                     <>
