@@ -1,32 +1,58 @@
 import axios from "axios";
 import {loginFailed, loginStart, loginSuccess, registerFailed, registerStart, registerSuccess} from "./authSlice";
-import {toast} from "react-toastify";
-
+import Swal from 'sweetalert2';
 
 export const loginUser = async (user, dispatch, navigate) => {
 
     dispatch(loginStart());
     try {
-        const res = await axios.post("http://localhost:8080/login", user)
+        const res = await axios.post("http://localhost:8080/login", user);
         dispatch(loginSuccess(res.data));
-        localStorage.setItem("user", JSON.stringify(res.data))
-        alert("Đăng nhập thành công")
-        navigate("/")
-    } catch (error) {
-        alert("Sai tài khoản mật khẩu hoặc bạn chưa xác thực email đăng ký !")
-        dispatch(loginFailed())
+        localStorage.setItem("user", JSON.stringify(res.data));
+        await Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: `Đăng nhập thành công`,
+            showConfirmButton: false,
+            timer: 1500
+        })
+        navigate("/");
+    } catch(err) {
+        await Swal.fire({
+            icon: 'error',
+            title: 'Đã xảy ra sự cố !',
+            text: `${err.response.data.message}`,
+        });
+        dispatch(loginFailed());
     }
 }
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     await axios.post("http://localhost:8080/signup", user).then((res) => {
-        alert(res.data.message)
+        Swal.fire({
+            title: '<strong>Đăng ký thành công</strong>',
+            icon: 'info',
+            html: `${res.data.message}`,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'https://mail.google.com';
+            }
+        });
         dispatch(registerSuccess());
-        if (res.data.message === "Vui lòng truy cập email để xác nhận đăng ký"){
-            navigate("/login")
+        if (res.data.message === "Vui lòng truy cập email để xác nhận đăng ký") {
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000);
         }
     }).catch((error) => {
-        alert(error.message)
+        Swal.fire({
+            icon: 'error',
+            title: 'Đã xảy ra sự cố !',
+            text: `${error.response.data.message}`,
+        })
         dispatch(registerFailed())
     })
 }

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import TruncatedText from "./truncate/TruncateText";
+import TruncatedLink from "./truncate/TruncateLink";
 
 export default function Recent() {
     const [mostRent, setMostRent] = useState([]);
@@ -18,6 +20,32 @@ export default function Recent() {
         return <div>Loading...</div>
     }
 
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 1:
+                return 'green';
+            case 2:
+                return 'orange';
+            case 3:
+                return 'red';
+            default:
+                return 'transparent';
+        }
+    };
+
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return 'Phòng trống';
+            case 2:
+                return 'Đang bảo trì';
+            case 3:
+                return 'Đang cho thuê';
+            default:
+                return 'Unknown';
+        }
+    };
+
     return (
         <div>
             {(mostRent !== null) ? (
@@ -28,47 +56,47 @@ export default function Recent() {
 
                         </div>
                         <div className="row">
-                            {mostRent.map((item, index) => (
+                            {mostRent.map((home, index) => (
                                 <div className="col-lg-3 col-md-6 col-sm-12 wow fadeInLeft delay-04s">
                                     <div className="property-box-8">
                                         <div className="photo-thumbnail">
-                                            <Link className="property-img" to={`/viewHome/${item.id}`}>
-                                            <div className="photo">
-                                                <img height={200} src={item.images} alt="property-box-8"/>
-                                            </div>
+                                            <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                                <div className="photo">
+                                                    <img height={200} src={home.images} alt="property-box-8"/>
+                                                </div>
                                             </Link>
-                                            <div className="tag-for">For Rent</div>
+                                            <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                 className="tag-for">{getStatusLabel(home.status)}</div>
                                             <div className="price-ratings-box">
                                                 <p className="price">
-                                                    {item.priceByDay}đ
+                                                    {home.priceByDay} VNĐ/ngày
                                                 </p>
                                                 <div className="ratings">
-                                                    <span></span>{[...Array(item.rating)].map((_, index) => (
+                                                    <span></span>{[...Array(home.rating)].map((_, index) => (
                                                     <i className="fa fa-star" style={{color: "orange"}}></i>))}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="detail">
-                                            <div className="heading">
-                                                <h3 className="title"><Link style={{textDecoration: "none"}}
-                                                    to={`/viewHome/${item.id}`}>{item.name}</Link></h3>
-                                                <div className="location">
-                                                    <a href="">
-                                                        <i className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                                        {item.address}
-                                                    </a>
-                                                </div>
-                                                <div className="location">
-                                                    <a href="">
-                                                        <i className="fa fa-home"></i>
-                                                        {item.homeType}
-                                                    </a>
-                                                </div>
+                                            <h5 className="title">
+                                                <p></p>
+                                                &nbsp;<TruncatedLink url={`/viewHome/${home.id}`} text={home.name}
+                                                               maxLength={20}></TruncatedLink>
+                                            </h5>
+                                            <div className="location">
+                                                <a href="">
+                                                    &nbsp;<TruncatedText text={home.address} maxLength={27}></TruncatedText>
+                                                </a>
+                                            </div>
+                                            <div className="location">
+                                                <a href="">
+                                                    <span>&nbsp;<i className="fa fa-home"></i></span> {home.homeType}
+                                                </a>
                                             </div>
                                             <div className="properties-listing">
-                                                <span>{item.bedroom} Beds</span>
-                                                <span>{item.bathroom} Baths</span>
-                                                <span>{item.bookingCount} lượt thuê</span>
+                                                <span>{home.bedroom} <i className="fa fa-bed"></i></span>
+                                                <span>{home.bathroom} <i className="fa fa-bath"></i></span>
+                                                <span>{home.bookingCount} lượt thuê</span>
                                             </div>
                                         </div>
                                     </div>

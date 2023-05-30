@@ -64,7 +64,6 @@ function RentaHistory(props) {
                 const { totalPages } = response.data;
                 setHistoryRentalHotel(response.data.content);
                 setTotalPages(totalPages);
-                console.log("history", response.data.content)
                 console.log(historyRentalHotel[0].image)
             } catch (error) {
                 console.log(error);
