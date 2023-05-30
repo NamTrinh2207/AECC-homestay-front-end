@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {DateRangePicker} from 'react-date-range';
-import {differenceInDays, format, parseISO} from 'date-fns'
-import "../styles/SinglePageMiddle.css"
+import {differenceInDays, format, parseISO} from 'date-fns';
+import "../styles/SinglePageMiddle.css";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CalendarFunc = (props) => {
     const {id} = useParams();
@@ -14,14 +15,15 @@ const CalendarFunc = (props) => {
     const [endDate, setEndDate] = useState(new Date());
     const [bookingCheckin, setBookingCheckin] = useState([]);
     const [bookingCheckout, setBookingCheckout] = useState([]);
-    const [booking, setBooking] = useState([])
+    const [booking, setBooking] = useState([]);
     const [check, setCheck] = useState(false);
+    const [isValid, setValid] = useState(false);
 
     useEffect(() => {
         const getBooking = async () => {
             try {
                 const res = await axios.get(`http://localhost:8080/bookings/home/${id}`);
-                setBooking(res.data)
+                setBooking(res.data);
                 setBookingCheckin(res.data.map(booking => booking.checkin)); // Lưu các giá trị checkin vào mảng checkinDate
                 setBookingCheckout(res.data.map(booking => booking.checkout)); // Lưu các giá trị checkin vào mảng checkinDate
             } catch (error) {
@@ -29,72 +31,85 @@ const CalendarFunc = (props) => {
             }
         };
         getBooking();
-    }, [id, check]);
+    }, [id, check, startDate, endDate]);
 
-    let disabledDates = bookingCheckin.slice(0, bookingCheckout.length)
-        .map((checkin, index) => (
-            {startDate: checkin, endDate: bookingCheckout[index]})
-        );
+    let disabledDates = bookingCheckin.slice(0, bookingCheckout.length).map((checkin, index) => ({
+        startDate: new Date(checkin),
+        endDate: new Date(bookingCheckout[index])
+    }));
 
     if (disabledDates.length === 0) {
-        disabledDates = [{startDate: new Date(), endDate: new Date()}]
+        disabledDates = [{startDate: new Date(-1), endDate: new Date(-1)}];
     }
-    console.log("should be disable date ", disabledDates)
+    console.log("should be disabled dates", disabledDates);
     const handleSelect = (ranges) => {
-        const selectedStartDate = (ranges.selection.startDate);
-        const selectedEndDate = (ranges.selection.endDate);
-
-        // gắn cờ cho 2 biến để so sánh, chuyển date => string
-        const startDate = (format(selectedStartDate, 'yyyy-MM-dd'));
-        const endDate = (format(selectedEndDate, 'yyyy-MM-dd'));
-
-        const flag = {startDate, endDate};
+        const selectedStartDate = ranges.selection.startDate;
+        const selectedEndDate = ranges.selection.endDate;// Chuyển date => string
+        const startDateString = format(selectedStartDate, 'yyyy-MM-dd');
+        const endDateString = format(selectedEndDate, 'yyyy-MM-dd');
+        var count = 0;
+        const flag = {startDate: startDateString, endDate: endDateString};
         setCheck(!check);
+
         // Kiểm tra tính trùng lặp
-
-        (disabledDates.map((date) => {
-                if (date.startDate.toString() === flag.startDate || date.endDate.toString() === flag.endDate) {
-                    alert("Ngày bạn vừa chọn đã có người booking trong khoảng thời gian từ " + date.startDate +
-                        " đến " + date.endDate + ". Mời chọn lại ngày khác");
-
-                } else {
+        (disabledDates.map(date => {
+                if ((date.startDate.toString() === flag.startDate || date.endDate.toString() === flag.endDate) ||
+                    (selectedStartDate >= date.startDate && selectedStartDate <= date.endDate) ||
+                    (selectedEndDate >= date.startDate && selectedEndDate <= date.endDate) ||
+                    (selectedStartDate <= date.startDate && selectedEndDate >= date.endDate)) {
+                    Swal.fire({
+                        title: "Ngày bạn vừa chọn đã có người booking trong khoảng thời gian từ " +
+                            date.startDate.toLocaleDateString() + " đến " + date.endDate.toLocaleDateString() + ". Mời chọn lại ngày khác",
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    setValid(false);
+                    count++;
+                }
+                if (count===0){
                     setStartDate(selectedStartDate);
                     setEndDate(selectedEndDate);
+                    setValid(true);
                 }
             })
         )
-    }
+
+
+    };
 
     const selectionRange = {
         startDate: startDate,
         endDate: endDate,
         key: "selection"
-    }
+    };
 
-    var daysCheck = (differenceInDays(endDate, startDate));
-
+    const daysCheck = differenceInDays(endDate, startDate);
 
     useEffect(() => {
-        props.onDataChanged(daysCheck, startDate, endDate);
-    })
+        props.onDataChanged(daysCheck, startDate, endDate, isValid);
+    }, [daysCheck, startDate, endDate, isValid]);
 
     return (
         <div className='calendarHolder calendarHolder2'>
-            {props.buttonopenState &&
+            {props.buttonopenState && (
                 <DateRangePicker
                     ranges={[selectionRange]}
                     minDate={new Date()}
                     rangeColors={["#FD5B61"]}
                     onChange={handleSelect}
-                />}
-            {props.buttonopenState &&
-                <button className='close-cal rounded-xl' onClick={props.closeFunc}>Đóng lịch</button>}
+                />
+            )}
+            {props.buttonopenState && (
+                <button className='close-cal rounded-xl' onClick={props.closeFunc}>
+                    Đóng lịch
+                </button>
+            )} {daysCheck === 0 ? (
+            <p className={daysCheck === 0 ? "days-0" : "days-updated"}></p>
+        ) : (
+            <p className='days-updated'>Tổng số ngày đã chọn là {daysCheck} ngày</p>
+        )}
+        </div>
+    );
+};
 
-            {daysCheck === 0 ? <p className={daysCheck === 0 ? "days-0" : "days-updated"}></p> :
-                <p className='days-updated'>Tổng số ngày đã chọn là {daysCheck} ngày</p>}
-        </div>)
-
-}
-
-export default CalendarFunc
-
+export default CalendarFunc;
