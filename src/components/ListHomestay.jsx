@@ -4,11 +4,16 @@ import {Link, useParams} from "react-router-dom";
 import TruncatedLink from "./truncate/TruncateLink";
 import TruncatedText from "./truncate/TruncateText";
 import {Pagination} from "antd";
+import MapDisplay from "./map/MapDisplay";
 
 function ListHomestay(props) {
     const [homes, setHomes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 6;
+    const handleAddressClick = (address) => {
+        // Chuyển hướng đến trang bản đồ với địa chỉ được truyền qua URL
+        window.location.href = `https://maps.google.com/?q=${encodeURIComponent(address)}`;
+    };
 
     useEffect(() => {
         axios
@@ -85,7 +90,9 @@ function ListHomestay(props) {
                                                 <TruncatedLink url={`/viewHome/${home.id}`} text={home.name} maxLength={28}></TruncatedLink>
                                             </h1>
                                             <div className="location">
-                                                <TruncatedText text={home.address} maxLength={35}></TruncatedText>
+                                                <TruncatedText text={home.address} maxLength={35}>
+                                                    <MapDisplay address={home.address}/>
+                                                </TruncatedText>
                                             </div>
                                         </div>
                                         <ul style={{backgroundColor:'#FFFFFF'}}  className="facilities-list clearfix">
