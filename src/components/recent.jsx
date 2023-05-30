@@ -69,7 +69,7 @@ export default function Recent() {
                                                  className="tag-for">{getStatusLabel(home.status)}</div>
                                             <div className="price-ratings-box">
                                                 <p className="price">
-                                                    {home.priceByDay} VNĐ/ngày
+                                                    {home.priceByDay >=10000 ? home.priceByDay.toLocaleString(): home.priceByDay} VNĐ/ngày
                                                 </p>
                                                 <div className="ratings">
                                                     <span></span>{[...Array(home.rating)].map((_, index) => (

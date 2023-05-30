@@ -110,7 +110,7 @@ function ListHomeByHomeType(props) {
                                             <Link className="property-img" to={`/viewHome/${home1.id}`}>
                                                 <div style={{backgroundColor: getStatusColor(home1.status)}}
                                                      className="tag-2">{getStatusLabel(home1.status)}</div>
-                                                <div className="price-box"><span>{home1.priceByDay} VNĐ</span>/ngày</div>
+                                                <div className="price-box"><span>{home1.priceByDay >=10000 ? home1.priceByDay.toLocaleString(): home1.priceByDay} VNĐ</span>/ngày</div>
                                                 <img height={250} src={home1.image[0]} alt="property-box-7"/>
                                             </Link>
                                         </div>

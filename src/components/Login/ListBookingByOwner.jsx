@@ -132,8 +132,8 @@ export default function ListBookingByOwner(props) {
     return (
         <div>
             <div>
-                <Button onClick={() => setIsPaidFilter(false)}>Khách hàng đặt phòng</Button>
-                <Button onClick={() => setIsPaidFilter(true)}>Xem lại lịch sử</Button>
+                <Button onClick={() => setIsPaidFilter(false)}>Chưa thanh toán</Button>
+                <Button onClick={() => setIsPaidFilter(true)}>Đã thanh toán</Button>
             </div>
             <div>
                 {booking.map((bookings, index) => (
@@ -153,10 +153,10 @@ export default function ListBookingByOwner(props) {
 
                                     </td>
                                     <td>
-                                        <h6><span style={{color: "blue"}}>check in:</span> {bookings.checkin}</h6>
-                                        <p><h6><span style={{color: "red"}}>check out:</span> {bookings.checkout}
+                                        <h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>
+                                        <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}
                                         </h6></p>
-                                        <p><h6><span>Tổng tiền:</span> {bookings.totalPrice}</h6></p>
+                                        <p><h6><span>Tổng tiền:</span> {bookings.totalPrice >=10000 ? bookings.totalPrice.toLocaleString(): bookings.totalPrice}</h6></p>
                                     </td>
                                     <td className="action">
                                         <ul>
