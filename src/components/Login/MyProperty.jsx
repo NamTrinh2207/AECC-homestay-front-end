@@ -66,12 +66,11 @@ function MyProperty(props) {
             } catch (error) {
                 Swal.fire({
                     title: 'Đã xảy ra sự cố',
-                    text: "Không thể xóa vì đang có người thuê !",
+                    text: "Không thể xóa !",
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
-
         }
     };
 
@@ -122,7 +121,7 @@ function MyProperty(props) {
                                         </td>
                                         <td className="title-container">
                                             <h5><a href="#">{home.name}</a></h5>
-                                            <h6><span>{home.priceByDay}</span> VNĐ/ngày</h6>
+                                            <h6><span>{home.priceByDay >=10000 ? home.priceByDay.toLocaleString(): home.priceByDay}</span> VNĐ/ngày</h6>
                                             <p><i
                                                 className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
                                                 {home.address} </p>
