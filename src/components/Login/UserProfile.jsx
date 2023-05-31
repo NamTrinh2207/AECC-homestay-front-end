@@ -29,7 +29,6 @@ function UserProfile(props) {
     const [showListHomes, setShowListHomes] = useState(true);
     const [activeButton, setActiveButton] = useState('listHomes');
     const [showListBookings, setShowListBookings] = useState(true);
-    const [activeButton1, setActiveButton1] = useState('listBookings');
     const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
     const [showListHistoryRental, setShowListHistoryRental] = useState(false);
     const [showIncome, setShowIncome] = useState(false);
@@ -122,11 +121,11 @@ function UserProfile(props) {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
         setShowListHomes(false);
-        setShowListBookingByOwner(true);
+        setShowListBookingByOwner(false);
         setShowListHistoryRental(false)
-        setShowListBookings(false);
+        setShowListBookings(true);
         setShowIncome(false)
-        setActiveButton1('listBookings');
+        setActiveButton('listBookings');
     }
 
     useEffect(() => {

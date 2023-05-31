@@ -78,7 +78,7 @@ function BookingsOfCustomer(props) {
             }).then(res => {
                 Swal.fire({
                     title: 'Thành công',
-                    text: 'Check-in thành công !',
+                    text: 'Check-in thành công!',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
@@ -86,7 +86,12 @@ function BookingsOfCustomer(props) {
             });
             console.log("check-in thafnh cong");
         } else {
-            console.log("khong the check-in");
+            Swal.fire({
+                title: 'Thất bại',
+                text: 'Bạn không thể check-in trước thời gian đã đăng kí!',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     };
     const checkoutButton = async (bookingId) => {
@@ -176,7 +181,7 @@ function BookingsOfCustomer(props) {
                                         <td>
                                         <th><button style={{width: "100px"}} onClick={() => checkinButton(booking.id)} disabled={booking.checkinB} className="btn-danger btn-secondary btn btn-blue">Check-in</button></th>
                                         <th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} disabled={booking.checkoutB} className="btn-danger btn-secondary btn btn-blue">Check-out</button></th>
-                                        <th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>
+                                        {/*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*/}
                                         </td>
                                     </tr>
                                     </tbody>
