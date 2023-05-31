@@ -100,7 +100,7 @@ function ListHomestay(props) {
                                             </li>
                                             <li className="float-right">
                                                 <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
-                                                <i className="fa fa-star" style={{color: "orange"}}></i>))}
+                                                <i key={index} className="fa fa-star" style={{color: "orange"}}></i>))}
                                             </li>
                                         </ul>
                                         <div className="footer clearfix">

@@ -11479,7 +11479,7 @@ table {
 #search-area-4 {
     transition: all 0.4s;
     position: absolute;
-    bottom: 15px;
+    bottom: 50px;
     width: 100%;
 }
 
@@ -14608,6 +14608,7 @@ body.off-canvas-sidebar-open {
 .avatar-custom {
     border-radius: 50%;
     height: 32px;
+    width: 32px;
     margin-right: 10px;
 }
 

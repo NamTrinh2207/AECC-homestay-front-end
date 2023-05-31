@@ -101,7 +101,6 @@ function Search(props) {
             'ỹ': 'y',
             'ỵ': 'y'
         };
-
         return text.replace(/[áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]/g, function (matched) {
             return mapChars[matched];
         }).replace(/[^a-zA-Z0-9 ]/g, '');

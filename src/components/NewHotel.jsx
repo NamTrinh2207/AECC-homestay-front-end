@@ -344,9 +344,9 @@ export default function CreateNewHotel(props) {
                                                                 </div>
                                                             </div>
 
-                                                            <div className="col-lg-12">
+                                                            {imgUrls.length > 0 && <div className="col-lg-12">
                                                                 <Toast name={"ĐĂNG TIN"}/>
-                                                            </div>
+                                                            </div> }
 
                                                         </Form>
 
@@ -426,6 +426,7 @@ export default function CreateNewHotel(props) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Đã xảy ra sự cố',
+                    text: error.message
                 });
             });
     }

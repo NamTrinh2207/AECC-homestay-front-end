@@ -41,97 +41,122 @@ function BookingCard(props) {
     }
     console.log("2", isValid)
     // lấy id người dùng và id của nhà, giá tiền của nhà.
-    const price = transferDate * (props.price >=10000 ? props.price.toLocaleString(): props.price);
+    const price = transferDate * (props.price >=10000 ? props.price: props.price);
     if (user != null) {
         var userId = user.id;
-    }
-    var homeId = props.homeId;
-
-    return (
-        <div>
-            <div className='side-box-card absolute'>
-                <div>
+        var homeId = props.homeId;
+        return (
+            <div>
+                <div className='side-box-card absolute'>
+                    <div>
                     <span style={
                         {fontSize: `20px`}
                     }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
-                    <span
-                        className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
-                </div>
+                        <span
+                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                    </div>
 
-                <div className='rev-card absolute'>
+                    <div className='rev-card absolute'>
                     <span style={
                         {fontSize: '20px'}
                     }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
-                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                        <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                    </div>
                 </div>
-            </div>
-            {(transferDate === 0) ?
-                <div className='reserve-date-button-holder'>
-                    <button className={'reserve-date-button rounded-xl'}
-                            onClick={buttonOpenHandler}>Chọn ngày
-                    </button>
-                </div> :
-                <div className='reserve-date-button-holder'>
-                    <button className={'reserve-date-button rounded-xl'}
-                            onClick={buttonOpenHandler}>Chọn lại ngày
-                    </button>
+                {(transferDate === 0) ?
+                    <div className='reserve-date-button-holder'>
+                        <button className={'reserve-date-button rounded-xl'}
+                                onClick={buttonOpenHandler}>Chọn ngày
+                        </button>
+                    </div> :
+                    <div className='reserve-date-button-holder'>
+                        <button className={'reserve-date-button rounded-xl'}
+                                onClick={buttonOpenHandler}>Chọn lại ngày
+                        </button>
+                    </div>
+                }
+
+                <div className="s">
+                    <CalendarFunc placesId={id}
+                                  buttonopenState={buttonOpen}
+                                  buttonCloseState={buttonClose}
+                                  closeFunc={buttonCloseHandler}
+                                  onDataChanged={handleDiffDate}
+                    />
                 </div>
-            }
 
-            <div className="s">
-                <CalendarFunc placesId={id}
-                              buttonopenState={buttonOpen}
-                              buttonCloseState={buttonClose}
-                              closeFunc={buttonCloseHandler}
-                              onDataChanged={handleDiffDate}
-                />
+                <div className='line-total text-gray-300'>________________________________________________</div>
+
+                <div className='price-total-text absolute font-semibold text-xl uppercase'>
+                    Tổng phải thanh toán: {price.toLocaleString()} VNĐ
+                </div>
+                <Formik
+                    initialValues={{
+                        checkin: startDate,
+                        checkout: endDate,
+                        totalPrice: price,
+                        isPaid: false,
+                        users: {
+                            id: userId
+                        },
+                        homes: {
+                            id: homeId
+                        },
+                        isCheckinB: false,
+                        isCheckoutB: true,
+                    }}
+                    onSubmit={(values) => {
+                        newBooking(values)
+                    }}
+                    enableReinitialize={true}
+                >
+                    {(formik) => (
+                        <>
+                            <Form onSubmit={formik.handleSubmit}>
+                                <input type="hidden" name={"checkin"}/>
+                                <input type="hidden" name={"checkout"}/>
+                                <input type="hidden" name={"totalPrice"}/>
+                                <input type="hidden" name={"isPaid"}/>
+                                <input type="hidden" name={"users.id"}/>
+                                <input type="hidden" name={"homes.id"}/>
+                                { isValid === false ? "" :
+                                    <button className={"checkout-btn"}>Xác nhận</button>
+                                }
+                            </Form>
+                        </>
+                    )}
+                </Formik>
             </div>
+        );
+    } else {
+        return (
+            <>
+                <div className='side-box-card absolute'>
+                    <div>
+                    <span style={
+                        {fontSize: `20px`}
+                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
+                        <span
+                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                    </div>
 
-            <div className='line-total text-gray-300'>________________________________________________</div>
+                    <div className='rev-card absolute'>
+                    <span style={
+                        {fontSize: '20px'}
+                    }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
+                        <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                    </div><br/>
 
-            <div className='price-total-text absolute font-semibold text-xl uppercase'>
-                Tổng phải thanh toán: {price} VNĐ
-            </div>
-            <Formik
-                initialValues={{
-                    checkin: startDate,
-                    checkout: endDate,
-                    totalPrice: price,
-                    isPaid: false,
-                    users: {
-                        id: userId
-                    },
-                    homes: {
-                        id: homeId
-                    }
-                }}
-                onSubmit={(values) => {
-                    newBooking(values)
-                }}
-                enableReinitialize={true}
-            >
-                {(formik) => (
-                    <>
-                        <Form onSubmit={formik.handleSubmit}>
-                            <input type="hidden" name={"checkin"}/>
-                            <input type="hidden" name={"checkout"}/>
-                            <input type="hidden" name={"totalPrice"}/>
-                            <input type="hidden" name={"isPaid"}/>
-                            <input type="hidden" name={"users.id"}/>
-                            <input type="hidden" name={"homes.id"}/>
-                            { isValid === false ? "" :
-                                <button className={"checkout-btn"}>Xác nhận</button>
-                            }
-                        </Form>
-                    </>
-                )}
-            </Formik>
-        </div>
-    );
+                    <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
+                </div>
+            </>
+        )
+    }
+
 
 
     function newBooking(data) {
-        axios.post('http://localhost:8080/bookings/create', data)
+        axios.post('http://localhost:8080/customer/bookings/create', data)
             .then(() => {
                 Swal.fire({
                     title: 'Thành công',
@@ -141,6 +166,8 @@ function BookingCard(props) {
                 });
             })
             .catch((error) => {
+                console.log(error);
+                console.log(data)
                 Swal.fire({
                     title: 'Đã xảy ra lỗi',
                     text: error.message,

@@ -88,7 +88,7 @@ function MainHeader(props) {
                                                                     <ul className="dropdown-menu"
                                                                         aria-labelledby="navbarDropdownMenuLink">
                                                                         {categoryHome.map((category,index)=>(
-                                                                            <li><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                            <li key={index}><a  className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
                                                                         ))}
 
                                                                     </ul>
@@ -118,7 +118,7 @@ function MainHeader(props) {
                                                                     <ul className="dropdown-menu"
                                                                         aria-labelledby="navbarDropdownMenuLink">
                                                                         {categoryHome.map((category,index)=>(
-                                                                            <li><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                            <li key={index}><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
                                                                         ))}
 
                                                                     </ul>
