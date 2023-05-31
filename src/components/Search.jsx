@@ -101,9 +101,14 @@ function Search(props) {
             'ỹ': 'y',
             'ỵ': 'y'
         };
-        return text.replace(/[áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]/g, function (matched) {
-            return mapChars[matched];
-        }).replace(/[^a-zA-Z0-9 ]/g, '');
+
+        return text
+            .toLowerCase()
+            .trim()
+            .replace(/[áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]/g, function (matched) {
+                return mapChars[matched];
+            })
+            .replace(/[^a-zA-Z0-9 ]/g, '');
     }
 
     const handleSearch = () => {
@@ -111,7 +116,7 @@ function Search(props) {
             return (
                 (bedrooms === '' || home.bedroom == bedrooms) &&
                 (bathrooms === '' || home.bathroom == bathrooms) &&
-                (address === '' || convertVietnamese(home.address).toLowerCase().trim().includes(address.toLowerCase().trim())) &&
+                (address === '' || convertVietnamese(home.address).includes(address)) &&
                 (checkIn === '' || home.checkin <= checkIn || home.checkin >= checkIn) &&
                 (checkOut === '' || home.checkout >= checkOut) &&
                 (minPrice === '' || home.priceByDay >= minPrice) &&
@@ -135,7 +140,7 @@ function Search(props) {
                 icon: 'error',
                 showConfirmButton: false,
                 timer: 1500
-            })
+            });
         }
     };
 
@@ -197,7 +202,9 @@ function Search(props) {
                             {/*nut tim kiem*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <button style={{marginTop:32}} className="btn btn-block btn-4" onClick={handleSearch}>Tìm kiếm</button>
+                                    <button style={{marginTop: 32}} className="btn btn-block btn-4"
+                                            onClick={handleSearch}>Tìm kiếm
+                                    </button>
                                 </div>
                             </div>
 
