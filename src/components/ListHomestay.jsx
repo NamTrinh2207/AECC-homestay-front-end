@@ -64,7 +64,6 @@ function ListHomestay(props) {
                 const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }
@@ -107,87 +106,105 @@ function ListHomestay(props) {
                 return 'Unknown';
         }
     };
-    return (
-        <div>
-            {homes.length > 0 ? (
-                <div className="featured-properties content-area-19">
-                    <div className="container">
-                        <div className="main-title">
-                            <h1>Danh sách homestay</h1>
-                        </div>
-                        <div className="row wow fadeInUp delay-04s">
-                            {homes.map(home => (
-                                <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                     data-category="3, 2">
-                                    <div className="property-box-7">
-                                        <div className="property-thumbnail">
-                                            <Link className="property-img" to={`/viewHome/${home.id}`}>
-                                                <div style={{backgroundColor: getStatusColor(home.status)}}
-                                                     className="tag-2">{getStatusLabel(home.status)}</div>
-                                                <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày</div>
-                                                <img height={250} src={home.image[0]} alt="property-box-7"/>
-                                            </Link>
-                                        </div>
-                                        <div className="detail">
-                                            <h1 className="title">
-                                                <TruncatedLink url={`/viewHome/${home.id}`} text={home.name} maxLength={28}></TruncatedLink>
-                                            </h1>
-                                            <div className="location">
-                                                <TruncatedText text={home.address} maxLength={35}></TruncatedText>
+    console.log("home 2", homes)
+
+    if (homes !== undefined) {
+        return (
+            <div>
+                {homes.length > 0 ? (
+                    <div className="featured-properties content-area-19">
+                        <div className="container">
+                            <div className="main-title">
+                                <h1>Danh sách homestay</h1>
+                            </div>
+                            <div className="row wow fadeInUp delay-04s">
+                                {homes.map(home => (
+                                    <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
+                                         data-category="3, 2">
+                                        <div className="property-box-7">
+                                            <div className="property-thumbnail">
+                                                <Link className="property-img" to={`/viewHome/${home.id}`}>
+                                                    <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                         className="tag-2">{getStatusLabel(home.status)}</div>
+                                                    <div className="price-box"><span>{home.priceByDay} VNĐ</span>/ngày
+                                                    </div>
+                                                    <img height={250} src={home.image[0]} alt="property-box-7"/>
+                                                </Link>
                                             </div>
-                                        </div>
-                                        <ul className="facilities-list clearfix">
-                                            <li>
-                                                <span><i className="fa fa-home"></i></span>{home.homeType.name}
-                                            </li>
-                                            <li>
-                                                <span><i className="fa fa-bed"></i></span> {home.bedroom}
-                                            </li>
-                                            <li>
-                                                <span><i className="fa fa-bath"></i></span> {home.bathroom}
-                                            </li>
-                                            <li className="float-right">
-                                                <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
-                                                <i className="fa fa-star" style={{color: "orange"}}></i>))}
-                                            </li>
-                                        </ul>
-                                        <div className="footer clearfix">
-                                            <div className="pull-left days">
-                                                <p><i className="fa fa-user"></i>{home.users.name}</p>
+                                            <div className="detail">
+                                                <h1 className="title">
+                                                    <TruncatedLink url={`/viewHome/${home.id}`} text={home.name}
+                                                                   maxLength={28}></TruncatedLink>
+                                                </h1>
+                                                <div className="location">
+                                                    <TruncatedText text={home.address} maxLength={35}></TruncatedText>
+                                                </div>
                                             </div>
-                                            <ul className="pull-right">
-                                                <li><a href="#"><i
-                                                    className="flaticon-heart-shape-outline"></i></a></li>
-                                                <li><a href="#"><i className="flaticon-calendar"></i></a>
+                                            <ul className="facilities-list clearfix">
+                                                <li>
+                                                    <span><i className="fa fa-home"></i></span>{home.homeType.name}
+                                                </li>
+                                                <li>
+                                                    <span><i className="fa fa-bed"></i></span> {home.bedroom}
+                                                </li>
+                                                <li>
+                                                    <span><i className="fa fa-bath"></i></span> {home.bathroom}
+                                                </li>
+                                                <li className="float-right">
+                                                    <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
+                                                    <i className="fa fa-star" style={{color: "orange"}}></i>))}
                                                 </li>
                                             </ul>
+                                            <div className="footer clearfix">
+                                                <div className="pull-left days">
+                                                    <p><i className="fa fa-user"></i>{home.users.name}</p>
+                                                </div>
+                                                <ul className="pull-right">
+                                                    <li><a href="#"><i
+                                                        className="flaticon-heart-shape-outline"></i></a></li>
+                                                    <li><a href="#"><i className="flaticon-calendar"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
 
-                        <div className="pagination-container"
-                             style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <button style={{border: "none", cursor: "pointer"}}
-                                    onClick={goToPreviousPage}
-                                    disabled={currentPage === 0}
-                            >
-                                <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
-                            </button>
-                            {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
-                            {renderPagination()}
-                            <button style={{border: "none", cursor: "pointer"}}
-                                    onClick={goToNextPage}
-                                    disabled={currentPage === totalPages - 1}
-                            >
-                                <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
-                            </button>
-                        </div>
+                            <div className="pagination-container"
+                                 style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                <button style={{border: "none", cursor: "pointer"}}
+                                        onClick={goToPreviousPage}
+                                        disabled={currentPage === 0}
+                                >
+                                    <i style={{fontSize: 25}} className="fa fa-angle-left"></i>
+                                </button>
+                                {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
+                                {renderPagination()}
+                                <button style={{border: "none", cursor: "pointer"}}
+                                        onClick={goToNextPage}
+                                        disabled={currentPage === totalPages - 1}
+                                >
+                                    <i style={{fontSize: 25}} className="fa fa-angle-right"></i>
+                                </button>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-            ) : (
+                ) : (
+                    <div className="featured-properties content-area-19">
+                        <div className="container">
+                            <div className="main-title">
+                                <h1>Danh sách trống</h1>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    } else {
+        return (
+            <div>
                 <div className="featured-properties content-area-19">
                     <div className="container">
                         <div className="main-title">
@@ -195,9 +212,9 @@ function ListHomestay(props) {
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
-    );
+            </div>
+        )
+    }
 }
 
 export default ListHomestay;
