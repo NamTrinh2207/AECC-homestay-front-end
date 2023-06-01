@@ -60,7 +60,8 @@ function ListHomestay(props) {
             try {
                 const response = await axios.get(`http://localhost:8080/homes?page=${currentPage}`);
                 const {totalPages} = response.data;
-                setHomes(response.data.content);
+                console.log(response)
+                setHomes(response.data);
                 setTotalPages(totalPages);
             } catch (error) {
                 console.log(error);
@@ -68,6 +69,8 @@ function ListHomestay(props) {
         };
         fetchData();
     }, [check, currentPage]);
+
+    console.log("home", homes)
 
     const goToPreviousPage = () => {
         setCheck(!check);

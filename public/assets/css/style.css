@@ -14629,6 +14629,9 @@ body.off-canvas-sidebar-open {
 .image-cell {
     flex-basis: 25%;
     padding: 15px;
+    display: flex;
+    justify-content: center; /* Căn giữa ngang */
+    align-items: center;
 }
 
 .image-wrapper {
@@ -14638,25 +14641,26 @@ body.off-canvas-sidebar-open {
 .image-wrapper img {
     display: block;
     max-width: 100%;
-    height: auto;
+    height: 240px;
 }
 
 .btn-remove {
     position: absolute;
-    top: 5px;
-    background-color: transparent;
-    color: white;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    color: red;
     border: none;
     font-size: 14px;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 25%;
 }
 
 .legend {
     position: absolute;
     top: -19px;
     left: 60px;
-    z-index: 99999999999;
+    z-index: 99;
     background: #fff9f7;
 }
 
