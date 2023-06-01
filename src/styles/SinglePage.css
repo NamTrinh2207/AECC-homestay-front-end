@@ -241,7 +241,9 @@
 }
 
 .calendarHolder2 {
-    z-index: 99999999;
+    z-index: 999;
+    position: absolute;
+    left: -19rem;
 }
 
 
@@ -260,9 +262,9 @@
 
 .days-updated {
     position: absolute;
-    top: -3rem;
+    top: -2rem;
     width: 7.8rem;
-    left: 12.8rem;
+    left: 6.8rem;
     white-space: nowrap;
 }
 
@@ -325,9 +327,9 @@
 @media(max-width:1340px) {
     .days-updated {
         position: absolute;
-        top: -3rem;
+        top: -2rem;
         width: 7.8rem;
-        left: 12.8rem;
+        left: 6.8rem;
         white-space: nowrap;
     }
     .reserve-date-button{

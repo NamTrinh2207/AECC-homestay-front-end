@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Search from "../Search";
+import axios from "axios";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBell, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 
 function MainHeader(props) {
+    const [categoryHome, setCategoryHome] = useState([])
     const data = localStorage.getItem("user");
+
     let roles = null;
     if (data != null) {
         roles = JSON.parse(localStorage.getItem("user")).roles[0].authority
-        console.log(roles)
     } else {
         roles = null;
-    }
+    };
+        useEffect(()=>{
+            axios.get("http://localhost:8080/user/hometypes/")
+                .then(res => {
+                    setCategoryHome(res.data);
+                    console.log("categoryHome",categoryHome)
+                })
+        },[])
+
     return (
         <div>
             <header className="main-header sticky-header" id="main-header-2">
@@ -66,12 +78,27 @@ function MainHeader(props) {
                                                                     </Link>
                                                                 </li>
                                                                 <li className="nav-item dropdown">
+                                                                    <Link to={"/"} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size" role="button"
+                                                                          data-toggle="dropdown"
+                                                                          aria-haspopup="true" aria-expanded="false">
+                                                                        Danh Mục
+                                                                    </Link>
+                                                                    <ul className="dropdown-menu"
+                                                                        aria-labelledby="navbarDropdownMenuLink">
+                                                                        {categoryHome.map((category,index)=>(
+                                                                            <li key={index}><a  className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                        ))}
+
+                                                                    </ul>
+                                                                </li>
+                                                                <li className="nav-item dropdown">
                                                                     <Link to={""} className="nav-link dropdown-toggle"
                                                                           href="#"
                                                                           id="change-font-size"
                                                                           data-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false">
-                                                                        Danh sách homestay
+                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
                                                                     </Link>
                                                                 </li>
 
@@ -81,14 +108,40 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                    <Link to={"/"} className="nav-link dropdown-toggle"
                                                                           href="#"
                                                                           id="change-font-size" role="button"
                                                                           data-toggle="dropdown"
                                                                           aria-haspopup="true" aria-expanded="false">
-                                                                        Cửa hàng
+                                                                        Danh Mục
+                                                                    </Link>
+                                                                    <ul className="dropdown-menu"
+                                                                        aria-labelledby="navbarDropdownMenuLink">
+                                                                        {categoryHome.map((category,index)=>(
+                                                                            <li key={index}><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                        ))}
+
+                                                                    </ul>
+                                                                </li>
+                                                                {/* cho dang sua*/}
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={"/user"}
+                                                                          className="nav-link dropdown-toggle" href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
+                                                                        Tài khoản
                                                                     </Link>
                                                                 </li>
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={""} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
+                                                                    </Link>
+                                                                </li>
+                                                                {/* ket thu sua*/}
                                                             </ul>
                                                         </>
                                                     )}

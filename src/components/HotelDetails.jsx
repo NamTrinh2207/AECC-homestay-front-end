@@ -6,27 +6,35 @@ import axios from "axios";
 import MainHeader from "./header/MainHeader";
 import BookingCard from "./BookingCard";
 import Page404 from "./404/Page404";
+import ScrollToElement from "./scrollToElement/Scroll";
 
 function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
+
     useEffect(() => {
-        axios.get(`http://localhost:8080/homes/${id}`)
-            .then((response) => {
-                setHome(response.data)
-                console.log(response.data)
-            })
-            .catch(() => {
-                setHome(null);
-            })
-    }, [id])
+        const getHome = async () => {
+            try {
+                if (!home) {
+                    const response = await axios.get(`http://localhost:8080/homes/${id}`);
+                    setHome(response.data);
+                }
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+
+        getHome();
+    }, [home, id]);
+
     const slideshowProperties = {
-        duration: 5000,
-        transitionDuration: 500,
-        infinite: true,
-        indicators: true,
-        arrows: true,
-    };
+            duration: 5000,
+            transitionDuration: 500,
+            infinite: true,
+            indicators: true,
+            arrows: true,
+        }
+    ;
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -41,14 +49,6 @@ function HotelDetails(props) {
         }
     };
 
-    if (home === null) {
-        return (
-            <>
-                <Page404/>
-            </>
-        )
-    }
-
     return (
         <>
             <TopHeader/>
@@ -60,15 +60,21 @@ function HotelDetails(props) {
                     <div className="breadcrumb-area">
                         <h1>Thông tin chi tiết</h1>
                         <ul className="breadcrumbs">
+
                             <li><a href="/">Trang chủ</a></li>
                             <li className="active">Chi tiết homestay</li>
                         </ul>
+                        <br/><br/>
+                        <ScrollToElement targetId={"main-home"}></ScrollToElement>
+                        <div id={"main-home"}></div>
                     </div>
                 </div>
             </div>
             {/* Sub banner end */}
 
             {/* Properties details page start */}
+
+            {/*<div id="main-home"></div>*/}
             <div className="properties-details-page content-area-2" key={home?.id}>
                 <div className="container">
                     <div className="row">
@@ -79,21 +85,28 @@ function HotelDetails(props) {
                                     <div className="row">
                                         <div className="col-lg-12">
                                             <div className="informeson">
-                                                <h1>{home?.name}<span>{home?.priceByDay} VNĐ/Ngày</span></h1>
+                                                <h1>{home?.name}<span>{home?.priceByDay >=10000 ? home?.priceByDay.toLocaleString(): home?.priceByDay} VNĐ/ngày</span></h1>
                                                 <div>
                                                     <div className="float-left">
                                                         <ul className="clearfix">
-                                                            <li><i className="flaticon-bed"></i> Phòng ngủ: {home?.bedroom}</li>
-                                                            <li><i className="flaticon-bath"></i> Phòng tắm: {home?.bathroom}</li>
-                                                            <li><i className="flaticon-house"></i> Loại phòng: {home?.homeType.name}</li>
-                                                            <li><i className="flaticon-calendar"></i> Trạng thái: {getStatusLabel(home?.status)}
+                                                            <li><i className="flaticon-bed"></i> Phòng
+                                                                ngủ: {home?.bedroom}</li>
+                                                            <li><i className="flaticon-bath"></i> Phòng
+                                                                tắm: {home?.bathroom}</li>
+                                                            <li><i className="flaticon-house"></i> Loại
+                                                                phòng: {home?.homeType.name}</li>
+                                                            <li><i className="flaticon-calendar"></i> Trạng
+                                                                thái: {getStatusLabel(home?.status)}
                                                             </li>
-                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng thái: {getStatusLabel(home?.status)}</li>
+                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng
+                                                                thái: {getStatusLabel(home?.status)}</li>
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p><span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color:"orange"}} key = {index} ></i>))}</p>
+                                                        <p>
+                                                            <span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
+                                                            <i className="fa fa-star" style={{color: "orange"}}
+                                                               key={index}></i>))}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -107,7 +120,8 @@ function HotelDetails(props) {
                                             key={index}
                                             className={`item carousel-item ${index === 0 ? 'active' : ''}`}
                                             data-slide-number={index}
-                                        ><img  style={{height:"600px",width:1500}} src={image}  alt="properties-photo" />
+                                        ><img style={{height: "600px", width: 1500}} src={image}
+                                              alt="properties-photo"/>
                                         </div>
                                     ))}
                                 </div>
@@ -120,7 +134,8 @@ function HotelDetails(props) {
                                                 data-slide-to={index}
                                                 data-target="#propertiesDetailsSlider"
                                             >
-                                                <img  style={{height:"150px",left:0}} src={image} className="img-fluid p-1" alt="properties-photo-smale" />
+                                                <img style={{height: "150px", left: 0}} src={image}
+                                                     className="img-fluid p-1" alt="properties-photo-smale"/>
                                             </a>
                                         </li>
                                     ))}
@@ -132,12 +147,6 @@ function HotelDetails(props) {
                         <div className="col-lg-8 col-md-12 slider">
                             {/* Search area start */}
 
-                            {/* Property description start */}
-                            <div className="property-description mb-60">
-                                <h3 className="heading-3">Mô tả</h3>
-                                <p>{home?.description}</p>
-                            </div>
-                            {/* Property details start */}
                             <div className="property-details mb-45">
                                 <h3 className="heading-3">Thông tin chi tiết</h3>
                                 <div className="row">
@@ -150,7 +159,7 @@ function HotelDetails(props) {
                                                 <strong>Phân khúc:</strong>{home?.homeType.name}
                                             </li>
                                             <li>
-                                                <strong>Giá thuê:</strong>{home?.priceByDay} VNĐ/Ngày
+                                                <strong>Giá thuê:</strong>{home?.priceByDay >=10000 ? home?.priceByDay.toLocaleString(): home?.priceByDay} VNĐ/ngày
                                             </li>
                                         </ul>
                                     </div>
@@ -185,14 +194,18 @@ function HotelDetails(props) {
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span>
+                                            </li>
+                                            <li><span><i
+                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
                                             <li><span><i className="flaticon-draw-check-mark"></i> 1 Garage</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span></li>
+                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
@@ -279,7 +292,12 @@ function HotelDetails(props) {
                                     </div>
                                 </div>
                             </div>
-
+                            {/* Property description start */}
+                            <div className="property-description mb-60">
+                                <h3 className="heading-3">Mô tả</h3>
+                                <p>{home?.description}</p>
+                            </div>
+                            {/* Property details start */}
                             {/* Related properties start */}
 
                         </div>
@@ -287,7 +305,8 @@ function HotelDetails(props) {
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating}  />
+                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}
+                                                 homeStatus={home?.status}/>
                                 </div>
                                 {/* Recent posts start */}
                             </div>

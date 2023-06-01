@@ -6,6 +6,7 @@ import {ErrorMessage, Formik} from "formik";
 import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/apiRequest";
+import Toast from "../toast/Toast";
 
 
 function Login(props) {
@@ -76,7 +77,7 @@ function Login(props) {
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <button type={"submit"} className="btn btn-blue text-center">ĐĂNG NHẬP</button>
+                                                <Toast name={"Đăng Nhập"}/>
                                             </div>
                                         </form>
                                     )}
