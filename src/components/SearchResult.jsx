@@ -72,16 +72,6 @@ function SearchResult(props) {
                                         </li>
                                     </ul>
                                     <div className="footer clearfix">
-                                        {home.checkin && home.checkout ? (
-                                            <div className="check-in-out">
-                                            <p>Ngày thuê phòng: {home.checkin}</p>
-                                            <p>Ngày trả phòng: {home.checkout}</p>
-                                        </div>) : (
-                                            <div className="check-in-out">
-                                                <p>Ngày thuê phòng: ... </p>
-                                                <p>Ngày trả phòng: ...</p>
-                                            </div>
-                                        )}
                                         <div className="pull-left days">
                                             <p><i className="fa fa-user"></i>{home.username}</p>
                                         </div>
@@ -93,7 +83,6 @@ function SearchResult(props) {
                                 </div>
                             </div>
                         ))}
-
                     </div>
                 </div>
             </div>
