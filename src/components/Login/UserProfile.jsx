@@ -262,18 +262,6 @@ function UserProfile(props) {
                                                             </a>
                                                         </li>
 
-                                                        <li>
-                                                            <Link to={"/"}>
-                                                                <i className="flaticon-add"></i>Thuê nhà ngay
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <a onClick={handleHistoryRental}
-                                                               className={activeButton === "history" ? 'active' : ''}>
-                                                                <i className="flaticon-house"></i>Lịch sử thuê
-                                                                nhà
-                                                            </a>
-                                                        </li>
                                                     </div>
                                                 ) : (
                                                     <>
@@ -287,18 +275,6 @@ function UserProfile(props) {
                                                                         </a>
                                                                     </li>
 
-                                                                    <li>
-                                                                        <Link to={"/"}>
-                                                                            <i className="flaticon-add"></i>Thuê nhà ngay
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a onClick={handleHistoryRental}
-                                                                           className={activeButton === "history" ? 'active' : ''}>
-                                                                            <i className="flaticon-house"></i>Lịch sử thuê
-                                                                            nhà
-                                                                        </a>
-                                                                    </li>
 
                                                                 </>
                                                             )
@@ -373,12 +349,6 @@ function UserProfile(props) {
                                                 </>
                                             ) : role === "ROLE_CUSTOMER" ? (
                                                 <>
-                                                    {showListHistoryRental ? (
-                                                        <div>
-                                                            <h3 className="heading-3">Lịch sử thuê nhà</h3>
-                                                            <RentaHistory user={user}/>
-                                                        </div>
-                                                    ) : null}
                                                     {showListBookings ? (
                                                         <div>
                                                             <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>

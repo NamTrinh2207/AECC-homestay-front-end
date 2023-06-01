@@ -12,8 +12,8 @@ function BookingsOfCustomer(props) {
     const [check, setCheck] = useState(false);
     const visiblePages = totalPages+1;
     const [bookings, setBookings] = useState([]);
-
-
+    const [isDone, setIsDone] = useState(false);
+    const [status, setStatus] = useState(true);
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -60,11 +60,12 @@ function BookingsOfCustomer(props) {
     const checkinButton = async (bookingId) => {
         const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
         const newBooking = response.data;
-        const checkIn = format(new Date(newBooking.checkin), 'dd/M/yyyy');
+        const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
         const currentDate = new Date().toLocaleDateString();
         console.log("current date",currentDate);
         console.log("check in",checkIn);
-
+        console.log("id cua home la :", newBooking.homes.id);
+        console.log(newBooking)
         let updateBooking = {
             ...newBooking,
             checkinB: true,
@@ -84,6 +85,12 @@ function BookingsOfCustomer(props) {
                 });
                 setCheck(!check);
             });
+                await axios.put(`http://localhost:8080/homes/after-booking/${newBooking.homes.id}`, newBooking.homes.id, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                )
             console.log("check-in thafnh cong");
         } else {
             Swal.fire({
@@ -97,7 +104,7 @@ function BookingsOfCustomer(props) {
     const checkoutButton = async (bookingId) => {
         const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
         const newBooking = response.data;
-        const checkIn = format(new Date(newBooking.checkin), 'dd/M/yyyy');
+        const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
         const currentDate = new Date().toLocaleDateString();
         console.log("current date",currentDate);
         console.log("check in",checkIn);
@@ -105,7 +112,8 @@ function BookingsOfCustomer(props) {
         let updateBooking = {
             ...newBooking,
             checkinB: true,
-            checkoutB: true
+            checkoutB: true,
+            done: true
         };
         if (checkIn === currentDate){
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
@@ -121,6 +129,12 @@ function BookingsOfCustomer(props) {
                 });
                 setCheck(!check);
             });
+            await axios.put(`http://localhost:8080/homes/after-bookings/${newBooking.homes.id}`, newBooking.homes.id, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
             console.log("check-out thanh cong");
         } else {
             console.log("khong the check-out");
@@ -130,7 +144,7 @@ function BookingsOfCustomer(props) {
     useEffect(() =>{
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/customer/bookings/status/${userId.id}?page=${currentPage}&`);
+                const response = await axios.get(`http://localhost:8080/customer/bookings/status/${userId.id}?page=${currentPage}`);
                 const { totalPages } = response.data;
                 setBookings(response.data.content);
                 setTotalPages(totalPages);
@@ -140,7 +154,7 @@ function BookingsOfCustomer(props) {
             }
         };
         fetchData();
-    }, [check, currentPage]);
+    }, [check, currentPage, isDone]);
 
     const goToPreviousPage = () => {
         setCheck(!check);
