@@ -16,6 +16,7 @@ import BookingsOfCustomer from "./BookingsOfCustomer";
 
 import Income from "./Income";
 import Swal from 'sweetalert2';
+import ListBookingByCustomer from "./ListBookingByCustomer";
 
 
 
@@ -262,18 +263,6 @@ function UserProfile(props) {
                                                             </a>
                                                         </li>
 
-                                                        <li>
-                                                            <Link to={"/"}>
-                                                                <i className="flaticon-add"></i>Thuê nhà ngay
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <a onClick={handleHistoryRental}
-                                                               className={activeButton === "history" ? 'active' : ''}>
-                                                                <i className="flaticon-house"></i>Lịch sử thuê
-                                                                nhà
-                                                            </a>
-                                                        </li>
                                                     </div>
                                                 ) : (
                                                     <>
@@ -284,19 +273,6 @@ function UserProfile(props) {
                                                                            className={activeButton === "listBookings" ? 'active' : ''}>
                                                                             <i className="flaticon-house"></i>Danh sách
                                                                             booking
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <Link to={"/"}>
-                                                                            <i className="flaticon-add"></i>Thuê nhà ngay
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a onClick={handleHistoryRental}
-                                                                           className={activeButton === "history" ? 'active' : ''}>
-                                                                            <i className="flaticon-house"></i>Lịch sử thuê
-                                                                            nhà
                                                                         </a>
                                                                     </li>
 
@@ -370,19 +346,19 @@ function UserProfile(props) {
                                                             <Income user={user}/>
                                                         </div>
                                                     ) : null}
-                                                </>
-                                            ) : role === "ROLE_CUSTOMER" ? (
-                                                <>
-                                                    {showListHistoryRental ? (
-                                                        <div>
-                                                            <h3 className="heading-3">Lịch sử thuê nhà</h3>
-                                                            <RentaHistory user={user}/>
-                                                        </div>
-                                                    ) : null}
                                                     {showListBookings ? (
                                                         <div>
                                                             <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
-                                                            <BookingsOfCustomer user={user}/>
+                                                            <ListBookingByCustomer user={user}/>
+                                                        </div>
+                                                    ) : null}
+                                                </>
+                                            ) : role === "ROLE_CUSTOMER" ? (
+                                                <>
+                                                    {showListBookings ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <ListBookingByCustomer user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>

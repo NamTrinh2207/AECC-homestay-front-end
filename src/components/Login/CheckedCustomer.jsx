@@ -5,7 +5,6 @@ import {Pagination} from "antd";
 export default function CheckedCustomer(props){
     const userId = props.user;
     const [booking, setBooking] = useState([]);
-    const [check, setCheck] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 6;
 

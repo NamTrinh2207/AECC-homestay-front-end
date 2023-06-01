@@ -1,11 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import axios from "axios";
+import React, {useState} from "react";
 import {Button} from "antd";
-import Swal from "sweetalert2";
-import {Link} from "react-router-dom";
-import FormUpdateUser from "./FormUpdateUser";
-import FormChangePassword from "./FormChangePassword";
 import CancelRequest from "./CancelRequest";
 import CheckedCustomer from "./CheckedCustomer";
 import UncheckedCustomer from "./UncheckedCustomer";
