@@ -10,17 +10,18 @@ export default function UncheckedCustomer(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 6;
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/${userId.id}/booking/unchecked`);
+            setBooking(response.data);
+        } catch (error) {
+            console.log(error)
+        }
+    };
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/${userId.id}/booking/unchecked`)
-            .then((response) => {
-                setBooking(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        fetchData();
+    }, [check]);
+
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -64,6 +65,7 @@ export default function UncheckedCustomer(props) {
                     'Đơn đặt phòng đã được hủy thành công',
                     'success',
                 );
+                fetchData()
             } catch (error) {
                 await Swal.fire({
                     title: 'Đã xảy ra sự cố',
