@@ -196,6 +196,6 @@ export default function ListBookingByOwner(props) {
                 </button>
             </div>
         </div>
-
     );
 }
+

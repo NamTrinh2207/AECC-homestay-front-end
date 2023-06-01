@@ -11,8 +11,12 @@ import FormChangePassword from "./FormChangePassword";
 import MyProperty from "./MyProperty";
 import ListBookingByOwner from "./ListBookingByOwner";
 import RentaHistory from "./RentaHistory";
+
+import BookingsOfCustomer from "./BookingsOfCustomer";
+
 import Income from "./Income";
 import Swal from 'sweetalert2';
+
 
 
 function UserProfile(props) {
@@ -25,7 +29,6 @@ function UserProfile(props) {
     const [showListHomes, setShowListHomes] = useState(true);
     const [activeButton, setActiveButton] = useState('listHomes');
     const [showListBookings, setShowListBookings] = useState(true);
-    const [activeButton1, setActiveButton1] = useState('listBookings');
     const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
     const [showListHistoryRental, setShowListHistoryRental] = useState(false);
     const [showIncome, setShowIncome] = useState(false);
@@ -118,11 +121,11 @@ function UserProfile(props) {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
         setShowListHomes(false);
-        setShowListBookingByOwner(true);
+        setShowListBookingByOwner(false);
         setShowListHistoryRental(false)
-        setShowListBookings(false);
+        setShowListBookings(true);
         setShowIncome(false)
-        setActiveButton1('listBookings');
+        setActiveButton('listBookings');
     }
 
     useEffect(() => {
@@ -374,6 +377,12 @@ function UserProfile(props) {
                                                         <div>
                                                             <h3 className="heading-3">Lịch sử thuê nhà</h3>
                                                             <RentaHistory user={user}/>
+                                                        </div>
+                                                    ) : null}
+                                                    {showListBookings ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <BookingsOfCustomer user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>

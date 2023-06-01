@@ -21,6 +21,11 @@ function FormUpdateUser(props) {
                     axios
                         .put(`http://localhost:8080/${user.id}`, values)
                         .then(() => {
+                            console.log("new avt",values.avatar)
+                            var newAvatar = values.avatar;
+                            var old = JSON.parse(localStorage.getItem("user.avatar"));
+                            console.log("old ",old)
+                            localStorage.setItem("user.avatar", newAvatar );
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Sửa thông tin thành công',
