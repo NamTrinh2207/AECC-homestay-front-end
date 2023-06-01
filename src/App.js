@@ -35,7 +35,6 @@ function App() {
                 <Route path={'/category/:id'} element={<ListHomeByHomeType/>}></Route>
                 <Route path={'/map'} element={<MapPage/>}></Route>
                 <Route path={"*"} element={<Page404/>}></Route>
-
             </Routes>
             <Outlet/>
         </BrowserRouter>
