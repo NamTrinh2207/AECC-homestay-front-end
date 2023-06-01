@@ -146,7 +146,6 @@ function BookingCard(props) {
                     }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
                         <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                     </div><br/>
-
                     <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
                 </div>
             </>
