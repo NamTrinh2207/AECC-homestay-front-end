@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
 import {ErrorMessage, Formik} from "formik";
 import Toast from "../toast/Toast";
@@ -7,11 +7,13 @@ import Swal from 'sweetalert2';
 function FormUpdateUser(props) {
     const user = props.user;
     const imgUrl = props.imgUrl;
+    const [current, setCurrent] = useState({});
+
     const initialValue = {
         name: user.name || "",
         address: user.address || "",
         phoneNumber: user.phoneNumber || "",
-        avatar: user.avatar ||  "",
+        avatar: user.avatar || "",
         email: user.email || "",
     };
     return (
@@ -21,11 +23,6 @@ function FormUpdateUser(props) {
                     axios
                         .put(`http://localhost:8080/${user.id}`, values)
                         .then(() => {
-                            console.log("new avt",values.avatar)
-                            var newAvatar = values.avatar;
-                            var old = JSON.parse(localStorage.getItem("user.avatar"));
-                            console.log("old ",old)
-                            localStorage.setItem("user.avatar", newAvatar );
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Sửa thông tin thành công',

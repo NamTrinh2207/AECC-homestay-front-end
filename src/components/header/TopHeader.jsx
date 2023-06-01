@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Swal from 'sweetalert2';
+import axios from "axios";
 
 function TopHeader(props) {
     const handleLogout = () => {
@@ -21,10 +22,8 @@ function TopHeader(props) {
         });
     };
     const data = localStorage.getItem("user");
-    const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Favatar-13.jpg?alt=media&token=bfda6ea1-cd69-4680-92e5-9e4dcb720159";
-
-    let [avatar, setAvatar] = useState("");
-
+    const [avatar, setAvatar] = useState("");
+    const [check, setCheck] = useState(false)
     let user = null;
     if (data != null) {
         user = JSON.parse(localStorage.getItem("user"))
@@ -33,15 +32,19 @@ function TopHeader(props) {
     }
 
     useEffect(() => {
-        if (user !=null){
-            if (user.avatar != null) {
-                setAvatar(user.avatar);
-            } else {
-                setAvatar(defaultAvatar);
+        const getAvatar = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8080/${user.id}`);
+                setAvatar(res.data.avatar);
+                setCheck(!check)
+            } catch (error) {
+                console.log(error.message);
             }
-        }
-    });
-
+        };
+        setTimeout(()=>{
+            getAvatar()
+        },200)
+    },[check]);
     return (
         <div>
             <header className="top-header th-bg" id="top-header-2">
@@ -59,7 +62,6 @@ function TopHeader(props) {
                                             <img className="avatar-custom"
                                                  src={avatar}
                                                  alt="avatar">
-
                                             </img></Link>
                                         <li>
                                             <a onClick={handleLogout} className="sign-in"><i

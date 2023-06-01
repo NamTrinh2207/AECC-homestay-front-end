@@ -5,8 +5,8 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import MainHeader from "./header/MainHeader";
 import BookingCard from "./BookingCard";
-import Page404 from "./404/Page404";
 import ScrollToElement from "./scrollToElement/Scroll";
+import MapPage from "./map/MapPage";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -27,14 +27,6 @@ function HotelDetails(props) {
         getHome();
     }, [home, id]);
 
-    const slideshowProperties = {
-            duration: 5000,
-            transitionDuration: 500,
-            infinite: true,
-            indicators: true,
-            arrows: true,
-        }
-    ;
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -98,8 +90,6 @@ function HotelDetails(props) {
                                                             <li><i className="flaticon-calendar"></i> Trạng
                                                                 thái: {getStatusLabel(home?.status)}
                                                             </li>
-                                                            <li><i className="flaticon-balcony-and-door"></i> Trạng
-                                                                thái: {getStatusLabel(home?.status)}</li>
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
@@ -214,84 +204,6 @@ function HotelDetails(props) {
                                     </div>
                                 </div>
                             </div>
-                            {/* Features opions start */}
-                            <div className="features-opions af mb-45">
-                                <h3 className="heading-3">Tiện ích bổ sung</h3>
-                                <div className="row">
-                                    <div className="col-md-4 col-sm-6">
-                                        <ul>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Điều hòa
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Wifi
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Bể bơi
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Giường đôi
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Ban công
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-4 col-sm-6">
-                                        <ul>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Điện thoại
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Bảo vệ
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Khu vực đậu xe
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                TV
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Rạp chiếu phim mini
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="col-md-4 col-sm-6">
-                                        <ul>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Chuông cửa
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Hòm thư
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Phòng tập Gym
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Bếp điện
-                                            </li>
-                                            <li>
-                                                <i className="flaticon-draw-check-mark"></i>
-                                                Không gian riêng tư
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                             {/* Property description start */}
                             <div className="property-description mb-60">
                                 <h3 className="heading-3">Mô tả</h3>
@@ -311,11 +223,11 @@ function HotelDetails(props) {
                                 {/* Recent posts start */}
                             </div>
                         </div>
+                        <MapPage address={home?.address}/>
                     </div>
                 </div>
             </div>
             {/* Properties details page start */}
-
             {/* Footer start */}
             <Footer/>
             {/* Footer end */}

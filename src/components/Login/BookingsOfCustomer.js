@@ -148,7 +148,6 @@ function BookingsOfCustomer(props) {
                 const { totalPages } = response.data;
                 setBookings(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }
