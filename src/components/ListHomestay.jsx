@@ -62,7 +62,6 @@ function ListHomestay(props) {
                 const {totalPages} = response.data;
                 setHomes(response.data.content);
                 setTotalPages(totalPages);
-                console.log("ban dau", response.data.content)
             } catch (error) {
                 console.log(error);
             }

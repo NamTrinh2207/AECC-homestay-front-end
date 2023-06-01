@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Swal from 'sweetalert2';
+import axios from "axios";
 
 function TopHeader(props) {
     const handleLogout = () => {
@@ -21,13 +22,29 @@ function TopHeader(props) {
         });
     };
     const data = localStorage.getItem("user");
-
+    const [avatar, setAvatar] = useState("");
+    const [check, setCheck] = useState(false)
     let user = null;
     if (data != null) {
         user = JSON.parse(localStorage.getItem("user"))
     } else {
         user = null;
     }
+
+    useEffect(() => {
+        const getAvatar = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8080/${user.id}`);
+                setAvatar(res.data.avatar);
+                setCheck(!check)
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        setTimeout(()=>{
+            getAvatar()
+        },200)
+    },[check]);
     return (
         <div>
             <header className="top-header th-bg" id="top-header-2">
@@ -43,7 +60,7 @@ function TopHeader(props) {
                                     <ul className="top-social-media pull-right">
                                         <Link to={"/user"}>
                                             <img className="avatar-custom"
-                                                 src={user.avatar}
+                                                 src={avatar}
                                                  alt="avatar">
                                             </img></Link>
                                         <li>
