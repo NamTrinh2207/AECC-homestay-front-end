@@ -131,11 +131,11 @@ function BookingCard(props) {
 
 
     function newBooking(data) {
-        axios.post('http://localhost:8080/bookings/create', data)
+        axios.post('http://localhost:8080/customer/bookings/create', data)
             .then(() => {
                 Swal.fire({
                     title: 'Thành công',
-                    text: 'Thanh toán thành công !',
+                    text: 'Đặt lịch thành công !',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });

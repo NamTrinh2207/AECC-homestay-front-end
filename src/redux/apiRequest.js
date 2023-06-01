@@ -3,19 +3,11 @@ import {loginFailed, loginStart, loginSuccess, registerFailed, registerStart, re
 import Swal from 'sweetalert2';
 
 export const loginUser = async (user, dispatch, navigate) => {
-
     dispatch(loginStart());
     try {
         const res = await axios.post("http://localhost:8080/login", user);
         dispatch(loginSuccess(res.data));
         localStorage.setItem("user", JSON.stringify(res.data));
-        await Swal.fire({
-            position: 'top',
-            icon: 'success',
-            title: `Đăng nhập thành công`,
-            showConfirmButton: false,
-            timer: 1500
-        })
         navigate("/");
     } catch(err) {
         await Swal.fire({
