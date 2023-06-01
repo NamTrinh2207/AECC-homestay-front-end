@@ -29,7 +29,6 @@ const labels = [
     '11',
     '12',
 ];
-
 export const options = {
     responsive: true,
     plugins: {
@@ -80,7 +79,6 @@ export function Income(props) {
 
     const generateDataArray = (income, name) => {
         const dataArray = new Array(12).fill(null);
-
         income.forEach((item) => {
             if (item.name === name) {
                 const monthIndex = new Date(item.month).getMonth();
@@ -92,12 +90,17 @@ export function Income(props) {
 
     const names = [...new Set(income.map((item) => item.name))];
     const totalItems = income.length;
-    const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize, totalItems);
-    const paginatedIncome = income.slice(startIndex, endIndex);
 
-    const colorPalette = ['#d90a0a', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+    const colorPalette = [
+        '#d90a0a',
+        '#36A2EB',
+        '#FFCE56',
+        '#4BC0C0',
+        '#9966FF',
+        '#FF9F40',
+    ];
 
     const chartData = {
         labels: labels,
@@ -113,24 +116,32 @@ export function Income(props) {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
     const [nameFilter, setNameFilter] = useState("");
     const [monthFilter, setMonthFilter] = useState("");
 
     const handleNameFilter = (event) => {
         const name = event.target.value;
         setNameFilter(name);
+        setCurrentPage(1);
     };
 
     const handleMonthFilter = (event) => {
         const month = event.target.value;
         setMonthFilter(month);
+        setCurrentPage(1);
     };
 
-    const filteredIncome = income.filter((item) => {
-        const nameMatch = item.name.toLowerCase().includes(nameFilter.toLowerCase());
-        const monthMatch = item.month.toLowerCase().includes(monthFilter.toLowerCase());
-        return nameMatch && monthMatch;
-    });
+    const filteredIncome = nameFilter || monthFilter
+        ? income.filter((item) => {
+            const nameMatch = nameFilter ? item.name.toLowerCase().includes(nameFilter.toLowerCase()) : true;
+            const monthMatch = monthFilter ? item.month.substring(5, 7) === monthFilter : true;
+            return nameMatch && monthMatch;
+        })
+        : [...income];
+
+
+    const paginatedFilteredIncome = filteredIncome.slice(startIndex, endIndex);
 
     let totalIncome = 0;
     income.forEach((item) => {
@@ -142,8 +153,9 @@ export function Income(props) {
             <div className="chart-container">
                 <Line options={options} data={chartData}/>
             </div>
-            <div style={{color: 'red', fontSize: 13, textAlign: "center"}}>Chú thích: Chọn ô có màu tương ứng để xem
-                chi tiết biến động thu nhập của từng homestay
+            <div style={{color: 'red', fontSize: 13, textAlign: "center"}}>
+                Chú thích: Chọn ô có màu tương ứng để ẩn đi biến động thu nhập của
+                của từng homestay
             </div>
             <table className="table mt-3" style={{borderCollapse: 'collapse', width: '100%'}}>
                 <thead>
@@ -176,25 +188,36 @@ export function Income(props) {
                     <th style={{display: 'flex', justifyContent: 'center'}}>
                         <input
                             placeholder="Lọc theo tên"
-                            style={{width: 200, height: 30, textAlign: 'center'}}
+                            style={{width: 200, height: 30, textAlign: 'center',border:'1px solid black'}}
                             type="text"
                             onChange={handleNameFilter}
                         />
                     </th>
                     <th style={{justifyContent: 'center'}}>
-                        <input
-                            placeholder="Lọc theo tháng"
-                            style={{width: 130, height: 30, textAlign: 'center', marginLeft: 40}}
-                            type="text"
+                        <select
+                            style={{width: 130, height: 30, textAlign: 'center', marginLeft: 40,marginBottom:6}}
                             onChange={handleMonthFilter}
-                        />
+                        >
+                            <option value="">Lọc theo tháng</option>
+                            <option value="01">Tháng 1</option>
+                            <option value="02">Tháng 2</option>
+                            <option value="03">Tháng 3</option>
+                            <option value="04">Tháng 4</option>
+                            <option value="05">Tháng 5</option>
+                            <option value="06">Tháng 6</option>
+                            <option value="07">Tháng 7</option>
+                            <option value="08">Tháng 8</option>
+                            <option value="09">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
                     </th>
-
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {filteredIncome.map((item, index) => (
+                {paginatedFilteredIncome.map((item, index) => (
                     <tr key={index}>
                         <td style={{padding: '8px', textAlign: 'center'}}>{item.name}</td>
                         <td style={{padding: '8px', textAlign: 'center'}}>{item.month}</td>
@@ -214,7 +237,7 @@ export function Income(props) {
             </table>
             <Pagination
                 current={currentPage}
-                total={totalItems}
+                total={filteredIncome.length}
                 pageSize={pageSize}
                 onChange={handlePageChange}
             />
