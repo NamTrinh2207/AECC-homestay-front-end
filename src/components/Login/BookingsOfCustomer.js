@@ -3,67 +3,28 @@ import axios from "axios";
 import {differenceInDays, format} from "date-fns";
 import {toast} from "react-toastify";
 import Swal from "sweetalert2";
+import {Pagination} from "antd";
 
 
 function BookingsOfCustomer(props) {
     const userId = props.user;
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
     const [check, setCheck] = useState(false);
-    const visiblePages = totalPages+1;
     const [bookings, setBookings] = useState([]);
     const [isDone, setIsDone] = useState(false);
     const [status, setStatus] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 6;
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    const renderPagination = () => {
-        const pageNumbers = [];
-        const halfVisiblePages = Math.floor(visiblePages / 2);
-        let startPage = currentPage - halfVisiblePages;
-        if (startPage < 0) startPage = 0;
-        let endPage = startPage + visiblePages - 1;
-        if (endPage > totalPages) {
-            endPage = totalPages;
-            startPage = endPage - visiblePages + 1;
-            if (startPage < 0) startPage = 0;
-        }
-
-        for (let i = startPage; i < endPage; i++) {
-            const pageItemStyle = {
-                marginRight: '5px', // Khoảng cách giữa các số trang
-                display: 'inline-block', // Hiển thị trên cùng một dòng
-                cursor: 'pointer', // Con trỏ chuột thành dạng tay
-                fontWeight: currentPage === i ? 'bold' : 'normal', // Trang hiện tại được đậm
-            };
-            const pageLinkStyle = {
-                cursor: "pointer",
-                padding: '5px 10px', // Kích thước nút số trang
-                backgroundColor: currentPage === i ? '#ccc' : 'transparent', // Màu nền của trang hiện tại
-            };
-            pageNumbers.push(
-                <li key={i} style={pageItemStyle}>
-                    <button
-                        className="page-link"
-                        style={pageLinkStyle}
-                        onClick={() => handlePageChange(i)}
-                    >
-                        {i +1}
-                    </button>
-                </li>
-            );
-        }
-
-        return pageNumbers;
-    };
     const checkinButton = async (bookingId) => {
         const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
         const newBooking = response.data;
         const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
         const currentDate = new Date().toLocaleDateString();
-        console.log("current date",currentDate);
-        console.log("check in",checkIn);
+        console.log("current date", currentDate);
+        console.log("check in", checkIn);
         console.log("id cua home la :", newBooking.homes.id);
         console.log(newBooking)
         let updateBooking = {
@@ -71,8 +32,8 @@ function BookingsOfCustomer(props) {
             checkinB: true,
             checkoutB: false
         };
-        if (checkIn === currentDate){
-            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
+        if (checkIn === currentDate) {
+            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -85,12 +46,12 @@ function BookingsOfCustomer(props) {
                 });
                 setCheck(!check);
             });
-                await axios.put(`http://localhost:8080/homes/after-booking/${newBooking.homes.id}`, newBooking.homes.id, {
+            await axios.put(`http://localhost:8080/homes/after-booking/${newBooking.homes.id}`, newBooking.homes.id, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
-                )
+            )
             console.log("check-in thafnh cong");
         } else {
             Swal.fire({
@@ -106,8 +67,8 @@ function BookingsOfCustomer(props) {
         const newBooking = response.data;
         const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
         const currentDate = new Date().toLocaleDateString();
-        console.log("current date",currentDate);
-        console.log("check in",checkIn);
+        console.log("current date", currentDate);
+        console.log("check in", checkIn);
 
         let updateBooking = {
             ...newBooking,
@@ -115,8 +76,8 @@ function BookingsOfCustomer(props) {
             checkoutB: true,
             done: true
         };
-        if (checkIn === currentDate){
-            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`,updateBooking, {
+        if (checkIn === currentDate) {
+            await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -141,37 +102,34 @@ function BookingsOfCustomer(props) {
         }
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/customer/bookings/status/${userId.id}?page=${currentPage}`);
-                const { totalPages } = response.data;
-                setBookings(response.data.content);
-                setTotalPages(totalPages);
+                const response = await axios.get(`http://localhost:8080/customer/bookings/status/${userId.id}`);
+                setBookings(response.data);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchData();
-    }, [check, currentPage, isDone]);
+    }, [check, isDone]);
 
-    const goToPreviousPage = () => {
-        setCheck(!check);
-        setCurrentPage(currentPage - 1);
-    };
 
-    const goToNextPage = () => {
-        setCurrentPage(currentPage + 1);
-    };
+    const totalItems = bookings.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalItems);
+    const paginatedIncome = bookings.slice(startIndex, endIndex);
+
 
     return (
-        bookings.length > 0 ? (
+        paginatedIncome.length > 0 ? (
             <div>
                 <div>
                     {bookings.map((booking, index) => (
-                        <div className="col-lg-12 col-md-12 col-sm-12" >
+                        <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
-                                <table className="manage-table"key={index}>
+                                <table className="manage-table" key={index}>
                                     <tbody className="responsive-table">
                                     <tr>
                                         <td className="listing-photoo">
@@ -192,9 +150,21 @@ function BookingsOfCustomer(props) {
                                             {booking.checkout}
                                         </td>
                                         <td>
-                                        <th><button style={{width: "100px"}} onClick={() => checkinButton(booking.id)} disabled={booking.checkinB} className="btn-danger btn-secondary btn btn-blue">Check-in</button></th>
-                                        <th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} disabled={booking.checkoutB} className="btn-danger btn-secondary btn btn-blue">Check-out</button></th>
-                                        {/*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*/}
+                                            <th>
+                                                <button style={{width: "100px"}}
+                                                        onClick={() => checkinButton(booking.id)}
+                                                        disabled={booking.checkinB}
+                                                        className="btn-danger btn-secondary btn btn-blue">Check-in
+                                                </button>
+                                            </th>
+                                            <th>
+                                                <button style={{width: "100px"}}
+                                                        onClick={() => checkoutButton(booking.id)}
+                                                        disabled={booking.checkoutB}
+                                                        className="btn-danger btn-secondary btn btn-blue">Check-out
+                                                </button>
+                                            </th>
+                                            {/*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*/}
                                         </td>
                                     </tr>
                                     </tbody>
@@ -204,21 +174,13 @@ function BookingsOfCustomer(props) {
                         </div>
                     ))}
                 </div>
-                <div className="pagination-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <button style={{border:"none", cursor:"pointer"}}
-                            onClick={goToPreviousPage}
-                            disabled={currentPage === 0}
-                    >
-                        <i style={{fontSize:25}} className="fa fa-angle-left"></i>
-                    </button>
-                    {/*<span>{currentPage + 1}</span> / <span>{totalPages}</span>*/}
-                    {renderPagination()}
-                    <button style={{border:"none", cursor:"pointer"}}
-                            onClick={goToNextPage}
-                            disabled={currentPage === totalPages - 1}
-                    >
-                        <i style={{fontSize:25}} className="fa fa-angle-right"></i>
-                    </button>
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+                    <Pagination
+                        current={currentPage}
+                        total={totalItems}
+                        pageSize={pageSize}
+                        onChange={handlePageChange}
+                    />
                 </div>
             </div>
 

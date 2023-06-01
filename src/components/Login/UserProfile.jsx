@@ -16,6 +16,7 @@ import BookingsOfCustomer from "./BookingsOfCustomer";
 
 import Income from "./Income";
 import Swal from 'sweetalert2';
+import ListBookingByCustomer from "./ListBookingByCustomer";
 
 
 
@@ -275,7 +276,6 @@ function UserProfile(props) {
                                                                         </a>
                                                                     </li>
 
-
                                                                 </>
                                                             )
                                                             : (
@@ -346,13 +346,19 @@ function UserProfile(props) {
                                                             <Income user={user}/>
                                                         </div>
                                                     ) : null}
+                                                    {showListBookings ? (
+                                                        <div>
+                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <ListBookingByCustomer user={user}/>
+                                                        </div>
+                                                    ) : null}
                                                 </>
                                             ) : role === "ROLE_CUSTOMER" ? (
                                                 <>
                                                     {showListBookings ? (
                                                         <div>
                                                             <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
-                                                            <BookingsOfCustomer user={user}/>
+                                                            <ListBookingByCustomer user={user}/>
                                                         </div>
                                                     ) : null}
                                                 </>
