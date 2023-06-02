@@ -66,15 +66,13 @@ const CalendarFunc = (props) => {
                     setValid(false);
                     count++;
                 }
-                if (count===0){
+                if (count === 0) {
                     setStartDate(selectedStartDate);
                     setEndDate(selectedEndDate);
                     setValid(true);
                 }
             })
         )
-
-
     };
 
     const selectionRange = {

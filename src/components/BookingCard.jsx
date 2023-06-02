@@ -53,7 +53,7 @@ function BookingCard(props) {
                         {fontSize: `20px`}
                     }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
                         <span
-                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                            className={"numberOfRent"}>làm lại chỗ này</span>
                     </div>
 
                     <div className='rev-card absolute'>
