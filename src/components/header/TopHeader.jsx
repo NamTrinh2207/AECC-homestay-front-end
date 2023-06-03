@@ -21,30 +21,28 @@ function TopHeader(props) {
             }
         });
     };
-    const data = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
     const [avatar, setAvatar] = useState("");
-    const [check, setCheck] = useState(false)
-    let user = null;
-    if (data != null) {
-        user = JSON.parse(localStorage.getItem("user"))
-    } else {
-        user = null;
-    }
+    const [check, setCheck] = useState(false);
+    const [userId, setUserId] = useState(0);
 
+    if (user !== null) {
+        setUserId(user.id);
+    }
     useEffect(() => {
         const getAvatar = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/${user.id}`);
+                const res = await axios.get(`http://localhost:8080/${userId}`);
                 setAvatar(res.data.avatar);
                 setCheck(!check)
             } catch (error) {
                 console.log(error.message);
             }
         };
-        setTimeout(()=>{
+        setTimeout(() => {
             getAvatar()
-        },200)
-    },[check]);
+        }, 1000)
+    }, [check]);
     return (
         <div>
             <header className="top-header th-bg" id="top-header-2">
