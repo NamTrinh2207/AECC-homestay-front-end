@@ -137,8 +137,7 @@ function HotelDetails(props) {
                     <div className="row">
                         <div className="col-lg-8 col-md-12 slider">
                             {/* Search area start */}
-
-                            <div className="property-details mb-45">
+                            <div className="property-details mb-45 underline">
                                 <h3 className="heading-3">Thông tin chi tiết</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
@@ -181,7 +180,7 @@ function HotelDetails(props) {
                                 </div>
                             </div>
                             {/* Amenities box start */}
-                            <div className="amenities-box af mb-45">
+                            <div className="amenities-box af mb-45 underline">
                                 <h3 className="heading-3">Tình trạng</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
@@ -207,9 +206,12 @@ function HotelDetails(props) {
                                 </div>
                             </div>
                             {/* Property description start */}
-                            <div className="property-description mb-60">
+                            <div className="property-description mb-60 underline">
                                 <h3 className="heading-3">Mô tả</h3>
                                 <p>{home?.description}</p>
+                            </div>
+                            <div className={"amenities-box af mb-45 underline"}>
+                                <ShowReview/>
                             </div>
                             {/* Property details start */}
                             {/* Related properties start */}
@@ -227,9 +229,6 @@ function HotelDetails(props) {
                         </div>
                         <div className={"amenities-box af mb-45"}>
                             <MapPage address={home?.address}/>
-                        </div>
-                        <div className={"amenities-box af mb-45"}>
-                            <ShowReview/>
                         </div>
                     </div>
                 </div>

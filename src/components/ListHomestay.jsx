@@ -78,7 +78,7 @@ function ListHomestay(props) {
                             <div className="row wow fadeInUp delay-04s">
                                 {paginatedHome.map(home => (
                                     <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                         data-category="3, 2">
+                                         data-category="3, 2" key={home.id}>
                                         <div className="property-box-7">
                                             <div className="property-thumbnail">
                                                 <Link className="property-img" to={`/viewHome/${home.id}`}>

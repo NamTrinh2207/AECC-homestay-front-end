@@ -14683,3 +14683,6 @@ body.off-canvas-sidebar-open {
     display: none;
 }
 
+.underline {
+    border-bottom: 1px solid #838992;
+}

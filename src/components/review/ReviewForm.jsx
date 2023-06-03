@@ -1,18 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Rating} from 'react-simple-star-rating';
-import {useParams} from "react-router-dom";
+import { Rating } from 'react-simple-star-rating';
+import { useParams } from 'react-router-dom';
 
 const ReviewForm = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
-    const {homeId} = useParams();
+    const { homeId } = useParams();
     const [userId, setUserId] = useState(0);
+    const [user, setUser] = useState(null);
 
-    const user = JSON.parse(localStorage.getItem('user'))
-    if (user !== null) {
-        setUserId(user.id)
-    }
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        setUser(user);
+        if (user !== null) {
+            setUserId(user.id);
+        }
+    }, []);
+
     const handleRatingChange = (newRating) => {
         setRating(newRating);
     };
@@ -21,7 +26,7 @@ const ReviewForm = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8080/api/review/create", {
+            const response = await axios.post('http://localhost:8080/api/review/create', {
                 homeId,
                 userId,
                 rating,
@@ -37,7 +42,7 @@ const ReviewForm = () => {
 
     return (
         <div>
-            {user !== null ?
+            {user !== null ? (
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label>Rating:</label>
@@ -56,15 +61,17 @@ const ReviewForm = () => {
                             value={comment}
                             cols={50}
                             rows={5}
-                            style={{resize: "none"}}
+                            style={{ resize: 'none' }}
                             onChange={(e) => setComment(e.target.value)}
                         />
                     </div>
                     <button type="submit">Submit</button>
-                </form> : ""
-            }</div>
+                </form>
+            ) : (
+                ''
+            )}
+        </div>
     );
-
 };
 
 export default ReviewForm;

@@ -10,7 +10,7 @@ function ShowReview(props) {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/review/list`);
+                const response = await axios.get(`http://localhost:8080/api/review/get-review/${homeId}`);
                 console.log("rating",response)
                 setReviews(response.data);
             } catch (error) {
@@ -23,7 +23,7 @@ function ShowReview(props) {
     }, [homeId]);
     return (
         <div>
-            <h2>Homestay Reviews</h2>
+            <h3 className="heading-3">Đánh giá</h3>
             {reviews.length === 0 ? (
                 <p>Hiện chưa có review nào về nhà này.</p>
             ) : (
