@@ -63,7 +63,7 @@ export const options = {
 export function Income(props) {
     const [income, setIncome] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 8;
+    const pageSize = 7;
 
     useEffect(() => {
         axios

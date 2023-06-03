@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {ErrorMessage, Formik} from "formik";
-import Toast from "../toast/Toast";
+import Button from "../button/Button";
 import Swal from 'sweetalert2';
 
 function FormUpdateUser(props) {
@@ -75,7 +75,7 @@ function FormUpdateUser(props) {
                         </div>
                         <div className="col-lg-12">
                             <div className="send-btn">
-                                <Toast name={"Cập nhật"}/>
+                                <Button name={"Cập nhật"}/>
                             </div>
                         </div>
                     </div>

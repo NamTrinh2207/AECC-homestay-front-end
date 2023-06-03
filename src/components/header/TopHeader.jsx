@@ -43,7 +43,7 @@ function TopHeader(props) {
         };
         setTimeout(()=>{
             getAvatar()
-        },200)
+        },1000)
     },[check]);
     return (
         <div>
