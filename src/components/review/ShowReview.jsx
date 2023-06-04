@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReviewForm from './ReviewForm';
 import axios from 'axios';
+import { Pagination } from 'antd';
 
 function ShowReview(props) {
     const [reviews, setReviews] = useState([]);
@@ -27,7 +28,7 @@ function ShowReview(props) {
         }, 1000);
         return () => clearTimeout(timer);
     }, [homeId]);
-    //Tính trung bình số đánh giá
+
     let sum = 0;
     reviews.map((review) => {
         sum += review.rating;
@@ -43,7 +44,10 @@ function ShowReview(props) {
     const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
     // Chuyển đến trang mới
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const handleChangePage = (page) => setCurrentPage(page);
+
+    // Kiểm tra xem có đủ dữ liệu để hiển thị phân trang hay không
+    const shouldPaginate = reviews.length > reviewsPerPage;
 
     return (
         <div>
@@ -69,17 +73,15 @@ function ShowReview(props) {
                         ))}
                     </ul>
                     {/* Phân trang */}
-                    <nav>
-                        <ul className="pagination">
-                            {Array.from({ length: totalPages }, (_, index) => (
-                                <li key={index} className="page-item">
-                                    <button onClick={() => paginate(index + 1)} className="page-link">
-                                        {index + 1}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
+                    {shouldPaginate && (
+                        <Pagination
+                            current={currentPage}
+                            total={reviews.length}
+                            pageSize={reviewsPerPage}
+                            onChange={handleChangePage}
+                            showSizeChanger={false}
+                        />
+                    )}
                 </div>
             )}
         </div>

@@ -102,6 +102,7 @@ function BookingCard(props) {
                         homes: {
                             id: homeId
                         },
+                        status: true,
                         checkinB: false,
                         checkoutB: true,
                     }}

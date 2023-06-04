@@ -14698,3 +14698,11 @@ body.off-canvas-sidebar-open {
 .review-comment {
     padding-left: 0;
 }
+
+.default-button div {
+    padding-left: 0;
+}
+
+.review {
+    padding-bottom: 15px;
+}

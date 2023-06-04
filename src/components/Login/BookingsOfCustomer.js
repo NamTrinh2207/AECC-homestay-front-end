@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {differenceInDays, format} from "date-fns";
-import {toast} from "react-toastify";
+import {format} from "date-fns";
 import Swal from "sweetalert2";
 import {Pagination} from "antd";
 
@@ -149,18 +148,25 @@ function BookingsOfCustomer(props) {
                                             {booking.checkout}
                                         </td>
                                         <td>
-                                            <th>
+                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
                                                 <button style={{width: "100px"}}
                                                         onClick={() => checkinButton(booking.id)}
                                                         disabled={booking.checkinB}
                                                         className="btn-danger btn-secondary btn btn-blue">Check-in
                                                 </button>
                                             </th>
-                                            <th>
-                                                <button style={{width: "100px"}}
+                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
+                                                <button style={{width: "100px", marginBottom: "0"}}
                                                         onClick={() => checkoutButton(booking.id)}
                                                         disabled={booking.checkoutB}
                                                         className="btn-danger btn-secondary btn btn-blue">Check-out
+                                                </button>
+                                            </th>
+                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
+                                                <button style={{width: "100px"}}
+                                                        onClick={() => checkoutButton(booking.id)}
+                                                        disabled={booking.checkoutB}
+                                                        className="btn-danger btn-secondary btn btn-blue">Hủy
                                                 </button>
                                             </th>
                                             {/*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*/}

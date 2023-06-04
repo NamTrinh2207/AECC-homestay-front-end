@@ -13,6 +13,11 @@ import ReviewForm from "./review/ReviewForm";
 function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
+    const [firstBooking, setFirstBooking] = useState([]);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user !== null) {
+        var userId = user.id;
+    }
 
     useEffect(() => {
         const getHome = async () => {
@@ -25,10 +30,22 @@ function HotelDetails(props) {
                 console.log(err.message);
             }
         };
-
         getHome();
+
+        const getBooking = async () => {
+            try {
+                if (!home) {
+                    const response = await axios.get(`http://localhost:8080/customer/bookings/get-first/home-id=${id}/user-id=${userId}`);
+                    setFirstBooking(response.data);
+                }
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+        getBooking();
     }, [home, id]);
 
+    console.log("booking", firstBooking)
     const getStatusLabel = (status) => {
         switch (status) {
             case 1:
@@ -211,12 +228,12 @@ function HotelDetails(props) {
                                 <h3 className="heading-3">Mô tả</h3>
                                 <p>{home?.description}</p>
                             </div>
-                            <div className={"amenities-box af mb-45 underline"}>
+                            <div className={"review mb-45 underline"}>
                                 <ShowReview/>
                             </div>
-                            <div className={"amenities-box af mb-45 underline"}>
-                                <ReviewForm/>
-                            </div>
+                            {firstBooking.done === true && <div className={"review amenities-box af mb-45 underline"}>
+                                <ReviewForm homeId={id} userId={userId}/>
+                            </div>}
                             {/* Property details start */}
                             {/* Related properties start */}
 
