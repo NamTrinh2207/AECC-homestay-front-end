@@ -4,10 +4,29 @@ import Search from "../Search";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faEnvelope} from "@fortawesome/free-solid-svg-icons";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
 
 function MainHeader(props) {
     const [categoryHome, setCategoryHome] = useState([])
     const data = localStorage.getItem("user");
+    const [room, setRoom] = useState("1");
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        socket.emit("join_room", room);
+        socket.on("receive_message", (res) => {
+            const data = { uId: res.message.uId, name: res.message.name, avatar: res.message.avatar, timeN: res.message.time };
+            setNotifications(prevNotifications => [data, ...prevNotifications]);
+            console.log("res.message", res.message);
+        });
+
+    }, [socket]);
+    const removeNotification = (index1) => {
+        const updatedNotifications = [...notifications];
+        updatedNotifications.splice(index1, 1);
+        setNotifications(updatedNotifications);
+    };
 
     let roles = null;
     if (data != null) {
@@ -93,13 +112,46 @@ function MainHeader(props) {
 
                                                                     </ul>
                                                                 </li>
-                                                                <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle"
-                                                                          href="#"
-                                                                          id="change-font-size"
-                                                                          data-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
-                                                                    </Link>
+                                                                <li className="nav-item dropdown ">
+                                                                    <a className="nav-link dropdown-toggle notification-ui_icon"
+                                                                       href="#" id="navbarDropdown" role="button"
+                                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                                       aria-expanded="false">
+                                                                        <i className="fa fa-bell">{notifications.length}</i>
+                                                                        <span className="unread-notification"></span>
+                                                                    </a>
+                                                                    <div className="dropdown-menu notification-ui_dd"
+                                                                         aria-labelledby="navbarDropdown">
+                                                                        <div className="notification-ui_dd-header">
+                                                                            <h3 className="text-center">Thông Báo</h3>
+                                                                        </div>
+                                                                        <div className="notification-ui_dd-content">
+                                                                            <div
+                                                                                className="notification-list notification-list--unread">
+                                                                                {notifications.length!=0?(
+                                                                                    <>  {notifications.map((item, index) => (
+                                                                                        <div className="notification-list_img" key={index}>
+                                                                                            <img src={item.avatar} alt="user" style={{ width: "40px", height: "40px" }} />
+                                                                                            <p><b>{item.name}: Đã Booking</b></p>
+                                                                                            <p><small>{item.timeN}</small></p>
+                                                                                            <button onClick={() => removeNotification(index)}>Xóa</button>
+                                                                                        </div>
+                                                                                    ))}
+                                                                                    </>
+
+                                                                                ):(
+                                                                                    <>
+                                                                                        <p>không có thông báo</p>
+                                                                                    </>
+                                                                                )}
+
+
+
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
 
                                                             </ul>
@@ -133,13 +185,37 @@ function MainHeader(props) {
                                                                         Tài khoản
                                                                     </Link>
                                                                 </li>
-                                                                <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle"
-                                                                          href="#"
-                                                                          id="change-font-size"
-                                                                          data-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false"> <FontAwesomeIcon icon={faBell} />
-                                                                    </Link>
+                                                                <li className="nav-item dropdown notification-ui">
+                                                                    <a className="nav-link dropdown-toggle notification-ui_icon"
+                                                                       href="#" id="navbarDropdown" role="button"
+                                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                                       aria-expanded="false">
+                                                                        <i className="fa fa-bell"></i>
+                                                                        <span className="unread-notification"></span>
+                                                                    </a>
+                                                                    <div className="dropdown-menu notification-ui_dd"
+                                                                         aria-labelledby="navbarDropdown">
+                                                                        <div className="notification-ui_dd-header">
+                                                                            <h3 className="text-center">Notification</h3>
+                                                                        </div>
+                                                                        <div className="notification-ui_dd-content">
+                                                                            <div
+                                                                                className="notification-list notification-list--unread">
+                                                                                <div className="notification-list_img">
+                                                                                    <img src="https://img.thuthuatphanmem.vn/uploads/2018/10/09/anh-nha-3d-dep-mat_041507591.jpg"
+                                                                                         alt="user"style={{width: "96px", height: "96px"}}/>
+                                                                                </div>
+                                                                                <div
+                                                                                    className="notification-list_detail">
+                                                                                    <p><b>John Doe</b> reacted to your
+                                                                                        post</p>
+                                                                                    <p><small>10 mins ago</small></p>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
                                                                 </li>
                                                                 {/* ket thu sua*/}
                                                             </ul>

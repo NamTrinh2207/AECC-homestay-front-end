@@ -6,7 +6,9 @@ import CalendarFunc from "./Calendar";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Form, Formik} from "formik";
-
+import io from "socket.io-client";
+import { useEffect } from "react";
+const socket = io.connect("http://localhost:3001");
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
     const [buttonOpen, setButtonOpen] = useState(false);
@@ -17,16 +19,37 @@ function BookingCard(props) {
     console.log("1", isValid);
     const params = useParams();
     const {id} = useParams();
-
     const [transferDate, setTransferDate] = useState('')
     const homeStatus = props.homeStatus;
+    const [room, setRoom] = useState('1');
+    const currentDate=new Date();
+    const [customerId, setCustomerId] = useState("");
+    const [message, setMessage] = useState({
+        name: user.name,
+        avatar:user.avatar,
+        uId:user.id,
+        time:currentDate
+    });
+    // const hostId=(data1)=>{
+    //     axios.get(`http://localhost:8080/customer/bookings/view/${data1}`)
+    //         .then(res=>{
+    //             setCustomerId(res.data.homes.users.id);
+    //             console.log(res.data)
+    //         })
+    //
+    //
+    // };
 
+    const Send=()=>{
+            socket.emit("send_message", { message, room });
+    }
+    console.log("message",message)
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
         setButtonClose(false)
     }
-
+    console.log(user)
     const buttonCloseHandler = (event) => {
         event.preventDefault();
         setButtonClose(false);
@@ -163,10 +186,12 @@ function BookingCard(props) {
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });
+                Send();
             })
             .catch((error) => {
                 console.log(error);
-                console.log(data)
+                console.log(" data nay la ", data)
+
                 Swal.fire({
                     title: 'Đã xảy ra lỗi',
                     text: error.message,
@@ -174,7 +199,6 @@ function BookingCard(props) {
                     confirmButtonText: 'OK'
                 });
             });
-
         axios.put(`http://localhost:8080/homes/after-booking/${id}`, data.homes.id, {
             headers: {
                 'Content-Type': 'application/json'
