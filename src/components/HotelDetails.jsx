@@ -8,6 +8,7 @@ import BookingCard from "./BookingCard";
 import ScrollToElement from "./scrollToElement/Scroll";
 import MapPage from "./map/MapPage";
 import ShowReview from "./review/ShowReview";
+import ReviewForm from "./review/ReviewForm";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -212,6 +213,9 @@ function HotelDetails(props) {
                             </div>
                             <div className={"amenities-box af mb-45 underline"}>
                                 <ShowReview/>
+                            </div>
+                            <div className={"amenities-box af mb-45 underline"}>
+                                <ReviewForm/>
                             </div>
                             {/* Property details start */}
                             {/* Related properties start */}

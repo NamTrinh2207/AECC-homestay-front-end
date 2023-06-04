@@ -114,7 +114,6 @@ function BookingsOfCustomer(props) {
         fetchData();
     }, [check, isDone]);
 
-
     const totalItems = bookings.length;
     const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
