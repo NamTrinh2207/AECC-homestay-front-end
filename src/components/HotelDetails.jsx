@@ -14,6 +14,8 @@ function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
     const [firstBooking, setFirstBooking] = useState([]);
+    const [avgRating, setAvgRating] = useState(0);
+
     const user = JSON.parse(localStorage.getItem("user"));
     if (user !== null) {
         var userId = user.id;
@@ -30,22 +32,40 @@ function HotelDetails(props) {
                 console.log(err.message);
             }
         };
-        getHome();
 
         const getBooking = async () => {
             try {
-                if (!home) {
-                    const response = await axios.get(`http://localhost:8080/customer/bookings/get-first/home-id=${id}/user-id=${userId}`);
-                    setFirstBooking(response.data);
-                }
+                const response = await axios.get(`http://localhost:8080/customer/bookings/get-first/home-id=${id}/user-id=${userId}`);
+                setFirstBooking(response.data);
             } catch (err) {
                 console.log(err.message);
             }
         };
-        getBooking();
+
+        const timer = setTimeout(() => {
+            getHome();
+            getBooking();
+        }, 1000);
+        return () => clearTimeout(timer);
     }, [home, id]);
 
-    console.log("booking", firstBooking)
+    useEffect(() => {
+        const fetchAvg = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/api/review/avg/${id}`
+                );
+                setAvgRating(response.data);
+            } catch (error) {
+                console.error(error.message);
+                // Handle error, show error message, etc.
+            }
+        };
+        setTimeout(() => {
+            fetchAvg()
+        }, 1000);
+    }, [id]);
+
     const getStatusLabel = (status) => {
         switch (status) {
             case 1:
@@ -112,10 +132,11 @@ function HotelDetails(props) {
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p>
-                                                            <span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color: "orange"}}
-                                                               key={index}></i>))}</p>
+                                                        <p className={(avgRating === 0 || firstBooking.length === 0) && "disable-element"}>
+                                                            <span> Đánh giá: {avgRating}
+                                                                <i className="fa fa-star" style={{color: "orange"}}></i>
+                                                            </span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,23 +250,25 @@ function HotelDetails(props) {
                                 <p>{home?.description}</p>
                             </div>
                             <div className={"review mb-45 underline"}>
-                                <ShowReview/>
+                                <ShowReview avgRating={avgRating}/>
                             </div>
                             {firstBooking.done === true && <div className={"review amenities-box af mb-45 underline"}>
-                                <ReviewForm homeId={id} userId={userId}/>
+                                <ReviewForm wasComment={firstBooking.length} homeId={id} userId={userId}/>
                             </div>}
-                            {/* Property details start */}
-                            {/* Related properties start */}
-
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}
-                                                 homeStatus={home?.status}/>
+                                    <BookingCard
+                                        price={home?.priceByDay}
+                                        rating={home?.rating}
+                                        homeId={home?.id}
+                                        homeStatus={home?.status}
+                                        avgRating={avgRating}
+                                        bookingLength={firstBooking.length}
+                                    />
                                 </div>
-                                {/* Recent posts start */}
                             </div>
                         </div>
                         <div className={"amenities-box af mb-45"}>
@@ -254,11 +277,7 @@ function HotelDetails(props) {
                     </div>
                 </div>
             </div>
-            {/* Properties details page start */}
-            {/* Footer start */}
             <Footer/>
-            {/* Footer end */}
-            {/* Property Video Modal */}
         </>
     );
 }
