@@ -8,28 +8,27 @@ export default function ListBookingByCustomer(props) {
     const user = props.user;
     const [showCancelRequest, setShowCancelRequest] = useState(false);
     const [showCheckedCustomer, setShowCheckedCustomer] = useState(false);
-    const [showUncheckedCustomer, setShowUncheckedCustomer] = useState(true);
+    const [bookingNow, setBookingNow] = useState(true);
     const [activeButton, setActiveButton] = useState('bookingNow');
 
     const handCancelRequest = () => {
         setShowCancelRequest(true);
         setShowCheckedCustomer(false);
-        setShowUncheckedCustomer(false)
+        setBookingNow(false)
         setActiveButton('cancelRequest');
     }
     const handleCheckedCustomer = () => {
         setShowCancelRequest(false);
         setShowCheckedCustomer(true);
-        setShowUncheckedCustomer(false)
+        setBookingNow(false)
         setActiveButton('rentalHistory');
     }
 
-    const handleShowUncheckedCustomer = () => {
+    const handleShowBookingNow = () => {
         setShowCancelRequest(false);
         setShowCheckedCustomer(false);
-        setShowUncheckedCustomer(true);
+        setBookingNow(true);
         setActiveButton('bookingNow');
-
     };
 
     return (
@@ -38,7 +37,7 @@ export default function ListBookingByCustomer(props) {
                 <tbody>
                 <tr>
                     <td>
-                        <Button onClick={handleShowUncheckedCustomer}
+                        <Button onClick={handleShowBookingNow}
                                 className={activeButton === "bookingNow" ? 'active' : ''}
                                 style={{
                                     backgroundColor: activeButton === "bookingNow" ? '#3F56FF' : 'transparent',
@@ -93,7 +92,7 @@ export default function ListBookingByCustomer(props) {
                                 <RentalOfCustomer user={user}/>
                             </div>
                         ) : null}
-                        {showUncheckedCustomer ? (
+                        {bookingNow ? (
                             <div>
                                 <BookingsOfCustomer user={user}/>
                             </div>
