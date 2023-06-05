@@ -27,6 +27,7 @@ const MainHeader = (props) => {
 
         socket.on('receive_message', (res) => {
             const data = {
+                text:res.message.text,
                 uId: res.message.uId,
                 name: res.message.name,
                 avatar: res.message.avatar,
@@ -76,7 +77,6 @@ const MainHeader = (props) => {
             console.log('categoryHome', categoryHome);
         });
     }, []);
-
     return (
         <div>
             <header className="main-header sticky-header" id="main-header-2">
@@ -170,7 +170,7 @@ const MainHeader = (props) => {
                                                                                             </div>
                                                                                             <img className="notification-img" src={notification.avatar} alt="Icone Notification" />
                                                                                             <div className="notifications-body">
-                                                                                                <p className="notification-texte">{notification.name}: đã booking nhà của bạn</p>
+                                                                                                <p className="notification-texte">{notification.name}: đã {notification.text} nhà của bạn</p>
                                                                                                 <p className="notification-date text-muted">
                                                                                                     <FontAwesomeIcon icon={faClock} /> {notification.timeN}
                                                                                                 </p>

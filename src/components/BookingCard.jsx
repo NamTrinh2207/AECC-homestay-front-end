@@ -26,6 +26,7 @@ function BookingCard(props) {
         try {
             if (user != null) { // Kiểm tra cả user và room
                 const updatedMessage = {
+                    text:"thuê",
                     name: user.name,
                     avatar: user.avatar,
                     uId: user.id,
@@ -126,7 +127,7 @@ function BookingCard(props) {
                         },
                         status: true,
                         checkinB: false,
-                        checkoutB: true,
+                        checkoutB: false,
                     }}
                     onSubmit={(values) => {
                         newBooking(values)
@@ -166,7 +167,6 @@ function BookingCard(props) {
 
                     <div className='rev-card absolute'>
                         <span style={{fontSize: '20px'}}>Đánh giá:</span>
-
                     </div>
                     <br/>
                     <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
@@ -174,7 +174,6 @@ function BookingCard(props) {
             </>
         )
     }
-
 
     function newBooking(data) {
         axios.post('http://localhost:8080/customer/bookings/create', data)

@@ -9,6 +9,7 @@ import ScrollToElement from "./scrollToElement/Scroll";
 import MapPage from "./map/MapPage";
 import ShowReview from "./review/ShowReview";
 import ReviewForm from "./review/ReviewForm";
+import {Button} from "antd";
 
 function HotelDetails(props) {
     const {id} = useParams();
@@ -17,6 +18,20 @@ function HotelDetails(props) {
     const [avgRating, setAvgRating] = useState(0);
 
     const user = JSON.parse(localStorage.getItem("user"));
+    const [displayCount, setDisplayCount] = useState(5);
+    const [showAllImages, setShowAllImages] = useState(false);
+
+    const handleShowMore = () => {
+        setDisplayCount(home?.image.length);
+        setShowAllImages(true);
+    };
+
+    const handleShowLess = () => {
+        setDisplayCount(5);
+        setShowAllImages(false);
+    };
+
+
     if (user !== null) {
         var userId = user.id;
     }
@@ -64,7 +79,7 @@ function HotelDetails(props) {
         setTimeout(() => {
             fetchAvg()
         }, 1000);
-    }, [id]);
+    });
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -156,7 +171,7 @@ function HotelDetails(props) {
                                     ))}
                                 </div>
                                 <ul className="carousel-indicators mt-3 sp-2 smail-properties list-inline nav nav-justified ">
-                                    {home?.image.map((image, index) => (
+                                    {home?.image.slice(0,displayCount).map((image, index) => (
                                         <li key={index} className={`list-inline-item ${index === 0 ? 'active' : ''}`}>
                                             <a
                                                 id={`carousel-selector-${index}`}
@@ -170,6 +185,12 @@ function HotelDetails(props) {
                                         </li>
                                     ))}
                                 </ul>
+                                {home?.image.length > displayCount && (
+                                    <Button onClick={handleShowMore}>Xem thêm ({home?.image.length - displayCount})</Button>
+                                )}
+                                {showAllImages && (
+                                    <Button onClick={handleShowLess}>Ẩn bớt</Button>
+                                )}
                             </div>
                         </div>
                     </div>
