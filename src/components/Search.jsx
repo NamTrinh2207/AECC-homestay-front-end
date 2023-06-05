@@ -239,7 +239,7 @@ function Search(props) {
                                 <div className="form-group">
                                     <label htmlFor="">Giá thấp nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="  Giá thấp nhất" value={minPrice}
+                                           placeholder="  Giá thấp nhất VNĐ" value={minPrice}
                                            onChange={(e) => setMinPrice(e.target.value)}/>
                                 </div>
                             </div>
@@ -248,7 +248,7 @@ function Search(props) {
                                 <div className="form-group">
                                     <label htmlFor="">Giá cao nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="  Giá cao nhất" value={maxPrice}
+                                           placeholder="  Giá cao nhất VNĐ" value={maxPrice}
                                            onChange={(e) => setMaxPrice(e.target.value)}/>
                                 </div>
                             </div>
