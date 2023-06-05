@@ -6,7 +6,7 @@ export default function CheckedCustomer(props){
     const userId = props.user;
     const [booking, setBooking] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
 
     useEffect(() => {
         axios

@@ -7,7 +7,7 @@ export default function CancelRequest(props){
     const [booking, setBooking] = useState([]);
     const [check, setCheck] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
 
     useEffect(() => {
         axios
