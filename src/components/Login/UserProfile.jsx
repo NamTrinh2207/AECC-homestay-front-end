@@ -10,9 +10,6 @@ import FormUpdateUser from "./FormUpdateUser";
 import FormChangePassword from "./FormChangePassword";
 import MyProperty from "./MyProperty";
 import ListBookingByOwner from "./ListBookingByOwner";
-import RentaHistory from "./RentaHistory";
-
-import BookingsOfCustomer from "./BookingsOfCustomer";
 
 import Income from "./Income";
 import Swal from 'sweetalert2';
@@ -29,7 +26,7 @@ function UserProfile(props) {
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
     const [showListHomes, setShowListHomes] = useState(true);
     const [activeButton, setActiveButton] = useState('listHomes');
-    const [showListBookings, setShowListBookings] = useState(true);
+    const [showListBookings, setShowListBookings] = useState(false);
     const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
     const [showListHistoryRental, setShowListHistoryRental] = useState(false);
     const [showIncome, setShowIncome] = useState(false);
@@ -148,6 +145,7 @@ function UserProfile(props) {
                 });
         }
     }, []);
+
     // bat dau sua
     const data = localStorage.getItem("user");
     let role = null;

@@ -1,0 +1,79 @@
+/* Button.css */
+.toast-container {
+    width: 300px;
+}
+
+.toast {
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.toast-success {
+    background-color: #28a745;
+}
+
+.toast-error {
+    background-color: #dc3545;
+}
+
+.btn-4 {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border: none;
+    outline: none !important;
+    color: #ffffff;
+    text-transform: capitalize;
+    transition: all 0.3s linear;
+    z-index: 1;
+    overflow: hidden;
+    padding: 0 30px;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-4 i::before {
+    position: relative;
+    font-size: 18px;
+    top: 3px;
+    padding-left: 5px;
+}
+
+.btn-4:hover {
+    color: #fff;
+}
+
+.btn-4:hover:after {
+    transform: perspective(200px) scaleX(1.05) rotateX(0deg) translateZ(0);
+    transition: transform 0.4s linear, transform 0.4s linear;
+}
+
+.btn-4:after {
+    background: #2a41e2;
+}
+
+.btn-4:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: "";
+    border-radius: 3px;
+    transform: perspective(200px) scaleX(0.1) rotateX(90deg) translateZ(-10px);
+    transform-origin: bottom center;
+    transition: transform 0.4s linear, transform 0.4s linear;
+    z-index: -1;
+}
+
+.submit-property .btn-4 {
+    padding: 0 60px;
+}
