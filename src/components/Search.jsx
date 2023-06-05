@@ -119,8 +119,8 @@ function Search(props) {
             setCheckIn(dates[0]);
             setCheckOut(dates[1]);
         } else {
-            setCheckIn(null);
-            setCheckOut(null);
+            setCheckIn("");
+            setCheckOut("");
         }
     };
 
@@ -128,16 +128,18 @@ function Search(props) {
         const filteredHomes = search.filter(home => {
             const checkinDate = new Date(home.checkin);
             const checkoutDate = new Date(home.checkout);
+            const currentDate = new Date(checkIn);
+
             return (
                 (bedrooms === '' || home.bedroom == bedrooms) &&
                 (bathrooms === '' || home.bathroom == bathrooms) &&
                 (address === '' || convertVietnamese(home.address).includes(address)) &&
-                (checkIn === '' || (checkinDate < checkIn || checkinDate > checkOut)) &&
-                (checkOut === '' || (checkoutDate < checkIn || checkoutDate > checkOut)) &&
+                (checkIn === '' || checkOut === '' || currentDate < checkinDate || currentDate > checkoutDate) &&
                 (minPrice === '' || home.priceByDay >= minPrice) &&
                 (maxPrice === '' || home.priceByDay <= maxPrice)
             );
         });
+
 
 
         if (filteredHomes.length !== 0) {
