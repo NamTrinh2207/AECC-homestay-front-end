@@ -224,9 +224,9 @@ function Search(props) {
 
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                        <RangePicker style={{height: 49, width: 510,marginTop:2}}
-                                                     onChange={handleDateChange}
-                                                     placeholder={["Ngày bắt đầu", "Ngày kết thúc"]}/>
+                                    <RangePicker style={{height: 49, width: 510,marginTop:2}}
+                                                 onChange={handleDateChange}
+                                                 placeholder={["Ngày bắt đầu", "Ngày kết thúc"]}/>
                                 </div>
                             </div>
 

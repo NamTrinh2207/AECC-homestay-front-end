@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import TruncatedLink from "../truncate/TruncateLink";
 import TruncatedText from "../truncate/TruncateText";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:3000");
+const socket = io.connect("http://localhost:3001");
 
 function BookingsOfCustomer(props) {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -46,7 +46,7 @@ function BookingsOfCustomer(props) {
     const checkinButton = async (bookingId) => {
         const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
         const newBooking = response.data;
-        const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
+        const checkIn = format(new Date(newBooking.checkin), 'M/d/yyyy');
         const currentDate = new Date().toLocaleDateString();
         console.log("current date", currentDate);
         console.log("check in", checkIn);
@@ -89,7 +89,7 @@ function BookingsOfCustomer(props) {
     const checkoutButton = async (bookingId) => {
         const response = await axios.get(`http://localhost:8080/customer/bookings/view/${bookingId}`);
         const newBooking = response.data;
-        const checkIn = format(new Date(newBooking.checkin), 'd/M/yyyy');
+        const checkIn = format(new Date(newBooking.checkin), 'M/d/yyyy');
         const currentDate = new Date().toLocaleDateString();
         console.log("current date", currentDate);
         console.log("check in", checkIn);
@@ -198,78 +198,19 @@ function BookingsOfCustomer(props) {
                     {paginatedIncome.map((booking, index) => (
                         <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
-                                {/*<table className="manage-table" key={index}>*/}
-
-                                {/*    <tbody className="responsive-table">*/}
-
-                                {/*    <tr><Link className="property-img" to={`/viewHome/${booking.homes.id}`}>*/}
-                                {/*        <td className="listing-photoo">*/}
-                                {/*            <img alt="my-properties" src={booking.homes.image[0]}*/}
-                                {/*                 height={100}/>*/}
-                                {/*        </td>*/}
-                                {/*        <td className="title-container">*/}
-                                {/*            <h5><a href="#">{booking.homes.name}</a></h5>*/}
-                                {/*            <h6><span>{booking.totalPrice}</span> VNĐ/Ngày</h6>*/}
-                                {/*            <p><i*/}
-                                {/*                className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>*/}
-                                {/*                {booking.homes.address} </p>*/}
-                                {/*        </td>*/}
-                                {/*    </Link>*/}
-                                {/*        <td><h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>*/}
-                                {/*            <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}*/}
-                                {/*            </h6></p>*/}
-                                {/*        </td>*/}
-                                {/*        <td>*/}
-                                {/*            <th style={{*/}
-                                {/*                display: "flex",*/}
-                                {/*                flexDirection: "column",*/}
-                                {/*                alignItems: "center"*/}
-                                {/*            }}>*/}
-                                {/*                <button style={{width: "100px"}}*/}
-                                {/*                        onClick={() => checkinButton(booking.id)}*/}
-                                {/*                        disabled={booking.checkinB}*/}
-                                {/*                        className="btn-danger btn-secondary btn btn-blue">Check-in*/}
-                                {/*                </button>*/}
-                                {/*            </th>*/}
-                                {/*            <th style={{*/}
-                                {/*                display: "flex",*/}
-                                {/*                flexDirection: "column",*/}
-                                {/*                alignItems: "center"*/}
-                                {/*            }}>*/}
-                                {/*                <button style={{width: "100px", marginBottom: "0"}}*/}
-                                {/*                        onClick={() => checkoutButton(booking.id)}*/}
-                                {/*                        disabled={!booking.checkinB}*/}
-                                {/*                        className="btn-danger btn-secondary btn btn-blue">Check-out*/}
-                                {/*                </button>*/}
-                                {/*            </th>*/}
-                                {/*            <th style={{*/}
-                                {/*                display: "flex",*/}
-                                {/*                flexDirection: "column",*/}
-                                {/*                alignItems: "center"*/}
-                                {/*            }}>*/}
-                                {/*                <button style={{width: "100px"}}*/}
-                                {/*                        onClick={() => deleteBooking(booking.id, booking.checkin)}*/}
-                                {/*                        disabled={booking.checkinB}*/}
-                                {/*                        className="btn-danger btn-secondary btn btn-blue">Hủy*/}
-                                {/*                </button>*/}
-                                {/*            </th>*/}
-                                {/*            /!*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*!/*/}
-                                {/*        </td>*/}
-                                {/*    </tr>*/}
-                                {/*    </tbody>*/}
-                                {/*</table>*/}
                                 <table className="manage-table" key={index}>
                                     <tbody className="responsive-table">
                                     <tr>
                                         <td className="listing-photoo">
-                                            <img alt="my-properties" src={booking.homes.image[0]}
-                                                 height={125}/>
+                                            <Link to={`/viewHome/${booking.homes.id}`}><img alt="my-properties" src={booking.homes.image[0]}
+                                                                                            height={125}/></Link>
+
                                         </td>
                                         <td className="title-container">
                                             <h5><a href="#">Chủ nhà: {booking.homes.users.name}</a></h5>
                                             {/*<p><h6>SĐT: {booking.homes.users.phoneNumber}</h6></p>*/}
 
-                                            <p><h6>Tên nhà: {booking.homes.name}</h6></p>
+                                            <p><h6>Tên nhà: {booking.homes.name}</h6></p><br/>
                                             <p><h6>
                                                 <TruncatedText text={booking.homes.address} maxLength={30}></TruncatedText></h6></p>
                                         </td>
