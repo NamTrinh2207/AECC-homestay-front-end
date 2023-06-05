@@ -53,7 +53,7 @@ function BookingsOfCustomer(props) {
                     }
                 }
             )
-            console.log("check-in thafnh cong");
+            console.log("check-in thành cong");
         } else {
             Swal.fire({
                 title: 'Thất bại',

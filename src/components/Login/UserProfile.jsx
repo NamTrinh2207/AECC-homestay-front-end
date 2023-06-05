@@ -16,19 +16,17 @@ import Swal from 'sweetalert2';
 import ListBookingByCustomer from "./ListBookingByCustomer";
 
 
-
 function UserProfile(props) {
     const [imgUrl, setImgUrl] = useState(null);
     const [progressPercent, setProgressPercent] = useState(0);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-    const [showUpdateUserForm, setShowUpdateUserForm] = useState(false);
+    const [showUpdateUserForm, setShowUpdateUserForm] = useState(true);
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
-    const [showListHomes, setShowListHomes] = useState(true);
-    const [activeButton, setActiveButton] = useState('listHomes');
+    const [showListHomes, setShowListHomes] = useState(false);
+    const [activeButton, setActiveButton] = useState('profile');
     const [showListBookings, setShowListBookings] = useState(false);
     const [showListBookingByOwner, setShowListBookingByOwner] = useState(false);
-    const [showListHistoryRental, setShowListHistoryRental] = useState(false);
     const [showIncome, setShowIncome] = useState(false);
 
     const handleLogout = () => {
@@ -48,14 +46,12 @@ function UserProfile(props) {
             }
         });
     };
-
     // ROLE USER
     const handUpdateUserClick = () => {
         setShowUpdateUserForm(true);
         setShowChangePasswordForm(false);
         setShowListHomes(false)
         setShowListBookingByOwner(false);
-        setShowListHistoryRental(false)
         setShowListBookings(false);
         setShowIncome(false)
         setActiveButton('profile');
@@ -65,7 +61,6 @@ function UserProfile(props) {
         setShowChangePasswordForm(true);
         setShowListHomes(false)
         setShowListBookingByOwner(false);
-        setShowListHistoryRental(false)
         setShowListBookings(false);
         setShowIncome(false)
         setActiveButton('changePassword');
@@ -76,7 +71,6 @@ function UserProfile(props) {
         setShowChangePasswordForm(false);
         setShowListHomes(true);
         setShowListBookingByOwner(false);
-        setShowListHistoryRental(false);
         setShowListBookings(false);
         setShowIncome(false)
         setActiveButton('listHomes');
@@ -87,7 +81,6 @@ function UserProfile(props) {
         setShowChangePasswordForm(false);
         setShowListHomes(false);
         setShowListBookingByOwner(false);
-        setShowListHistoryRental(false);
         setShowListBookings(false);
         setShowIncome(true)
         setActiveButton('income');
@@ -97,30 +90,17 @@ function UserProfile(props) {
         setShowChangePasswordForm(false);
         setShowListBookingByOwner(true);
         setShowListHomes(false)
-        setShowListHistoryRental(false)
         setShowListBookings(false);
         setShowIncome(false)
         setActiveButton('listBookingByOwner');
     }
 
     // ROLE CUSTOMER
-    const handleHistoryRental = () => {
-        setShowUpdateUserForm(false);
-        setShowChangePasswordForm(false);
-        setShowListHomes(false);
-        setShowListBookingByOwner(false);
-        setShowListHistoryRental(true)
-        setShowListBookings(false);
-        setShowIncome(false)
-        setActiveButton('history');
-    }
-
     const handleShowListBooking = () => {
         setShowUpdateUserForm(false);
         setShowChangePasswordForm(false);
         setShowListHomes(false);
         setShowListBookingByOwner(false);
-        setShowListHistoryRental(false)
         setShowListBookings(true);
         setShowIncome(false)
         setActiveButton('listBookings');
@@ -151,10 +131,11 @@ function UserProfile(props) {
     let role = null;
     if (data != null) {
         role = JSON.parse(localStorage.getItem("user")).roles[0].authority
-        console.log(role)
     } else {
         role = null;
     }
+
+
     // ket thuc sua
 
     if (loading) {
@@ -222,7 +203,7 @@ function UserProfile(props) {
                                         <li>
                                             <a onClick={handUpdateUserClick}
                                                className={activeButton === "profile" ? 'active' : ''}>
-                                                <i className="flaticon-user"></i>Hồ sơ
+                                                <i className="flaticon-user"></i>Hồ sơ cá nhân
                                             </a>
                                         </li>
                                         {/*bat dau sua*/}
@@ -233,18 +214,19 @@ function UserProfile(props) {
                                                         <li>
                                                             <a onClick={handleShowListHomes}
                                                                className={activeButton === "listHomes" ? 'active' : ''}>
-                                                                <i className="flaticon-house"></i>Danh sách homestay
+                                                                <i className="flaticon-house"></i>Quản lý homestay
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <Link to={"/create"}>
-                                                                <i className="flaticon-add"></i>Tạo mới homestay
+                                                                <i className="flaticon-add"></i>Đăng tin cho thuê
+                                                                homestay
                                                             </Link>
                                                         </li>
                                                         <li>
                                                             <a onClick={handleShowListBookingByOwner}
                                                                className={activeButton === "listBookingByOwner" ? 'active' : ''}>
-                                                                <i className="flaticon-user"></i>Danh sách khách hàng
+                                                                <i className="flaticon-user"></i>Quản lý khách hàng
                                                             </a>
                                                         </li>
                                                         <li>
@@ -256,8 +238,7 @@ function UserProfile(props) {
                                                         <li>
                                                             <a onClick={handleShowListBooking}
                                                                className={activeButton === "listBookings" ? 'active' : ''}>
-                                                                <i className="flaticon-house"></i>Danh sách
-                                                                booking
+                                                                <i className="flaticon-house"></i>Thuê homestay
                                                             </a>
                                                         </li>
 
@@ -269,11 +250,9 @@ function UserProfile(props) {
                                                                     <li>
                                                                         <a onClick={handleShowListBooking}
                                                                            className={activeButton === "listBookings" ? 'active' : ''}>
-                                                                            <i className="flaticon-house"></i>Danh sách
-                                                                            booking
+                                                                            <i className="flaticon-house"></i>Thuê homestay
                                                                         </a>
                                                                     </li>
-
                                                                 </>
                                                             )
                                                             : (

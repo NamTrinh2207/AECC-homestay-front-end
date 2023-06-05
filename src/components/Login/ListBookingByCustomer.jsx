@@ -5,7 +5,7 @@ import CancelRequestOfCustomer from "./CancelRequestOfCustomer";
 import RentalOfCustomer from "./RentalOfCustomer";
 
 export default function ListBookingByCustomer(props) {
-    const user= props.user;
+    const user = props.user;
     const [showCancelRequest, setShowCancelRequest] = useState(false);
     const [showCheckedCustomer, setShowCheckedCustomer] = useState(false);
     const [bookingNow, setBookingNow] = useState(true);
@@ -34,27 +34,51 @@ export default function ListBookingByCustomer(props) {
     return (
         <div>
             <table>
-                <tr style={{border:'1px solid black'}}>
+                <tbody>
+                <tr>
                     <td>
-                        <Button style={{border:'none'}} onClick={handleShowBookingNow}
-                                className={activeButton === "bookingNow" ? 'active' : ''}>
-                            Homestay đang thuê
+                        <Button onClick={handleShowBookingNow}
+                                className={activeButton === "bookingNow" ? 'active' : ''}
+                                style={{
+                                    backgroundColor: activeButton === "bookingNow" ? '#3F56FF' : 'transparent',
+                                    color: activeButton === "bookingNow" ? '#ffffff' : '#000000',
+                                    width:250,
+                                    height:40,
+                                    fontSize:15,
+                                }}>
+                            Đang thuê
                         </Button>
                     </td>
                     <td>
-                        <Button style={{border:'none'}} onClick={handleCheckedCustomer}
-                                className={activeButton === "rentalHistory" ? 'active' : ''}>
+                        <Button onClick={handleCheckedCustomer}
+                                className={activeButton === "rentalHistory" ? 'active' : ''}
+                                style={{
+                                    backgroundColor: activeButton === "rentalHistory" ? '#3F56FF' : 'transparent',
+                                    color: activeButton === "rentalHistory" ? '#ffffff' : '#000000',
+                                    width:250,
+                                    height:40,
+                                    fontSize:15,
+                                }}>
                             Lịch sử thuê
                         </Button>
                     </td>
                     <td>
-                        <Button style={{border:'none'}} onClick={handCancelRequest}
-                                className={activeButton === "cancelRequest" ? 'active' : ''}>
-                            Đơn đã hủy
+                        <Button onClick={handCancelRequest}
+                                className={activeButton === "cancelRequest" ? 'active' : ''}
+                                style={{
+                                    backgroundColor: activeButton === "cancelRequest" ? '#3F56FF' : 'transparent',
+                                    color: activeButton === "cancelRequest" ? '#ffffff' : '#000000',
+                                    width:250,
+                                    height:40,
+                                    fontSize:15,
+                                }}>
+                            Đã hủy
                         </Button>
                     </td>
                 </tr>
+                </tbody>
             </table>
+
             <div>
                 <div>
                     <div>
