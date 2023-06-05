@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
 import {Link, useParams} from "react-router-dom";
@@ -7,6 +7,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {Form, Formik} from "formik";
 import io from "socket.io-client";
+import './booking.css'
 const socket = io.connect("http://localhost:3001");
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -21,17 +22,25 @@ function BookingCard(props) {
     const [room, setRoom] = useState('1');
     const currentDate=new Date();
     const [customerId, setCustomerId] = useState("");
-    const [message, setMessage] = useState({
-        name: user.name,
-        avatar:user.avatar,
-        uId:user.id,
-        time:currentDate
-    });
+    const Send = async () => {
+        try {
+            if (user != null) { // Kiểm tra cả user và room
+                const updatedMessage = {
+                    text:"thuê",
+                    name: user.name,
+                    avatar: user.avatar,
+                    uId: user.id,
+                    time: currentDate
+                };
 
-    const Send=()=>{
-        socket.emit("send_message", { message, room });
-    }
-    console.log("message",message)
+                socket.emit("send_message", { message: updatedMessage, room });
+
+                // Gửi thành công
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        }
+    };
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
