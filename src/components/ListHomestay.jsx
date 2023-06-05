@@ -8,24 +8,26 @@ import {Pagination} from "antd";
 function ListHomestay(props) {
     const [homes, setHomes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [homeWithAvg, setHomeWithAvg] = useState([]);
     const pageSize = 6;
     useEffect(() => {
-        axios
-            .get(`http://localhost:8080/homes?page=${currentPage}`)
+        axios.get(`http://localhost:8080/homes?page=${currentPage}`)
             .then((response) => {
                 setHomes(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.log(error);
             });
+        axios.get("http://localhost:8080/homes/get-avg").then((res) => {
+            setHomeWithAvg(res.data)
+        })
     }, []);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-
+    console.log("homes", homes)
     const getStatusColor = (status) => {
         switch (status) {
             case 1:
@@ -51,7 +53,7 @@ function ListHomestay(props) {
                 return 'Unknown';
         }
     };
-
+    console.log("avgasd", homeWithAvg[1]?.avgRating)
     const totalItems = homes.length;
     const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
@@ -112,8 +114,15 @@ function ListHomestay(props) {
                                                     <span><i className="fa fa-bath"></i></span> {home.bathroom}
                                                 </li>
                                                 <li className="float-right">
-                                                    <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
-                                                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                                                    {homeWithAvg[home.id - 1]?.avgRating ?
+                                                        <div>
+                                                            <span>Đánh giá</span> {homeWithAvg[home.id - 1]?.avgRating}
+                                                            <i className="fa fa-star" style={{color: "orange"}}></i>
+                                                        </div> :
+                                                        <div>
+                                                            <span>Mới</span>
+                                                        </div>
+                                                    }
                                                 </li>
                                             </ul>
                                             <div className="footer clearfix">

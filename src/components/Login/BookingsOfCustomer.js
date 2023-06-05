@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import TruncatedLink from "../truncate/TruncateLink";
 import TruncatedText from "../truncate/TruncateText";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:3000");
 
 function BookingsOfCustomer(props) {
     const user = JSON.parse(localStorage.getItem("user"));
