@@ -78,7 +78,7 @@ function ListHomestay(props) {
                             <div className="row wow fadeInUp delay-04s">
                                 {paginatedHome.map(home => (
                                     <div className="col-lg-4 col-md-6 col-sm-12 filtr-item"
-                                         data-category="3, 2">
+                                         data-category="3, 2" key={home.id}>
                                         <div className="property-box-7">
                                             <div className="property-thumbnail">
                                                 <Link className="property-img" to={`/viewHome/${home.id}`}>
@@ -113,7 +113,7 @@ function ListHomestay(props) {
                                                 </li>
                                                 <li className="float-right">
                                                     <span>Đánh giá</span>{[...Array(home.rating)].map((_, index) => (
-                                                    <i className="fa fa-star" style={{color: "orange"}}></i>))}
+                                                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                                                 </li>
                                             </ul>
                                             <div className="footer clearfix">

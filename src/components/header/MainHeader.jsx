@@ -17,11 +17,23 @@ function MainHeader(props) {
         socket.emit("join_room", room);
         socket.on("receive_message", (res) => {
             const data = { uId: res.message.uId, name: res.message.name, avatar: res.message.avatar, timeN: res.message.time };
-            setNotifications(prevNotifications => [data, ...prevNotifications]);
-            console.log("res.message", res.message);
-        });
+            setNotifications(prevNotifications => {
+                // Kiểm tra xem phần tử đã tồn tại trong mảng chưa
+                const isDuplicate = prevNotifications.some(
+                    notification => notification.uId === data.uId
+                );
 
+                if (isDuplicate) {
+                    return prevNotifications; // Không thêm phần tử nếu đã tồn tại
+                } else {
+                    return [data, ...prevNotifications]; // Thêm phần tử mới vào mảng
+                }
+            });
+        });
     }, [socket]);
+    console.log("res.message", notifications);
+
+
     const removeNotification = (index1) => {
         const updatedNotifications = [...notifications];
         updatedNotifications.splice(index1, 1);
@@ -128,7 +140,7 @@ function MainHeader(props) {
                                                                         <div className="notification-ui_dd-content">
                                                                             <div
                                                                                 className="notification-list notification-list--unread">
-                                                                                {notifications.length!=0?(
+                                                                                {notifications.length!==0?(
                                                                                     <>  {notifications.map((item, index) => (
                                                                                         <div className="notification-list_img" key={index}>
                                                                                             <img src={item.avatar} alt="user" style={{ width: "40px", height: "40px" }} />
@@ -184,38 +196,6 @@ function MainHeader(props) {
                                                                           aria-expanded="false">
                                                                         Tài khoản
                                                                     </Link>
-                                                                </li>
-                                                                <li className="nav-item dropdown notification-ui">
-                                                                    <a className="nav-link dropdown-toggle notification-ui_icon"
-                                                                       href="#" id="navbarDropdown" role="button"
-                                                                       data-toggle="dropdown" aria-haspopup="true"
-                                                                       aria-expanded="false">
-                                                                        <i className="fa fa-bell"></i>
-                                                                        <span className="unread-notification"></span>
-                                                                    </a>
-                                                                    <div className="dropdown-menu notification-ui_dd"
-                                                                         aria-labelledby="navbarDropdown">
-                                                                        <div className="notification-ui_dd-header">
-                                                                            <h3 className="text-center">Notification</h3>
-                                                                        </div>
-                                                                        <div className="notification-ui_dd-content">
-                                                                            <div
-                                                                                className="notification-list notification-list--unread">
-                                                                                <div className="notification-list_img">
-                                                                                    <img src="https://img.thuthuatphanmem.vn/uploads/2018/10/09/anh-nha-3d-dep-mat_041507591.jpg"
-                                                                                         alt="user"style={{width: "96px", height: "96px"}}/>
-                                                                                </div>
-                                                                                <div
-                                                                                    className="notification-list_detail">
-                                                                                    <p><b>John Doe</b> reacted to your
-                                                                                        post</p>
-                                                                                    <p><small>10 mins ago</small></p>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
                                                                 </li>
                                                                 {/* ket thu sua*/}
                                                             </ul>

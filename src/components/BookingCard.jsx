@@ -30,15 +30,6 @@ function BookingCard(props) {
         uId:user.id,
         time:currentDate
     });
-    // const hostId=(data1)=>{
-    //     axios.get(`http://localhost:8080/customer/bookings/view/${data1}`)
-    //         .then(res=>{
-    //             setCustomerId(res.data.homes.users.id);
-    //             console.log(res.data)
-    //         })
-    //
-    //
-    // };
 
     const Send=()=>{
             socket.emit("send_message", { message, room });
@@ -64,7 +55,7 @@ function BookingCard(props) {
     }
     console.log("2", isValid)
     // lấy id người dùng và id của nhà, giá tiền của nhà.
-    const price = transferDate * (props.price >=10000 ? props.price: props.price);
+    const price = transferDate * props.price;
     if (user != null) {
         var userId = user.id;
         var homeId = props.homeId;
@@ -74,9 +65,9 @@ function BookingCard(props) {
                     <div>
                     <span style={
                         {fontSize: `20px`}
-                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
+                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
                         <span
-                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                            className={"numberOfRent"}>làm lại chỗ này</span>
                     </div>
 
                     <div className='rev-card absolute'>
@@ -118,15 +109,16 @@ function BookingCard(props) {
                         checkin: startDate,
                         checkout: endDate,
                         totalPrice: price,
-                        isPaid: false,
+                        paid: false,
                         users: {
                             id: userId
                         },
                         homes: {
                             id: homeId
                         },
-                        isCheckinB: false,
-                        isCheckoutB: true,
+                        status: true,
+                        checkinB: false,
+                        checkoutB: true,
                     }}
                     onSubmit={(values) => {
                         newBooking(values)
@@ -142,8 +134,8 @@ function BookingCard(props) {
                                 <input type="hidden" name={"isPaid"}/>
                                 <input type="hidden" name={"users.id"}/>
                                 <input type="hidden" name={"homes.id"}/>
-                                { isValid === false ? "" :
-                                    <button className={"checkout-btn"}>Xác nhận</button>
+                                {isValid === false ? "" :
+                                    <button type={"submit"} className={"checkout-btn"}>Xác nhận</button>
                                 }
                             </Form>
                         </>
@@ -158,7 +150,7 @@ function BookingCard(props) {
                     <div>
                     <span style={
                         {fontSize: `20px`}
-                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
+                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
                         <span
                             className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
                     </div>
@@ -168,13 +160,13 @@ function BookingCard(props) {
                         {fontSize: '20px'}
                     }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
                         <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
-                    </div><br/>
+                    </div>
+                    <br/>
                     <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
                 </div>
             </>
         )
     }
-
 
 
     function newBooking(data) {
