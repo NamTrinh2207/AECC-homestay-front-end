@@ -132,12 +132,14 @@ function Search(props) {
                 (bedrooms === '' || home.bedroom == bedrooms) &&
                 (bathrooms === '' || home.bathroom == bathrooms) &&
                 (address === '' || convertVietnamese(home.address).includes(address)) &&
-                (checkIn === '' || checkinDate <= checkIn || checkinDate >= checkIn) &&
-                (checkOut === '' || checkoutDate >= checkOut) &&
+                (checkIn === '' || (checkinDate < checkIn || checkinDate > checkOut)) &&
+                (checkOut === '' || (checkoutDate < checkIn || checkoutDate > checkOut)) &&
                 (minPrice === '' || home.priceByDay >= minPrice) &&
                 (maxPrice === '' || home.priceByDay <= maxPrice)
             );
         });
+
+
         if (filteredHomes.length !== 0) {
             Swal.fire({
                 title: 'Đang tìm kiếm...',
@@ -158,7 +160,6 @@ function Search(props) {
             });
         }
     };
-
 
     return (
         <div>

@@ -109,10 +109,6 @@ const Map = ({address}) => {
             {coordinates ? (
                 <div>
                     Địa chỉ: {address}
-                    <br/>
-                    Vĩ độ: {coordinates[1]}
-                    <br/>
-                    Kinh độ: {coordinates[0]}
                 </div>
             ) : (
                 <div style={{color: 'red'}}>

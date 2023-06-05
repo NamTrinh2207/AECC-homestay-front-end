@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Rating} from 'react-simple-star-rating';
-import Toast from "../toast/Toast";
-import async from "async";
+import Button from "../button/Button";
 
 const ReviewForm = (props) => {
     const [rating, setRating] = useState(1);
@@ -85,7 +84,7 @@ const ReviewForm = (props) => {
                         onChange={(e) => setComment(e.target.value)}
                     />
                 </div>
-                <Toast name={"Đánh giá"}/>
+                <Button name={"Đánh giá"}/>
             </form>) : ('')}
         </div> : <>
             {userId !== undefined || userId !== 0 || userId !== null ? (<form onSubmit={handleEdit}>
@@ -102,7 +101,7 @@ const ReviewForm = (props) => {
                     />
                 </div>
                 <input type="hidden" name={"comment"} value={reviewComment}/>
-                <Toast name={"Chỉnh sửa"}/>
+                <Button name={"Chỉnh sửa"}/>
             </form>) : ('')}
         </>}
     </div>);
