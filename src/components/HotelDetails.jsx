@@ -147,11 +147,17 @@ function HotelDetails(props) {
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p className={(avgRating === 0 || firstBooking.length === 0) && "disable-element"}>
+                                                        {(avgRating === 0 || firstBooking.length === 0) ?
+                                                            <p>
+                                                                <span>Mới</span>
+                                                            </p>
+                                                             :
+                                                            <p>
                                                             <span> Đánh giá: {avgRating}
                                                                 <i className="fa fa-star" style={{color: "orange"}}></i>
                                                             </span>
-                                                        </p>
+                                                            </p>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
@@ -247,15 +253,12 @@ function HotelDetails(props) {
                                         <ul>
                                             <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span>
                                             </li>
-                                            <li><span><i
-                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
-                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 1 Garage</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span>
+                                            <li><span><i
+                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
                                             </li>
                                         </ul>
                                     </div>

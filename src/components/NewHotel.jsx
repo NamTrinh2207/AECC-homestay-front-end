@@ -408,7 +408,7 @@ export default function CreateNewHotel(props) {
 
 
     function saveHome(data) {
-        setCheck(!check);
+
         let imgArr = [];
         for (let i = 0; i < imgUrls.length; i++) {
             imgArr[i] = imgUrls[i];
@@ -421,6 +421,8 @@ export default function CreateNewHotel(props) {
                     title: 'Đăng tin thành công',
                     showConfirmButton: false,
                     timer: 1000
+                }).then(()=> {
+                    window.location.reload()
                 });
 
             })

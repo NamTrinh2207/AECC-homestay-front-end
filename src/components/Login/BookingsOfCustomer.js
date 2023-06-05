@@ -6,9 +6,11 @@ import {Button, Pagination} from "antd";
 import {Link} from "react-router-dom";
 import TruncatedLink from "../truncate/TruncateLink";
 import TruncatedText from "../truncate/TruncateText";
-
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3000");
 
 function BookingsOfCustomer(props) {
+    const user = JSON.parse(localStorage.getItem("user"));
     const userId = props.user;
     const [check, setCheck] = useState(false);
     const [bookings, setBookings] = useState([]);
@@ -16,8 +18,29 @@ function BookingsOfCustomer(props) {
     const [status, setStatus] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
+    const currentDate=new Date();
+    const [room, setRoom] = useState('1');
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+    const Send = async () => {
+        try {
+            if (user != null) { // Kiểm tra cả user và room
+                const updatedMessage = {
+                    text:"hủy",
+                    name: user.name,
+                    avatar: user.avatar,
+                    uId: user.id,
+                    time: currentDate
+                };
+
+                socket.emit("send_message", { message: updatedMessage, room });
+
+                // Gửi thành công
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        }
     };
 
     const checkinButton = async (bookingId) => {
@@ -150,6 +173,7 @@ function BookingsOfCustomer(props) {
                     'success',
                 );
                 setCheck(!check);
+                await Send();
             } catch (error) {
                 await Swal.fire({
                     title: 'Đã xảy ra sự cố',
