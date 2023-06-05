@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-mapboxgl.accessToken = "pk.eyJ1IjoibmFtMTk5NyIsImEiOiJjbGlidmZtcHEwN2h3M2RxZjRyOGdtbzg3In0.XgbGG7p80a5rKbsj38MXTA";
+mapboxgl.accessToken = 'pk.eyJ1IjoibmFtMTk5NyIsImEiOiJjbGlidmZtcHEwN2h3M2RxZjRyOGdtbzg3In0.XgbGG7p80a5rKbsj38MXTA';
 
 const Map = ({address}) => {
     const mapContainerRef = useRef(null);
@@ -26,13 +26,12 @@ const Map = ({address}) => {
                 const navControl = new mapboxgl.NavigationControl();
                 const geolocateControl = new mapboxgl.GeolocateControl({
                     positionOptions: {
-                        enableHighAccuracy: false
+                        enableHighAccuracy: false,
                     },
-                    trackUserLocation: true
+                    trackUserLocation: true,
                 });
                 mapInstance.addControl(navControl, 'top-right');
                 mapInstance.addControl(geolocateControl, 'top-right');
-
             });
 
             setMap(mapInstance);
@@ -47,7 +46,7 @@ const Map = ({address}) => {
                 map.remove();
             }
         };
-    }, [map, mapInitialized]);
+    }, []);
 
     const addMarker = (lngLat) => {
         if (markerRef.current) {
@@ -57,7 +56,9 @@ const Map = ({address}) => {
         const newMarker = new mapboxgl.Marker()
             .setLngLat(lngLat)
             .addTo(map)
-            .setPopup(new mapboxgl.Popup().setHTML(`<p>${address}</p><p>vĩ độ :${coordinates[1]}</p><p>Kinh độ :${coordinates[0]}</p>`));
+            .setPopup(
+                new mapboxgl.Popup().setHTML(`<p>${address}</p><p>Vĩ độ: ${lngLat[1]}</p><p>Kinh độ: ${lngLat[0]}</p>`)
+            );
 
         markerRef.current = newMarker;
     };
@@ -86,7 +87,7 @@ const Map = ({address}) => {
                         addMarker(coordinates);
                     }
                 } else {
-                    setCoordinates(null)
+                    setCoordinates(null);
                     console.log('No results found');
                 }
             } catch (error) {
@@ -96,29 +97,35 @@ const Map = ({address}) => {
         handleAddressChange();
     }, [address, map]);
 
-    useEffect(() => {
+    useEffect
+    (() => {
         if (map && coordinates) {
             map.flyTo({center: coordinates, zoom: 14});
             addMarker(coordinates);
         }
     }, [map, coordinates]);
-
     return (
         <div>
             {coordinates ? (
                 <div>
                     Địa chỉ: {address}
-                    <br/><br/>
+                    <br/>
+                    Vĩ độ: {coordinates[1]}
+                    <br/>
+                    Kinh độ: {coordinates[0]}
                 </div>
             ) : (
-                <div style={{color: "red"}}>
-                    Địa chỉ này không hợp lệ !
+                <div style={{color: 'red'}}>
+                    Địa chỉ không hợp lệ!
                 </div>
             )}
-            <div ref={mapContainerRef} style={{
-                width:
-                    '1109px', height: '400px'
-            }}/>
+            <div
+                ref={mapContainerRef}
+                style={{
+                    width: '1109px',
+                    height: '400px',
+                }}
+            />
         </div>
     );
 };

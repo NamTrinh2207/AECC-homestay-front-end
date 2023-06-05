@@ -8,7 +8,7 @@ export default function UncheckedCustomer(props) {
     const [booking, setBooking] = useState([]);
     const [check, setCheck] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
 
     const fetchData = async () => {
         try {

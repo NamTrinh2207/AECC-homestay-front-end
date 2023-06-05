@@ -8,10 +8,18 @@ import BookingCard from "./BookingCard";
 import ScrollToElement from "./scrollToElement/Scroll";
 import MapPage from "./map/MapPage";
 import ShowReview from "./review/ShowReview";
+import ReviewForm from "./review/ReviewForm";
 
 function HotelDetails(props) {
     const {id} = useParams();
     const [home, setHome] = useState(null);
+    const [firstBooking, setFirstBooking] = useState([]);
+    const [avgRating, setAvgRating] = useState(0);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user !== null) {
+        var userId = user.id;
+    }
 
     useEffect(() => {
         const getHome = async () => {
@@ -25,8 +33,38 @@ function HotelDetails(props) {
             }
         };
 
-        getHome();
+        const getBooking = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/customer/bookings/get-first/home-id=${id}/user-id=${userId}`);
+                setFirstBooking(response.data);
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+
+        const timer = setTimeout(() => {
+            getHome();
+            getBooking();
+        }, 1000);
+        return () => clearTimeout(timer);
     }, [home, id]);
+
+    useEffect(() => {
+        const fetchAvg = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/api/review/avg/${id}`
+                );
+                setAvgRating(response.data);
+            } catch (error) {
+                console.error(error.message);
+                // Handle error, show error message, etc.
+            }
+        };
+        setTimeout(() => {
+            fetchAvg()
+        }, 1000);
+    }, [id]);
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -94,10 +132,11 @@ function HotelDetails(props) {
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p>
-                                                            <span>Đánh giá: </span>{[...Array(home?.rating)].map((_, index) => (
-                                                            <i className="fa fa-star" style={{color: "orange"}}
-                                                               key={index}></i>))}</p>
+                                                        <p className={(avgRating === 0 || firstBooking.length === 0) && "disable-element"}>
+                                                            <span> Đánh giá: {avgRating}
+                                                                <i className="fa fa-star" style={{color: "orange"}}></i>
+                                                            </span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,8 +176,7 @@ function HotelDetails(props) {
                     <div className="row">
                         <div className="col-lg-8 col-md-12 slider">
                             {/* Search area start */}
-
-                            <div className="property-details mb-45">
+                            <div className="property-details mb-45 underline">
                                 <h3 className="heading-3">Thông tin chi tiết</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
@@ -181,7 +219,7 @@ function HotelDetails(props) {
                                 </div>
                             </div>
                             {/* Amenities box start */}
-                            <div className="amenities-box af mb-45">
+                            <div className="amenities-box af mb-45 underline">
                                 <h3 className="heading-3">Tình trạng</h3>
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6">
@@ -207,38 +245,39 @@ function HotelDetails(props) {
                                 </div>
                             </div>
                             {/* Property description start */}
-                            <div className="property-description mb-60">
+                            <div className="property-description mb-60 underline">
                                 <h3 className="heading-3">Mô tả</h3>
                                 <p>{home?.description}</p>
                             </div>
-                            {/* Property details start */}
-                            {/* Related properties start */}
-
+                            <div className={"review mb-45 underline"}>
+                                <ShowReview avgRating={avgRating}/>
+                            </div>
+                            {firstBooking.done === true && <div className={"review amenities-box af mb-45 underline"}>
+                                <ReviewForm wasComment={firstBooking.length} homeId={id} userId={userId}/>
+                            </div>}
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <div className="">
                                 <div>
                                     {/*<h1>chỗ này là đặt phòng, chọn ngày, giá tiền</h1>*/}
-                                    <BookingCard price={home?.priceByDay} rating={home?.rating} homeId={home?.id}
-                                                 homeStatus={home?.status}/>
+                                    <BookingCard
+                                        price={home?.priceByDay}
+                                        rating={home?.rating}
+                                        homeId={home?.id}
+                                        homeStatus={home?.status}
+                                        avgRating={avgRating}
+                                        bookingLength={firstBooking.length}
+                                    />
                                 </div>
-                                {/* Recent posts start */}
                             </div>
                         </div>
                         <div className={"amenities-box af mb-45"}>
                             <MapPage address={home?.address}/>
                         </div>
-                        <div className={"amenities-box af mb-45"}>
-                            <ShowReview/>
-                        </div>
                     </div>
                 </div>
             </div>
-            {/* Properties details page start */}
-            {/* Footer start */}
             <Footer/>
-            {/* Footer end */}
-            {/* Property Video Modal */}
         </>
     );
 }

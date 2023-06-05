@@ -1,8 +1,8 @@
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import './Toast.css';
+import './Button.css';
 
-const Toast = ({ onClick, name }) => {
+const Button = ({ onClick, name }) => {
     return (
         <div>
             <button
@@ -16,4 +16,4 @@ const Toast = ({ onClick, name }) => {
     );
 };
 
-export default Toast;
+export default Button;
