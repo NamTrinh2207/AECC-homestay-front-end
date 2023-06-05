@@ -118,7 +118,7 @@ function BookingCard(props) {
                         },
                         status: true,
                         checkinB: false,
-                        checkoutB: true,
+                        checkoutB: false,
                     }}
                     onSubmit={(values) => {
                         newBooking(values)
