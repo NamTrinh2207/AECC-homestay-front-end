@@ -3,7 +3,6 @@ import axios from 'axios';
 import {Rating} from 'react-simple-star-rating';
 import Button from "../button/Button";
 
-
 const ReviewForm = (props) => {
     const [rating, setRating] = useState(1);
     const [comment, setComment] = useState('');

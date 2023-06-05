@@ -46,13 +46,13 @@ function MainHeader(props) {
     } else {
         roles = null;
     };
-        useEffect(()=>{
-            axios.get("http://localhost:8080/user/hometypes/")
-                .then(res => {
-                    setCategoryHome(res.data);
-                    console.log("categoryHome",categoryHome)
-                })
-        },[])
+    useEffect(()=>{
+        axios.get("http://localhost:8080/user/hometypes/")
+            .then(res => {
+                setCategoryHome(res.data);
+                console.log("categoryHome",categoryHome)
+            })
+    },[])
 
     return (
         <div>
