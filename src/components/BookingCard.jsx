@@ -29,7 +29,7 @@ function BookingCard(props) {
     });
 
     const Send=()=>{
-            socket.emit("send_message", { message, room });
+        socket.emit("send_message", { message, room });
     }
     console.log("message",message)
     const buttonOpenHandler = (event) => {
