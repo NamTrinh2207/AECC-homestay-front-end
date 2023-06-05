@@ -3,6 +3,7 @@ import axios from "axios";
 import {format} from "date-fns";
 import Swal from "sweetalert2";
 import {Pagination} from "antd";
+import {Link} from "react-router-dom";
 
 
 function BookingsOfCustomer(props) {
@@ -101,6 +102,7 @@ function BookingsOfCustomer(props) {
         }
     };
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -112,7 +114,50 @@ function BookingsOfCustomer(props) {
         };
         fetchData();
     }, [check, isDone]);
+    const deleteBooking = async (bookingId, checkinDate) => {
 
+        const timeDiff = new Date(checkinDate) - new Date();
+        console.log("thoi gian hien tai", timeDiff);
+        const oneDayInMs = 24 * 60 * 60 * 1000;
+        if (timeDiff <= oneDayInMs) {
+            await Swal.fire({
+                title: 'Không thể hủy !',
+                text: 'Không thể hủy trong trường hợp khách đang thuê hoặc thời gian checkin của khách còn ít hơn 1 ngày',
+                icon: 'warning'
+            });
+            return;
+        }
+
+        const confirmed = await Swal.fire({
+            title: 'Bạn chắc chắn muốn hủy đơn?',
+            text: 'Sẽ không được hoàn tác nếu bạn xác nhận hủy',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => result.isConfirmed);
+
+        if (confirmed) {
+            try {
+                const response = await axios.put(`http://localhost:8080/customer/bookings/setStatus/${bookingId}`);
+                await Swal.fire(
+                    'Đã hủy!',
+                    'Đơn đặt phòng đã được hủy thành công',
+                    'success',
+                );
+                setCheck(!check);
+            } catch (error) {
+                await Swal.fire({
+                    title: 'Đã xảy ra sự cố',
+                    text: "Không thể hủy vì đang có người thuê !",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+    }
     const totalItems = bookings.length;
     const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
@@ -128,19 +173,23 @@ function BookingsOfCustomer(props) {
                         <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
                                 <table className="manage-table" key={index}>
+
                                     <tbody className="responsive-table">
+
                                     <tr>
-                                        <td className="listing-photoo">
-                                            <img alt="my-properties" src={booking.homes.image[0]}
-                                                 height={100}/>
-                                        </td>
-                                        <td className="title-container">
-                                            <h5><a href="#">{booking.homes.name}</a></h5>
-                                            <h6><span>{booking.totalPrice}</span> VNĐ/Ngày</h6>
-                                            <p><i
-                                                className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                                {booking.homes.address} </p>
-                                        </td>
+                                        <Link className="property-img" to={`/viewHome/${booking.homes.id}`}>
+                                            <td className="listing-photoo">
+                                                <img alt="my-properties" src={booking.homes.image[0]}
+                                                     height={100}/>
+                                            </td>
+                                            <td className="title-container">
+                                                <h5><a href="#">{booking.homes.name}</a></h5>
+                                                <h6><span>{booking.totalPrice}</span> VNĐ/Ngày</h6>
+                                                <p><i
+                                                    className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
+                                                    {booking.homes.address} </p>
+                                            </td>
+                                        </Link>
                                         <td className="date">
                                             {booking.checkin}
                                         </td>
@@ -148,24 +197,35 @@ function BookingsOfCustomer(props) {
                                             {booking.checkout}
                                         </td>
                                         <td>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
                                                 <button style={{width: "100px"}}
                                                         onClick={() => checkinButton(booking.id)}
                                                         disabled={booking.checkinB}
                                                         className="btn-danger btn-secondary btn btn-blue">Check-in
                                                 </button>
                                             </th>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
                                                 <button style={{width: "100px", marginBottom: "0"}}
                                                         onClick={() => checkoutButton(booking.id)}
                                                         disabled={booking.checkoutB}
                                                         className="btn-danger btn-secondary btn btn-blue">Check-out
                                                 </button>
                                             </th>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
                                                 <button style={{width: "100px"}}
-                                                        onClick={() => checkoutButton(booking.id)}
-                                                        disabled={booking.checkoutB}
+                                                        onClick={() => deleteBooking(booking.id, booking.checkin)}
                                                         className="btn-danger btn-secondary btn btn-blue">Hủy
                                                 </button>
                                             </th>
