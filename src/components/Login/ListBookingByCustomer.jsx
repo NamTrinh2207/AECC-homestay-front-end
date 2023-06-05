@@ -8,48 +8,47 @@ export default function ListBookingByCustomer(props) {
     const user= props.user;
     const [showCancelRequest, setShowCancelRequest] = useState(false);
     const [showCheckedCustomer, setShowCheckedCustomer] = useState(false);
-    const [showUncheckedCustomer, setShowUncheckedCustomer] = useState(true);
+    const [bookingNow, setBookingNow] = useState(true);
     const [activeButton, setActiveButton] = useState('bookingNow');
 
     const handCancelRequest = () => {
         setShowCancelRequest(true);
         setShowCheckedCustomer(false);
-        setShowUncheckedCustomer(false)
+        setBookingNow(false)
         setActiveButton('cancelRequest');
     }
     const handleCheckedCustomer = () => {
         setShowCancelRequest(false);
         setShowCheckedCustomer(true);
-        setShowUncheckedCustomer(false)
+        setBookingNow(false)
         setActiveButton('rentalHistory');
     }
 
-    const handleShowUncheckedCustomer = () => {
+    const handleShowBookingNow = () => {
         setShowCancelRequest(false);
         setShowCheckedCustomer(false);
-        setShowUncheckedCustomer(true);
+        setBookingNow(true);
         setActiveButton('bookingNow');
-
     };
 
     return (
         <div>
             <table>
-                <tr>
+                <tr style={{border:'1px solid black'}}>
                     <td>
-                        <Button onClick={handleShowUncheckedCustomer}
+                        <Button style={{border:'none'}} onClick={handleShowBookingNow}
                                 className={activeButton === "bookingNow" ? 'active' : ''}>
-                            Booking hiện tại
+                            Homestay đang thuê
                         </Button>
                     </td>
                     <td>
-                        <Button onClick={handleCheckedCustomer}
+                        <Button style={{border:'none'}} onClick={handleCheckedCustomer}
                                 className={activeButton === "rentalHistory" ? 'active' : ''}>
-                            Lịch sử booking
+                            Lịch sử thuê
                         </Button>
                     </td>
                     <td>
-                        <Button onClick={handCancelRequest}
+                        <Button style={{border:'none'}} onClick={handCancelRequest}
                                 className={activeButton === "cancelRequest" ? 'active' : ''}>
                             Đơn đã hủy
                         </Button>
@@ -69,7 +68,7 @@ export default function ListBookingByCustomer(props) {
                                 <RentalOfCustomer user={user}/>
                             </div>
                         ) : null}
-                        {showUncheckedCustomer ? (
+                        {bookingNow ? (
                             <div>
                                 <BookingsOfCustomer user={user}/>
                             </div>
