@@ -53,10 +53,12 @@ const CalendarFunc = (props) => {
 
         // Kiểm tra tính trùng lặp
         (disabledDates.map(date => {
-                if ((date.startDate.toString() === flag.startDate || date.endDate.toString() === flag.endDate) ||
-                    (selectedStartDate >= date.startDate && selectedStartDate <= date.endDate) ||
-                    (selectedEndDate >= date.startDate && selectedEndDate <= date.endDate) ||
-                    (selectedStartDate <= date.startDate && selectedEndDate >= date.endDate)) {
+                if (
+                    ((date.startDate.toString() === flag.startDate || date.endDate.toString() === flag.endDate) ||
+                        (selectedStartDate >= date.startDate && selectedStartDate <= date.endDate) ||
+                        (selectedEndDate >= date.startDate && selectedEndDate <= date.endDate) ||
+                        (selectedStartDate <= date.startDate && selectedEndDate >= date.endDate)) && booking[0]?.done === false
+                ) {
                     Swal.fire({
                         title: "Ngày bạn vừa chọn đã có người booking trong khoảng thời gian từ " +
                             format(date.startDate, 'dd-MM-yyyy') + " đến " + format(date.endDate, 'dd-MM-yyyy') + ". Mời chọn lại ngày khác",
