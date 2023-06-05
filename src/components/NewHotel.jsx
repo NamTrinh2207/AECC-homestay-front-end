@@ -19,11 +19,8 @@ export default function CreateNewHotel(props) {
     const [imgUrls, setImgUrls] = useState([]);
     const [progressPercent, setProgressPercent] = useState([]);
     const [homeTypes, setHomeTypes] = useState([]);
-    const [showProgressBar, setShowProgressBar] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
-
-
-    // const validationSchema = ;
+    const [check, setCheck] = useState(false)
 
     useEffect(() => {
         const getHomeType = async () => {
@@ -34,8 +31,10 @@ export default function CreateNewHotel(props) {
                 console.log(error.message);
             }
         };
-        getHomeType();
-    }, []);
+        setTimeout(()=>{
+            getHomeType()
+        },1000)
+    }, [check]);
 
     const handleImageChange = async (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
@@ -295,6 +294,7 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'priceByDay'}>Giá tiền</label>
                                                                         <Field className="form-control" type={'number'}
                                                                                name={'priceByDay'}></Field>
+                                                                        <span style={{position:"absolute", top:"45px", left:"345px", color:"gray"}}>đ</span>
                                                                         <span style={{color: 'red', fontSize: 15}}><ErrorMessage
                                                                             name={"priceByDay"}></ErrorMessage></span>
                                                                     </div>
@@ -408,6 +408,7 @@ export default function CreateNewHotel(props) {
 
 
     function saveHome(data) {
+        setCheck(!check);
         let imgArr = [];
         for (let i = 0; i < imgUrls.length; i++) {
             imgArr[i] = imgUrls[i];
@@ -421,6 +422,7 @@ export default function CreateNewHotel(props) {
                     showConfirmButton: false,
                     timer: 1000
                 });
+
             })
             .catch((error) => {
                 Swal.fire({

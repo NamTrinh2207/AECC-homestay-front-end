@@ -14,34 +14,30 @@ function BookingCard(props) {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [isValid, setValid] = useState();
-    console.log("1", isValid);
-    const params = useParams();
     const {id} = useParams();
 
     const [transferDate, setTransferDate] = useState('')
-    const homeStatus = props.homeStatus;
 
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
         setButtonClose(false)
-    }
-
+    };
     const buttonCloseHandler = (event) => {
         event.preventDefault();
         setButtonClose(false);
         setButtonOpen(false)
 
-    }
+    };
     const handleDiffDate = (newData, startDate, endDate, transferValid) => {
         setTransferDate(newData);
         setStartDate(startDate);
         setEndDate(endDate);
         setValid(transferValid);
-    }
-    console.log("2", isValid)
+    };
+    const avgRating = props.avgRating;
     // lấy id người dùng và id của nhà, giá tiền của nhà.
-    const price = transferDate * (props.price >=10000 ? props.price: props.price);
+    const price = transferDate * props.price;
     if (user != null) {
         var userId = user.id;
         var homeId = props.homeId;
@@ -51,19 +47,23 @@ function BookingCard(props) {
                     <div>
                     <span style={
                         {fontSize: `20px`}
-                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
+                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
                         <span
-                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                            className={"numberOfRent"}>làm lại chỗ này</span>
                     </div>
 
-                    <div className='rev-card absolute'>
-                    <span style={
-                        {fontSize: '20px'}
-                    }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
-                        <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
-                    </div>
+                    {
+                        <div className='rev-card absolute'>
+                            <div className={(avgRating === 0 || props.bookingLength === 0 )&& "disable-element"}>
+                                <span style={{fontSize: '20px'}}>
+                                Đánh giá: {[...Array(avgRating)].map((_, index) => (
+                                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                                </span>
+                            </div>
+                        </div>
+                    }
                 </div>
-                {(transferDate === 0) ?
+                {transferDate === 0 ?
                     <div className='reserve-date-button-holder'>
                         <button className={'reserve-date-button rounded-xl'}
                                 onClick={buttonOpenHandler}>Chọn ngày
@@ -95,15 +95,16 @@ function BookingCard(props) {
                         checkin: startDate,
                         checkout: endDate,
                         totalPrice: price,
-                        isPaid: false,
+                        paid: false,
                         users: {
                             id: userId
                         },
                         homes: {
                             id: homeId
                         },
-                        isCheckinB: false,
-                        isCheckoutB: true,
+                        status: true,
+                        checkinB: false,
+                        checkoutB: true,
                     }}
                     onSubmit={(values) => {
                         newBooking(values)
@@ -119,8 +120,8 @@ function BookingCard(props) {
                                 <input type="hidden" name={"isPaid"}/>
                                 <input type="hidden" name={"users.id"}/>
                                 <input type="hidden" name={"homes.id"}/>
-                                { isValid === false ? "" :
-                                    <button className={"checkout-btn"}>Xác nhận</button>
+                                {isValid === false ? "" :
+                                    <button type={"submit"} className={"checkout-btn"}>Xác nhận</button>
                                 }
                             </Form>
                         </>
@@ -135,23 +136,22 @@ function BookingCard(props) {
                     <div>
                     <span style={
                         {fontSize: `20px`}
-                    }>Giá phòng: {props.price >=10000 ? props.price.toLocaleString(): props.price} VNĐ</span>
-                        <span
-                            className={"numberOfRent"}>{Math.floor(Math.random() * (999 - 100 + 1) + 100)} lượt thuê</span>
+                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
+                        <span>
+                            chỗ này nữa
+                        </span>
                     </div>
 
                     <div className='rev-card absolute'>
-                    <span style={
-                        {fontSize: '20px'}
-                    }>Đánh giá: </span> {[...Array(props.rating)].map((_, index) => (
-                        <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
-                    </div><br/>
+                        <span style={{fontSize: '20px'}}>Đánh giá:</span>
+
+                    </div>
+                    <br/>
                     <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
                 </div>
             </>
         )
     }
-
 
 
     function newBooking(data) {
@@ -174,20 +174,6 @@ function BookingCard(props) {
                     confirmButtonText: 'OK'
                 });
             });
-
-        axios.put(`http://localhost:8080/homes/after-booking/${id}`, data.homes.id, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // params: {
-            //     id: homeId
-            // }
-        })
-            .then(() => {
-                console.log("change")
-            }).catch((err) => {
-            console.error(err.message)
-        })
     }
 
 }
