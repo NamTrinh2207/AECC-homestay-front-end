@@ -346,7 +346,7 @@ function UserProfile(props) {
                                                     ) : null}
                                                     {showListBookings ? (
                                                         <div>
-                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <h3 className="heading-3">Thuê homestay</h3>
                                                             <ListBookingByCustomer user={user}/>
                                                         </div>
                                                     ) : null}
@@ -355,7 +355,7 @@ function UserProfile(props) {
                                                 <>
                                                     {showListBookings ? (
                                                         <div>
-                                                            <h3 className="heading-3">Đang đợi mấy con vợ check-in, check-out</h3>
+                                                            <h3 className="heading-3">Thuê homestay</h3>
                                                             <ListBookingByCustomer user={user}/>
                                                         </div>
                                                     ) : null}

@@ -13,7 +13,7 @@ function BookingsOfCustomer(props) {
     const [isDone, setIsDone] = useState(false);
     const [status, setStatus] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -30,7 +30,6 @@ function BookingsOfCustomer(props) {
         let updateBooking = {
             ...newBooking,
             checkinB: true,
-            checkoutB: false
         };
         if (checkIn === currentDate) {
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
@@ -46,7 +45,7 @@ function BookingsOfCustomer(props) {
                 });
                 setCheck(!check);
             });
-            await axios.put(`http://localhost:8080/homes/after-booking/${newBooking.homes.id}`, newBooking.homes.id, {
+            await axios.put(`http://localhost:8080/homes/after-checkin/${newBooking.homes.id}`, newBooking.homes.id, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -74,7 +73,8 @@ function BookingsOfCustomer(props) {
             ...newBooking,
             checkinB: true,
             checkoutB: true,
-            done: true
+            done: true,
+            paid: true
         };
         if (checkIn === currentDate) {
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
@@ -151,7 +151,7 @@ function BookingsOfCustomer(props) {
             } catch (error) {
                 await Swal.fire({
                     title: 'Đã xảy ra sự cố',
-                    text: "Không thể hủy vì đang có người thuê !",
+                    text: "Không thể hủy trước thời hạn 1 ngày!",
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -169,15 +169,14 @@ function BookingsOfCustomer(props) {
         paginatedIncome.length > 0 ? (
             <div>
                 <div>
-                    {bookings.map((booking, index) => (
+                    {paginatedIncome.map((booking, index) => (
                         <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
                                 <table className="manage-table" key={index}>
 
                                     <tbody className="responsive-table">
 
-                                    <tr>
-                                        <Link className="property-img" to={`/viewHome/${booking.homes.id}`}>
+                                    <tr><Link className="property-img" to={`/viewHome/${booking.homes.id}`}>
                                             <td className="listing-photoo">
                                                 <img alt="my-properties" src={booking.homes.image[0]}
                                                      height={100}/>
@@ -189,7 +188,7 @@ function BookingsOfCustomer(props) {
                                                     className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
                                                     {booking.homes.address} </p>
                                             </td>
-                                        </Link>
+                                    </Link>
                                         <td className="date">
                                             {booking.checkin}
                                         </td>
@@ -215,7 +214,7 @@ function BookingsOfCustomer(props) {
                                             }}>
                                                 <button style={{width: "100px", marginBottom: "0"}}
                                                         onClick={() => checkoutButton(booking.id)}
-                                                        disabled={booking.checkoutB}
+                                                        disabled={!booking.checkinB}
                                                         className="btn-danger btn-secondary btn btn-blue">Check-out
                                                 </button>
                                             </th>
@@ -226,6 +225,7 @@ function BookingsOfCustomer(props) {
                                             }}>
                                                 <button style={{width: "100px"}}
                                                         onClick={() => deleteBooking(booking.id, booking.checkin)}
+                                                        disabled={booking.checkinB}
                                                         className="btn-danger btn-secondary btn btn-blue">Hủy
                                                 </button>
                                             </th>
