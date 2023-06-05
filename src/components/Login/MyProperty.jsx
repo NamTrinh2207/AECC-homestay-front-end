@@ -9,7 +9,7 @@ function MyProperty(props) {
     const userId = props.user;
     const [homes, setHomes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
 
     useEffect(() => {
         axios
@@ -116,8 +116,9 @@ function MyProperty(props) {
                                     <tbody className="responsive-table">
                                     <tr>
                                         <td className="listing-photoo">
-                                            <img alt="my-properties" src={home.image[0]}
-                                                 height={100}/>
+                                            <Link to={`/viewHome/${home.id}`}><img alt="my-properties" src={home.image[0]}
+                                                                                   height={100}/></Link>
+
                                         </td>
                                         <td className="title-container">
                                             <h5><a href="#">{home.name}</a></h5>

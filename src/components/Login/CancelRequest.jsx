@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Button, Pagination, DatePicker} from "antd";
+import {Link} from "react-router-dom";
 
 const {RangePicker} = DatePicker;
 
@@ -77,22 +78,22 @@ export default function CancelRequest(props){
                                 <tbody className="responsive-table">
                                 <tr>
                                     <td className="listing-photoo">
-                                        <img alt="my-properties" src={bookings.users.avatar}
-                                             height={125}/>
-                                    </td>
-                                    <td className="title-container">
-                                        <h5><a href="#">Khách hàng: {bookings.users.name}</a></h5>
-                                        <p><h6>SĐT: {bookings.users.phoneNumber}</h6></p>
-                                        <p><h6>Tên nhà: {bookings.homes.name}</h6></p>
+                                        <Link to={`/viewHome/${bookings.homes.id}`}> <img alt="my-properties" src={bookings.users.avatar}
+                                                                                          height={125}/></Link>
 
                                     </td>
-                                    <td>
+                                    <td className="title-container">
+                                        <h5><a style={{fontSize:18,fontWeight:"bold"}} href="#">Khách hàng: {bookings.users.name}</a></h5>
+                                        <p><h6>SĐT: {bookings.users.phoneNumber}</h6></p><br/>
+                                        <p><h6 >Tên nhà: {bookings.homes.name}</h6></p>
+                                    </td>
+                                    <td style={{float:"right"}}>
                                         <h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>
                                         <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}
-                                        </h6></p>
+                                        </h6></p><br/>
                                         <p><h6>
                                             <span>Tổng tiền:</span> {bookings.totalPrice >= 10000 ? bookings.totalPrice.toLocaleString() : bookings.totalPrice}
-                                        </h6></p>
+                                            &nbsp;VNĐ </h6></p>
                                     </td>
                                 </tr>
                                 </tbody>
