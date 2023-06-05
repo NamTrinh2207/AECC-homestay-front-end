@@ -41,7 +41,7 @@ const CalendarFunc = (props) => {
     if (disabledDates.length === 0) {
         disabledDates = [{startDate: new Date(-1), endDate: new Date(-1)}];
     }
-    console.log("should be disabled dates", disabledDates);
+
     const handleSelect = (ranges) => {
         const selectedStartDate = ranges.selection.startDate;
         const selectedEndDate = ranges.selection.endDate;// Chuyển date => string

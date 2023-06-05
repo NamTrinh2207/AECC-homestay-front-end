@@ -79,7 +79,7 @@ function HotelDetails(props) {
         setTimeout(() => {
             fetchAvg()
         }, 1000);
-    }, [id]);
+    });
 
     const getStatusLabel = (status) => {
         switch (status) {
