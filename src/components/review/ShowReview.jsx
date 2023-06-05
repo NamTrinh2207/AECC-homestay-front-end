@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 import ReviewForm from './ReviewForm';
 import axios from 'axios';
-import { Pagination } from 'antd';
+import {Pagination} from 'antd';
 
 function ShowReview(props) {
     const [reviews, setReviews] = useState([]);
@@ -22,7 +22,6 @@ function ShowReview(props) {
                 // Handle error, show error message, etc.
             }
         };
-
         const interval = setInterval(() => {
             fetchReviews();
         }, 1000);
@@ -57,10 +56,10 @@ function ShowReview(props) {
                         {currentReviews.map((review, index) => (
                             <div key={index}>
                                 <div className="review-avatar">
-                                    <img src={review.users.avatar} className="avatar-custom" alt="avatar" />
+                                    <img src={review.users.avatar} className="avatar-custom" alt="avatar"/>
                                     {review.users.name}
                                 </div>
-                                <li className="review-comment" style={{ paddingLeft: 0 }}>
+                                <li className="review-comment" style={{paddingLeft: 0}}>
                                     {review.comment}
                                 </li>
                             </div>
