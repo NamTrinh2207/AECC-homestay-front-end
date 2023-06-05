@@ -132,11 +132,17 @@ function HotelDetails(props) {
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p className={(avgRating === 0 || firstBooking.length === 0) && "disable-element"}>
+                                                        {(avgRating === 0 || firstBooking.length === 0) ?
+                                                            <p>
+                                                                <span>Mới</span>
+                                                            </p>
+                                                             :
+                                                            <p>
                                                             <span> Đánh giá: {avgRating}
                                                                 <i className="fa fa-star" style={{color: "orange"}}></i>
                                                             </span>
-                                                        </p>
+                                                            </p>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

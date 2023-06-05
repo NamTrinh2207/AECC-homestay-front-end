@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import ReviewForm from './ReviewForm';
 import axios from 'axios';
-import {Pagination} from 'antd';
+import { Pagination } from 'antd';
 
 function ShowReview(props) {
     const [reviews, setReviews] = useState([]);
     const homeId = useParams();
     const [currentPage, setCurrentPage] = useState(1);
-    const ratingAvg = props.avgRating;
     const reviewsPerPage = 3; // Số đánh giá hiển thị trên mỗi trang
+
     useEffect(() => {
         const fetchReviews = async () => {
             try {
@@ -23,10 +23,14 @@ function ShowReview(props) {
             }
         };
 
-        setTimeout(() => {
+        const interval = setInterval(() => {
             fetchReviews();
         }, 1000);
-    });
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [homeId.id]);
 
     // Xác định đánh giá hiển thị trên trang hiện tại
     const indexOfLastReview = currentPage * reviewsPerPage;
@@ -45,18 +49,18 @@ function ShowReview(props) {
             {reviews.length === 0 ? (
                 <p>Hiện chưa có review nào về nhà này.</p>
             ) : (
-                <div className={'col-md-12'}>
+                <div className="col-md-12">
                     <p>
-                        <i className="fa fa-star"></i> {ratingAvg} · {reviews.length} đánh giá
+                        <i className="fa fa-star"></i> {props.avgRating} · {reviews.length} đánh giá
                     </p>
                     <ul>
-                        {currentReviews.map((review) => (
-                            <div key={review.id}>
-                                <div className={'review-avatar'}>
-                                    <img src={review.users.avatar} className={'avatar-custom'} alt="avatar"/>
+                        {currentReviews.map((review, index) => (
+                            <div key={index}>
+                                <div className="review-avatar">
+                                    <img src={review.users.avatar} className="avatar-custom" alt="avatar" />
                                     {review.users.name}
                                 </div>
-                                <li className={'review-comment'} style={{paddingLeft: 0}}>
+                                <li className="review-comment" style={{ paddingLeft: 0 }}>
                                     {review.comment}
                                 </li>
                             </div>
