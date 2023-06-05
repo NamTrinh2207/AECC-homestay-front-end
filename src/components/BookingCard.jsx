@@ -7,7 +7,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {Form, Formik} from "formik";
 import io from "socket.io-client";
-import { useEffect } from "react";
 const socket = io.connect("http://localhost:3001");
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -18,7 +17,6 @@ function BookingCard(props) {
     const [isValid, setValid] = useState();
     const {id} = useParams();
     const [transferDate, setTransferDate] = useState('')
-<<<<<<< HEAD
     const homeStatus = props.homeStatus;
     const [room, setRoom] = useState('1');
     const currentDate=new Date();
@@ -29,23 +27,16 @@ function BookingCard(props) {
         uId:user.id,
         time:currentDate
     });
-=======
->>>>>>> f51eb99c01972dbbac2cff941aa8f9c5b3e57690
 
     const Send=()=>{
-            socket.emit("send_message", { message, room });
+        socket.emit("send_message", { message, room });
     }
     console.log("message",message)
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
         setButtonClose(false)
-<<<<<<< HEAD
     }
-    console.log(user)
-=======
-    };
->>>>>>> f51eb99c01972dbbac2cff941aa8f9c5b3e57690
     const buttonCloseHandler = (event) => {
         event.preventDefault();
         setButtonClose(false);
@@ -199,7 +190,6 @@ function BookingCard(props) {
                     confirmButtonText: 'OK'
                 });
             });
-<<<<<<< HEAD
         axios.put(`http://localhost:8080/homes/after-booking/${id}`, data.homes.id, {
             headers: {
                 'Content-Type': 'application/json'
@@ -213,8 +203,6 @@ function BookingCard(props) {
             }).catch((err) => {
             console.error(err.message)
         })
-=======
->>>>>>> f51eb99c01972dbbac2cff941aa8f9c5b3e57690
     }
 
 }
