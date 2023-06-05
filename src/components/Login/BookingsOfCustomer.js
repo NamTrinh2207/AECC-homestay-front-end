@@ -2,19 +2,45 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {format} from "date-fns";
 import Swal from "sweetalert2";
-import {Pagination} from "antd";
-
+import {Button, Pagination} from "antd";
+import {Link} from "react-router-dom";
+import TruncatedLink from "../truncate/TruncateLink";
+import TruncatedText from "../truncate/TruncateText";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3000");
 
 function BookingsOfCustomer(props) {
+    const user = JSON.parse(localStorage.getItem("user"));
     const userId = props.user;
     const [check, setCheck] = useState(false);
     const [bookings, setBookings] = useState([]);
     const [isDone, setIsDone] = useState(false);
     const [status, setStatus] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
+    const currentDate=new Date();
+    const [room, setRoom] = useState('1');
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+    const Send = async () => {
+        try {
+            if (user != null) { // Kiểm tra cả user và room
+                const updatedMessage = {
+                    text:"hủy",
+                    name: user.name,
+                    avatar: user.avatar,
+                    uId: user.id,
+                    time: currentDate
+                };
+
+                socket.emit("send_message", { message: updatedMessage, room });
+
+                // Gửi thành công
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        }
     };
 
     const checkinButton = async (bookingId) => {
@@ -29,7 +55,6 @@ function BookingsOfCustomer(props) {
         let updateBooking = {
             ...newBooking,
             checkinB: true,
-            checkoutB: false
         };
         if (checkIn === currentDate) {
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
@@ -45,13 +70,13 @@ function BookingsOfCustomer(props) {
                 });
                 setCheck(!check);
             });
-            await axios.put(`http://localhost:8080/homes/after-booking/${newBooking.homes.id}`, newBooking.homes.id, {
+            await axios.put(`http://localhost:8080/homes/after-checkin/${newBooking.homes.id}`, newBooking.homes.id, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
             )
-            console.log("check-in thafnh cong");
+            console.log("check-in thành cong");
         } else {
             Swal.fire({
                 title: 'Thất bại',
@@ -73,7 +98,8 @@ function BookingsOfCustomer(props) {
             ...newBooking,
             checkinB: true,
             checkoutB: true,
-            done: true
+            done: true,
+            paid: true
         };
         if (checkIn === currentDate) {
             await axios.put(`http://localhost:8080/customer/bookings/edit/${bookingId}`, updateBooking, {
@@ -101,6 +127,7 @@ function BookingsOfCustomer(props) {
         }
     };
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -112,7 +139,51 @@ function BookingsOfCustomer(props) {
         };
         fetchData();
     }, [check, isDone]);
+    const deleteBooking = async (bookingId, checkinDate) => {
 
+        const timeDiff = new Date(checkinDate) - new Date();
+        console.log("thoi gian hien tai", timeDiff);
+        const oneDayInMs = 24 * 60 * 60 * 1000;
+        if (timeDiff <= oneDayInMs) {
+            await Swal.fire({
+                title: 'Không thể hủy !',
+                text: 'Không thể hủy trong trường hợp khách đang thuê hoặc thời gian checkin của khách còn ít hơn 1 ngày',
+                icon: 'warning'
+            });
+            return;
+        }
+
+        const confirmed = await Swal.fire({
+            title: 'Bạn chắc chắn muốn hủy đơn?',
+            text: 'Sẽ không được hoàn tác nếu bạn xác nhận hủy',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không'
+        }).then((result) => result.isConfirmed);
+
+        if (confirmed) {
+            try {
+                const response = await axios.put(`http://localhost:8080/customer/bookings/setStatus/${bookingId}`);
+                await Swal.fire(
+                    'Đã hủy!',
+                    'Đơn đặt phòng đã được hủy thành công',
+                    'success',
+                );
+                setCheck(!check);
+                await Send();
+            } catch (error) {
+                await Swal.fire({
+                    title: 'Đã xảy ra sự cố',
+                    text: "Không thể hủy trước thời hạn 1 ngày!",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+    }
     const totalItems = bookings.length;
     const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
@@ -124,57 +195,134 @@ function BookingsOfCustomer(props) {
         paginatedIncome.length > 0 ? (
             <div>
                 <div>
-                    {bookings.map((booking, index) => (
+                    {paginatedIncome.map((booking, index) => (
                         <div className="col-lg-12 col-md-12 col-sm-12">
                             <div className="my-properties">
+                                {/*<table className="manage-table" key={index}>*/}
+
+                                {/*    <tbody className="responsive-table">*/}
+
+                                {/*    <tr><Link className="property-img" to={`/viewHome/${booking.homes.id}`}>*/}
+                                {/*        <td className="listing-photoo">*/}
+                                {/*            <img alt="my-properties" src={booking.homes.image[0]}*/}
+                                {/*                 height={100}/>*/}
+                                {/*        </td>*/}
+                                {/*        <td className="title-container">*/}
+                                {/*            <h5><a href="#">{booking.homes.name}</a></h5>*/}
+                                {/*            <h6><span>{booking.totalPrice}</span> VNĐ/Ngày</h6>*/}
+                                {/*            <p><i*/}
+                                {/*                className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>*/}
+                                {/*                {booking.homes.address} </p>*/}
+                                {/*        </td>*/}
+                                {/*    </Link>*/}
+                                {/*        <td><h6><span style={{color: "blue"}}>checkin:</span> {bookings.checkin}</h6>*/}
+                                {/*            <p><h6><span style={{color: "red"}}>checkout:</span> {bookings.checkout}*/}
+                                {/*            </h6></p>*/}
+                                {/*        </td>*/}
+                                {/*        <td>*/}
+                                {/*            <th style={{*/}
+                                {/*                display: "flex",*/}
+                                {/*                flexDirection: "column",*/}
+                                {/*                alignItems: "center"*/}
+                                {/*            }}>*/}
+                                {/*                <button style={{width: "100px"}}*/}
+                                {/*                        onClick={() => checkinButton(booking.id)}*/}
+                                {/*                        disabled={booking.checkinB}*/}
+                                {/*                        className="btn-danger btn-secondary btn btn-blue">Check-in*/}
+                                {/*                </button>*/}
+                                {/*            </th>*/}
+                                {/*            <th style={{*/}
+                                {/*                display: "flex",*/}
+                                {/*                flexDirection: "column",*/}
+                                {/*                alignItems: "center"*/}
+                                {/*            }}>*/}
+                                {/*                <button style={{width: "100px", marginBottom: "0"}}*/}
+                                {/*                        onClick={() => checkoutButton(booking.id)}*/}
+                                {/*                        disabled={!booking.checkinB}*/}
+                                {/*                        className="btn-danger btn-secondary btn btn-blue">Check-out*/}
+                                {/*                </button>*/}
+                                {/*            </th>*/}
+                                {/*            <th style={{*/}
+                                {/*                display: "flex",*/}
+                                {/*                flexDirection: "column",*/}
+                                {/*                alignItems: "center"*/}
+                                {/*            }}>*/}
+                                {/*                <button style={{width: "100px"}}*/}
+                                {/*                        onClick={() => deleteBooking(booking.id, booking.checkin)}*/}
+                                {/*                        disabled={booking.checkinB}*/}
+                                {/*                        className="btn-danger btn-secondary btn btn-blue">Hủy*/}
+                                {/*                </button>*/}
+                                {/*            </th>*/}
+                                {/*            /!*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*!/*/}
+                                {/*        </td>*/}
+                                {/*    </tr>*/}
+                                {/*    </tbody>*/}
+                                {/*</table>*/}
                                 <table className="manage-table" key={index}>
                                     <tbody className="responsive-table">
                                     <tr>
                                         <td className="listing-photoo">
                                             <img alt="my-properties" src={booking.homes.image[0]}
-                                                 height={100}/>
+                                                 height={125}/>
                                         </td>
                                         <td className="title-container">
-                                            <h5><a href="#">{booking.homes.name}</a></h5>
-                                            <h6><span>{booking.totalPrice}</span> VNĐ/Ngày</h6>
-                                            <p><i
-                                                className="flaticon-facebook-placeholder-for-locate-places-on-maps"></i>
-                                                {booking.homes.address} </p>
-                                        </td>
-                                        <td className="date">
-                                            {booking.checkin}
-                                        </td>
-                                        <td className="date">
-                                            {booking.checkout}
+                                            <h5><a href="#">Chủ nhà: {booking.homes.users.name}</a></h5>
+                                            {/*<p><h6>SĐT: {booking.homes.users.phoneNumber}</h6></p>*/}
+
+                                            <p><h6>Tên nhà: {booking.homes.name}</h6></p>
+                                            <p><h6>
+                                                <TruncatedText text={booking.homes.address} maxLength={30}></TruncatedText></h6></p>
                                         </td>
                                         <td>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
-                                                <button style={{width: "100px"}}
+                                            <h6><span style={{color: "blue"}}>checkin:</span> {booking.checkin}</h6>
+                                            <p><h6><span style={{color: "red"}}>checkout:</span> {booking.checkout}
+                                            </h6></p>
+                                            <p><h6>
+                                                <span>Tổng tiền:</span> {booking.totalPrice >= 10000 ? booking.totalPrice.toLocaleString() : booking.totalPrice}
+                                            </h6></p>
+                                        </td>
+                                        <td className="action">
+                                            {/*<Button style={{width: '100%'}}*/}
+                                            {/*        onClick={() => deleteBooking(bookings.id, bookings.checkin)}>*/}
+                                            {/*    <i className="fa fa-trash"></i>&nbsp;&nbsp;Hủy đơn*/}
+                                            {/*</Button>*/}
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
+                                                <button style={{width: "100px", backgroundColor: "#3F56FF"}}
                                                         onClick={() => checkinButton(booking.id)}
                                                         disabled={booking.checkinB}
-                                                        className="btn-danger btn-secondary btn btn-blue">Check-in
+                                                        className="btn-danger btn-secondary btn">Check-in
                                                 </button>
                                             </th>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
-                                                <button style={{width: "100px", marginBottom: "0"}}
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
+                                                <button style={{width: "100px", marginBottom: "0", backgroundColor: "#3F56FF"}}
                                                         onClick={() => checkoutButton(booking.id)}
-                                                        disabled={booking.checkoutB}
-                                                        className="btn-danger btn-secondary btn btn-blue">Check-out
+                                                        disabled={!booking.checkinB}
+                                                        className="btn-danger btn-secondary btn">Check-out
                                                 </button>
                                             </th>
-                                            <th style={{display: "flex", flexDirection: "column", alignItems:"center"}}>
-                                                <button style={{width: "100px"}}
-                                                        onClick={() => checkoutButton(booking.id)}
-                                                        disabled={booking.checkoutB}
-                                                        className="btn-danger btn-secondary btn btn-blue">Hủy
+                                            <th style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center"
+                                            }}>
+                                                <button style={{width: "100px", backgroundColor: "#3F56FF"}}
+                                                        onClick={() => deleteBooking(booking.id, booking.checkin)}
+                                                        disabled={booking.checkinB}
+                                                        className="btn-danger btn-secondary btn">Hủy
                                                 </button>
                                             </th>
-                                            {/*<th><button style={{width: "100px"}} onClick={() => checkoutButton(booking.id)} className="btn-danger btn-secondary btn btn-blue">Hủy</button></th>*/}
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     ))}

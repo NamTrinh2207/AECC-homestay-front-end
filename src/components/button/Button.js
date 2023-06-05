@@ -1,12 +1,11 @@
 import React from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import './Toast.css';
 
-const Toast = ({ onClick, name }) => {
+const Button = ({ onClick, name }) => {
     return (
         <div>
             <button
                 className="btn btn-4"
+                style={{height:48}}
                 type="submit"
                 onClick={onClick}
             >
@@ -16,4 +15,4 @@ const Toast = ({ onClick, name }) => {
     );
 };
 
-export default Toast;
+export default Button;

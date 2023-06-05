@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import {registerUser} from "../../redux/apiRequest";
 import {Formik, ErrorMessage} from "formik";
 import * as Yup from "yup";
-import Toast from "../toast/Toast";
+import Button from "../button/Button";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
@@ -24,7 +24,7 @@ function Register(props) {
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
-        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").max(8,"mật khẩu không được quá 8 ký tự").required("mật khẩu không được để trống !"),
+        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").required("mật khẩu không được để trống !"),
         email: Yup.string().email("vui lòng nhập đúng định dạng email !").required("email không được để trống !"),
         roles: Yup.string().required("Vui lòng chọn vai trò người dùng!")
     });
@@ -84,22 +84,22 @@ function Register(props) {
                                         <form onSubmit={formik.handleSubmit}>
                                             <div className="row px-3">
                                                 <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài
-                                                    khoản</h6></label>
+                                                    khoản:</h6></label>
                                                 <input {...formik.getFieldProps("username")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"username"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu</h6>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu:</h6>
                                                 </label>
-                                                <input {...formik.getFieldProps("password")} type="password"/>
+                                                <input {...formik.getFieldProps("password")} type="password" style={{height:43, border:'1px solid #D8D8D8'}}/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"password"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Email</h6>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Email:</h6>
                                                 </label>
                                                 <input {...formik.getFieldProps("email")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
@@ -122,7 +122,7 @@ function Register(props) {
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <Toast name={"ĐĂNG KÝ"}/>
+                                                <Button name={"ĐĂNG KÝ"}/>
                                             </div>
                                         </form>
                                     )}

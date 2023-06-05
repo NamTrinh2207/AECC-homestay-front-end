@@ -44,7 +44,7 @@ function TopHeader(props) {
             getAvatar();
         }, 1000);
         return () => clearTimeout(timer);
-    }, [userId]);
+    });
 
     return (
         <div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Rating } from 'react-simple-star-rating';
-import Toast from '../toast/Toast';
+import {Rating} from 'react-simple-star-rating';
+import Button from "../button/Button";
 
 const ReviewForm = (props) => {
     const ratingRef = useRef(1);
@@ -87,7 +87,7 @@ const ReviewForm = (props) => {
                             ref={commentRef}
                         />
                     </div>
-                    <Toast name={review.length === 0 ? 'Đánh giá' : 'Chỉnh sửa'} />
+                    <Button name={review.length === 0 ? 'Đánh giá' : 'Chỉnh sửa'} />
                 </form>
             )}
         </div>

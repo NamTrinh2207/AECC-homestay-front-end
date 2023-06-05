@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Pagination} from "antd";
+import {Button, Pagination, DatePicker} from "antd";
+
+const {RangePicker} = DatePicker;
 
 export default function CancelRequest(props){
     const userId = props.user;
     const [booking, setBooking] = useState([]);
     const [check, setCheck] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     useEffect(() => {
         axios
@@ -25,14 +29,46 @@ export default function CancelRequest(props){
         setCurrentPage(pageNumber);
     };
 
+    const handleDateChange = (dates) => {
+        if (dates && dates.length === 2) {
+            setStartDate(dates[0]);
+            setEndDate(dates[1]);
+        } else {
+            setStartDate(null);
+            setEndDate(null);
+        }
+    };
+
     const totalItems = booking.length;
     const totalPages = Math.ceil(totalItems / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize, totalItems);
-    const paginatedIncome = booking.slice(startIndex, endIndex);
+    const paginatedIncome = booking
+        .filter((booking) => {
+            if (!startDate || !endDate) {
+                return true; // Show all bookings if no date range is selected
+            }
+
+            const checkinDate = new Date(booking.checkin);
+            const checkoutDate = new Date(booking.checkout);
+
+            return (
+                checkinDate >= startDate && checkinDate <= endDate ||
+                checkoutDate >= startDate && checkoutDate <= endDate
+            );
+        })
+        .slice(startIndex, endIndex);
 
     return (
         <div>
+            <div>
+                {/* Ô tìm kiếm */}
+                <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
+                    <RangePicker onChange={handleDateChange} placeholder={["Ngày bắt đầu", "Ngày kết thúc"]}
+                    />
+                </div>
+                <p style={{display: "flex", justifyContent: "center"}}>Nhập vào ô bên trên để tìm kiếm theo ngày: </p>
+            </div>
             <div>
                 {paginatedIncome.map((bookings, index) => (
                     <div className="col-lg-12 col-md-12 col-sm-12">

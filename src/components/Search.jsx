@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Swal from 'sweetalert2';
+import {DatePicker} from "antd";
+
+const {RangePicker} = DatePicker;
 
 function Search(props) {
     const [bedrooms, setBedrooms] = useState('');
@@ -111,18 +114,34 @@ function Search(props) {
             .replace(/[^a-zA-Z0-9 ]/g, '');
     }
 
+    const handleDateChange = (dates) => {
+        if (dates && dates.length === 2) {
+            setCheckIn(dates[0]);
+            setCheckOut(dates[1]);
+        } else {
+            setCheckIn("");
+            setCheckOut("");
+        }
+    };
+
     const handleSearch = () => {
         const filteredHomes = search.filter(home => {
+            const checkinDate = new Date(home.checkin);
+            const checkoutDate = new Date(home.checkout);
+            const currentDate = new Date(checkIn);
+
             return (
                 (bedrooms === '' || home.bedroom == bedrooms) &&
                 (bathrooms === '' || home.bathroom == bathrooms) &&
                 (address === '' || convertVietnamese(home.address).includes(address)) &&
-                (checkIn === '' || home.checkin <= checkIn || home.checkin >= checkIn) &&
-                (checkOut === '' || home.checkout >= checkOut) &&
+                (checkIn === '' || checkOut === '' || currentDate < checkinDate || currentDate > checkoutDate) &&
                 (minPrice === '' || home.priceByDay >= minPrice) &&
                 (maxPrice === '' || home.priceByDay <= maxPrice)
             );
         });
+
+
+
         if (filteredHomes.length !== 0) {
             Swal.fire({
                 title: 'Đang tìm kiếm...',
@@ -144,17 +163,14 @@ function Search(props) {
         }
     };
 
-
     return (
         <div>
             <div className="container">
                 <div className="search-area-inner">
                     <div className="search-contents ">
                         <div className="row">
-                            {/*nhap dia chi*/}
-                            <div className="col-6 col-lg-3 col-md-3">
+                            <div className="col-6 col-lg-3">
                                 <div className="form-group">
-                                    <label htmlFor="">Địa chỉ:</label>
                                     <input
                                         type="text"
                                         className="selectpicker search-fields"
@@ -167,7 +183,6 @@ function Search(props) {
                             {/*so phong ngu*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <label htmlFor="">Phòng ngủ:</label>
                                     <select className="selectpicker search-fields"
                                             value={bedrooms} onChange={(e) => setBedrooms(e.target.value)}>
                                         <option value={""}>Chọn số phòng ngủ</option>
@@ -188,7 +203,6 @@ function Search(props) {
                             {/*so phong tam*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <label htmlFor="">Phòng tắm:</label>
                                     <select className="selectpicker search-fields" value={bathrooms}
                                             onChange={(e) => setBathrooms(e.target.value)}>
                                         <option value={""}>Chọn số phòng tắm</option>
@@ -202,53 +216,33 @@ function Search(props) {
                             {/*nut tim kiem*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <button style={{marginTop: 32}} className="btn btn-block btn-4"
+                                    <button className="btn btn-block btn-4"
                                             onClick={handleSearch}>Tìm kiếm
                                     </button>
                                 </div>
                             </div>
 
-                            {/*check in*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <label htmlFor="checkInInput">Ngày đặt:</label>
-                                    <input
-                                        type="date"
-                                        value={checkIn}
-                                        id="checkInInput"
-                                        className="form-box search-fields form-control"
-                                        onChange={(e) => setCheckIn(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            {/*checkout*/}
-                            <div className="col-6 col-lg-3 col-md-3">
-                                <div className="form-group">
-                                    <label htmlFor="checkoutInput">Ngày trả:</label>
-                                    <input
-                                        id={"checkoutInput"}
-                                        type="date" className="form-box search-fields form-control"
-                                        value={checkOut}
-                                        onChange={(e) => setCheckOut(e.target.value)}
-                                    />
+                                        <RangePicker style={{height: 49, width: 510,marginTop:2}}
+                                                     onChange={handleDateChange}
+                                                     placeholder={["Ngày bắt đầu", "Ngày kết thúc"]}/>
                                 </div>
                             </div>
 
                             {/*gia thap*/}
-                            <div className="col-6 col-lg-3 col-md-3">
+                            <div style={{marginLeft: 270}} className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <label htmlFor="">Giá thấp nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="  Giá thấp nhất" value={minPrice}
+                                           placeholder="  Giá thấp nhất VNĐ" value={minPrice}
                                            onChange={(e) => setMinPrice(e.target.value)}/>
                                 </div>
                             </div>
                             {/*gia sau*/}
                             <div className="col-6 col-lg-3 col-md-3">
                                 <div className="form-group">
-                                    <label htmlFor="">Giá cao nhất:</label>
                                     <input className={"form-box search-fields"} type="number"
-                                           placeholder="  Giá cao nhất" value={maxPrice}
+                                           placeholder="  Giá cao nhất VNĐ" value={maxPrice}
                                            onChange={(e) => setMaxPrice(e.target.value)}/>
                                 </div>
                             </div>

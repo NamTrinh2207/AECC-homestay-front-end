@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import TruncatedLink from "./truncate/TruncateLink";
 import TruncatedText from "./truncate/TruncateText";
+import {Pagination} from "antd";
 
 function SearchResult(props) {
     const {searchResult} = props;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 9;
     const getStatusColor = (status) => {
         switch (status) {
             case 1:
@@ -30,6 +33,13 @@ function SearchResult(props) {
                 return 'Unknown';
         }
     };
+    const totalItems = searchResult.length;
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalItems);
+    const paginatedHome = searchResult.slice(startIndex, endIndex);
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
     return (
         <div>
             <div className="featured-properties content-area-19">
@@ -38,29 +48,31 @@ function SearchResult(props) {
                         <h1>Kết quả tìm kiếm</h1>
                     </div>
                     <div className="row wow fadeInUp delay-02s">
-                        {searchResult.map(home => (
+                        {paginatedHome.map(home => (
                             <div className="col-lg-4 col-md-6 col-sm-12 filtr-item" data-category="3, 2">
                                 <div className="property-box-7">
                                     <div className="property-thumbnail">
                                         <Link className="property-img" to={`/viewHome/${home.id}`}>
-                                            <div style={{ backgroundColor: getStatusColor(home.status) }} className="tag-2">
+                                            <div style={{backgroundColor: getStatusColor(home.status)}}
+                                                 className="tag-2">
                                                 {getStatusLabel(home.status)}
                                             </div>
                                             <div className="price-box">
                                                 <span>{home.priceByDay} VNĐ</span>/ngày
                                             </div>
-                                            <img height={250} src={home.image} alt="property-box-7" />
+                                            <img height={250} src={home.image} alt="property-box-7"/>
                                         </Link>
                                     </div>
                                     <div className="detail">
                                         <h1 className="title">
-                                            <TruncatedLink url={`/viewHome/${home.id}`} text={home.homeName} maxLength={28}></TruncatedLink>
+                                            <TruncatedLink url={`/viewHome/${home.id}`} text={home.homeName}
+                                                           maxLength={28}></TruncatedLink>
                                         </h1>
                                         <div className="location">
                                             <TruncatedText text={home.address} maxLength={35}></TruncatedText>
                                         </div>
                                     </div>
-                                    <ul style={{backgroundColor:'#FFFFFF'}} className="facilities-list clearfix">
+                                    <ul style={{backgroundColor: '#FFFFFF'}} className="facilities-list clearfix">
                                         <li>
                                             <span><i className="fa fa-home"></i></span>{home.homeType}
                                         </li>
@@ -83,6 +95,14 @@ function SearchResult(props) {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    <div style={{justifyContent: "center", display: "flex", marginTop: 10}}>
+                        <Pagination
+                            current={currentPage}
+                            total={totalItems}
+                            pageSize={pageSize}
+                            onChange={handlePageChange}
+                        />
                     </div>
                 </div>
             </div>
