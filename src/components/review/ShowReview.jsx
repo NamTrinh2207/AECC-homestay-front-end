@@ -23,10 +23,9 @@ function ShowReview(props) {
             }
         };
 
-        const timer = setTimeout(() => {
+        setTimeout(() => {
             fetchReviews();
         }, 1000);
-        return () => clearTimeout(timer);
     });
 
     // Xác định đánh giá hiển thị trên trang hiện tại
