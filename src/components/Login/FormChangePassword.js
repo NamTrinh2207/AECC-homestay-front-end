@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {ErrorMessage, Formik} from "formik";
 import * as Yup from "yup";
-import Toast from "../toast/Toast";
+import Button from "../button/Button";
 import Swal from 'sweetalert2';
 
 function FormChangePassword(props) {
@@ -91,7 +91,7 @@ function FormChangePassword(props) {
                             </div>
                             <div className="col-lg-12">
                                 <div className="send-btn">
-                                    <Toast name={"Đổi mật khẩu"}/>
+                                    <Button name={"Đổi mật khẩu"}/>
                                 </div>
                             </div>
                         </div>

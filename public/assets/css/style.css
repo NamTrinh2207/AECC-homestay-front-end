@@ -956,6 +956,10 @@ input[type=checkbox]:checked + label:before {
     color: #fff !important;
 }
 
+.btn-4 {
+    background: #3f56ff;
+}
+
 /** BTN 4 **/
 .btn-4 {
     position: relative;
@@ -14705,4 +14709,13 @@ body.off-canvas-sidebar-open {
 
 .review {
     padding-bottom: 15px;
+}
+
+.disable-element {
+    display: none;
+
+}
+
+.disable-textarea {
+    display: none;
 }
