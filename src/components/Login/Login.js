@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import LoginGoogle from "./LoginGoogle";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import "./login.css"
 import {ErrorMessage, Formik} from "formik";
 import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {loginUser} from "../../redux/apiRequest";
-import Toast from "../toast/Toast";
+import Button from "../button/Button";
+import Swal from 'sweetalert2';
 
 
 function Login(props) {
@@ -28,6 +29,23 @@ function Login(props) {
         };
         loginUser(newUser, dispatch, navigate)
     }
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const success = queryParams.get('success');
+
+    useEffect(() => {
+        if (success) {
+            Swal.fire({
+                title: 'Tài khoản đã được xác minh thành công!',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+        }
+    }, [success]);
     return (
         <div>
             <div className="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
@@ -63,21 +81,24 @@ function Login(props) {
                                     {formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài khoản</h6></label>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài
+                                                    khoản:</h6></label>
                                                 <input {...formik.getFieldProps("username")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"username"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu</h6></label>
-                                                <input {...formik.getFieldProps("password")} type="password"/>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu:</h6>
+                                                </label>
+                                                <input {...formik.getFieldProps("password")} type="password"
+                                                       style={{height: 43, border: '1px solid #D8D8D8'}}/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"password"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <Toast name={"Đăng Nhập"}/>
+                                                <Button name={"Đăng Nhập"}/>
                                             </div>
                                         </form>
                                     )}

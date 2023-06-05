@@ -9,7 +9,7 @@ import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
 import Page404 from "./404/Page404";
-import Toast from "./toast/Toast";
+import Button from "./button/Button";
 import {toast} from "react-toastify";
 import Swal from 'sweetalert2';
 import {useNavigate} from "react-router-dom";
@@ -345,7 +345,7 @@ export default function CreateNewHotel(props) {
                                                             </div>
 
                                                             {imgUrls.length > 0 && <div className="col-lg-12">
-                                                                <Toast name={"ĐĂNG TIN"}/>
+                                                                <Button name={"ĐĂNG TIN"}/>
                                                             </div> }
 
                                                         </Form>
