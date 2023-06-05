@@ -1,58 +1,83 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import Search from "../Search";
-import axios from "axios";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBell, faEnvelope} from "@fortawesome/free-solid-svg-icons";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001");
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBell,
+    faClock,
+    faEnvelope,
+    faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import io from 'socket.io-client';
 
-function MainHeader(props) {
-    const [categoryHome, setCategoryHome] = useState([])
-    const data = localStorage.getItem("user");
-    const [room, setRoom] = useState("1");
-    const [notifications, setNotifications] = useState([]);
+const MainHeader = (props) => {
+    const [categoryHome, setCategoryHome] = useState([]);
+    const data = localStorage.getItem('user');
+    const [room, setRoom] = useState('1');
+    const [notifications, setNotifications] = useState([
+        {
+            uId: null,
+            name: null,
+            avatar: null,
+            timeN: Date
+        }
+    ]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
-        socket.emit("join_room", room);
-        socket.on("receive_message", (res) => {
-            const data = { uId: res.message.uId, name: res.message.name, avatar: res.message.avatar, timeN: res.message.time };
-            setNotifications(prevNotifications => {
-                // Kiểm tra xem phần tử đã tồn tại trong mảng chưa
+        const socket = io.connect('http://localhost:3001');
+        socket.emit('join_room', room);
+
+        socket.on('receive_message', (res) => {
+            const data = {
+                uId: res.message.uId,
+                name: res.message.name,
+                avatar: res.message.avatar,
+                timeN: res.message.time
+            };
+
+            setNotifications((prevNotifications) => {
                 const isDuplicate = prevNotifications.some(
-                    notification => notification.uId === data.uId
+                    (notification) => notification.uId === data.uId
                 );
 
                 if (isDuplicate) {
-                    return prevNotifications; // Không thêm phần tử nếu đã tồn tại
+                    return prevNotifications;
                 } else {
-                    return [data, ...prevNotifications]; // Thêm phần tử mới vào mảng
+                    return [data, ...prevNotifications];
                 }
             });
-        });
-    }, [socket]);
-    console.log("res.message", notifications);
 
+            setCount((prevCount) => prevCount + 1);
+        });
+
+        // Clean up the socket connection
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+    console.log('res.message', notifications);
 
     const removeNotification = (index1) => {
         const updatedNotifications = [...notifications];
         updatedNotifications.splice(index1, 1);
         setNotifications(updatedNotifications);
+        setCount((prevCount) => prevCount - 1);
     };
 
     let roles = null;
     if (data != null) {
-        roles = JSON.parse(localStorage.getItem("user")).roles[0].authority
+        roles = JSON.parse(localStorage.getItem('user')).roles[0].authority;
     } else {
         roles = null;
-    };
-        useEffect(()=>{
-            axios.get("http://localhost:8080/user/hometypes/")
-                .then(res => {
-                    setCategoryHome(res.data);
-                    console.log("categoryHome",categoryHome)
-                })
-        },[])
+    }
+    useEffect(() => {
+        axios.get('http://localhost:8080/user/hometypes/').then((res) => {
+            setCategoryHome(res.data);
+            console.log('categoryHome', categoryHome);
+        });
+    }, []);
 
     return (
         <div>
@@ -124,47 +149,41 @@ function MainHeader(props) {
 
                                                                     </ul>
                                                                 </li>
-                                                                <li className="nav-item dropdown ">
-                                                                    <a className="nav-link dropdown-toggle notification-ui_icon"
-                                                                       href="#" id="navbarDropdown" role="button"
-                                                                       data-toggle="dropdown" aria-haspopup="true"
-                                                                       aria-expanded="false">
-                                                                        <i className="fa fa-bell">{notifications.length}</i>
-                                                                        <span className="unread-notification"></span>
-                                                                    </a>
-                                                                    <div className="dropdown-menu notification-ui_dd"
-                                                                         aria-labelledby="navbarDropdown">
-                                                                        <div className="notification-ui_dd-header">
-                                                                            <h3 className="text-center">Thông Báo</h3>
-                                                                        </div>
-                                                                        <div className="notification-ui_dd-content">
-                                                                            <div
-                                                                                className="notification-list notification-list--unread">
-                                                                                {notifications.length!==0?(
-                                                                                    <>  {notifications.map((item, index) => (
-                                                                                        <div className="notification-list_img" key={index}>
-                                                                                            <img src={item.avatar} alt="user" style={{ width: "40px", height: "40px" }} />
-                                                                                            <p><b>{item.name}: Đã Booking</b></p>
-                                                                                            <p><small>{item.timeN}</small></p>
-                                                                                            <button onClick={() => removeNotification(index)}>Xóa</button>
-                                                                                        </div>
+                                                                <nav className="navbar ">
+                                                                    <div className="dropdown nav-button notifications-button hidden-sm-down">
+                                                                        <a className="btn btn-secondary dropdown-toggle" href="#" id="notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <FontAwesomeIcon icon={faBell} />
+                                                                            {count > 0 && <span className="badge badge-danger">{count}</span>}
+                                                                        </a>
+
+                                                                        <div className="dropdown-menu notification-dropdown-menu" aria-labelledby="notifications-dropdown">
+                                                                            <h6 className="dropdown-header">Thông Báo</h6>
+
+                                                                            {count === 0 ? (
+                                                                                <a className="dropdown-item dropdown-notification" href="#">
+                                                                                    <p className="notification-solo text-center"> Không có thông báo</p>
+                                                                                </a>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {notifications.map((notification, index) => (
+                                                                                        <a className="dropdown-item dropdown-notification" href={notification.name} key={index}>
+                                                                                            <div className="notification-read" onClick={() => removeNotification(index)}>
+                                                                                                <FontAwesomeIcon icon={faTimes} />
+                                                                                            </div>
+                                                                                            <img className="notification-img" src={notification.avatar} alt="Icone Notification" />
+                                                                                            <div className="notifications-body">
+                                                                                                <p className="notification-texte">{notification.name}: đã booking nhà của bạn</p>
+                                                                                                <p className="notification-date text-muted">
+                                                                                                    <FontAwesomeIcon icon={faClock} /> {notification.timeN}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </a>
                                                                                     ))}
-                                                                                    </>
-
-                                                                                ):(
-                                                                                    <>
-                                                                                        <p>không có thông báo</p>
-                                                                                    </>
-                                                                                )}
-
-
-
-
-                                                                            </div>
-
+                                                                                </>
+                                                                            )}
                                                                         </div>
                                                                     </div>
-                                                                </li>
+                                                                </nav>
 
                                                             </ul>
                                                         </>
