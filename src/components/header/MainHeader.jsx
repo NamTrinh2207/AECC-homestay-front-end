@@ -16,16 +16,13 @@ const MainHeader = (props) => {
     const [room, setRoom] = useState('1');
     const [notifications, setNotifications] = useState([
         {
-            uId: null,
-            name: null,
-            avatar: null,
-            timeN: Date
         }
     ]);
     const [count, setCount] = useState(0);
+    const socket = io.connect('http://localhost:3001');
 
     useEffect(() => {
-        const socket = io.connect('http://localhost:3001');
+
         socket.emit('join_room', room);
 
         socket.on('receive_message', (res) => {
@@ -38,10 +35,10 @@ const MainHeader = (props) => {
 
             setNotifications((prevNotifications) => {
                 const isDuplicate = prevNotifications.some(
-                    (notification) => notification.uId === data.uId
+                    (notification) => notification. timeN=== data.timeN
                 );
 
-                if (isDuplicate) {
+                if (isDuplicate || !data) { // Thêm điều kiện kiểm tra data có giá trị trống hay không
                     return prevNotifications;
                 } else {
                     return [data, ...prevNotifications];
@@ -55,7 +52,8 @@ const MainHeader = (props) => {
         return () => {
             socket.disconnect();
         };
-    }, []);
+
+    }, [socket]);
 
     console.log('res.message', notifications);
 

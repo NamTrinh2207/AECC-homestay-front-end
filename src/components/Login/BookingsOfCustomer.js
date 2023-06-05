@@ -147,6 +147,7 @@ function BookingsOfCustomer(props) {
                     'Đơn đặt phòng đã được hủy thành công',
                     'success',
                 );
+
                 setCheck(!check);
             } catch (error) {
                 await Swal.fire({

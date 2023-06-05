@@ -1,11 +1,11 @@
 .dropdown-item.dropdown-notification:active, .dropdown-item.dropdown-notification.active {
     color: #1d1e1f;
     text-decoration: none;
-    background-color: #f7f7f9;
+    background-color: #529ce7;
 }
 
 .dropdown-notification:hover .notification-read {
-    color: #e5edf5;
+    color: #5ca1e7;
 }
 
 .dropdown-notification-all {
@@ -13,13 +13,13 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-style: oblique;
-    background-color: #e5edf5;
-    color: white;
+    background-color: #529ce7;
+    color: #5ca1e7;
 }
 
 .dropdown-notification-all:hover {
-    background-color: #e5edf5;
-    color: white;
+    background-color: #529ce7;
+    color: #529ce7;
 }
 
 .notifications-container {
@@ -53,7 +53,7 @@
     vertical-align: top;
     line-height: 48px;
     padding-left: 15px;
-    color: white;
+    color: #529ce7;
     float: right;
 }
 
@@ -69,5 +69,5 @@
 
 .notification-unread {
     text-decoration: none;
-    background-color: #f7f7f9;
+    background-color: #529ce7;
 }

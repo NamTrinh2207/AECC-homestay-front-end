@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
 import {Link, useParams} from "react-router-dom";
@@ -22,30 +22,24 @@ function BookingCard(props) {
     const [room, setRoom] = useState('1');
     const currentDate=new Date();
     const [customerId, setCustomerId] = useState("");
-    const [message, setMessage] = useState({
-        name: null,
-        avatar:null,
-        uId:null,
-        time:Date
-    });
     const Send = async () => {
         try {
-            const updatedMessage = {
-                name: user.name,
-                avatar: user.avatar,
-                uId: user.id,
-                time: currentDate
-            };
+            if (user != null) { // Kiểm tra cả user và room
+                const updatedMessage = {
+                    name: user.name,
+                    avatar: user.avatar,
+                    uId: user.id,
+                    time: currentDate
+                };
 
-            setMessage(updatedMessage);
-            socket.emit("send_message", { message: updatedMessage, room });
+                socket.emit("send_message", { message: updatedMessage, room });
 
-            // Gửi thành công
+                // Gửi thành công
+            }
         } catch (error) {
             // Xử lý lỗi nếu có
         }
     };
-    console.log("message",message)
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
