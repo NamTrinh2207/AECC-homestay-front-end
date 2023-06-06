@@ -21,18 +21,45 @@ function BookingCard(props) {
     const {id} = useParams();
     const [transferDate, setTransferDate] = useState('')
     const homeStatus = props.homeStatus;
-    const [room, setRoom] = useState('1');
+    const [room, setRoom] = useState(null);
     const currentDate = new Date();
-    const [customerId, setCustomerId] = useState("");
+    const[userData,setUserData] =useState({})
+    useEffect(() => {
+        const getAvatar = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8080/${user.id}`);
+                setUserData(res.data)  ;
+                console.log("res.data",res.data)
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        const timer = setTimeout(() => {
+            getAvatar();
+        }, 1000);
+        return () => clearTimeout(timer);
+    });
+
+    const [customerId, setCustomerId] = useState('');
+    axios.get(`http://localhost:8080/customer/bookings/view/${id}`).then(r =>
+        {
+            setRoom(r.data.homes.users.id);
+            console.log("customer la:", room)
+        }
+    ).catch(err => {
+        console.log("loi la:", err);
+    })
+
     const [count, setCount] = useState(0);
     const [reviews, setReviews] = useState([]);
+
     const Send = async () => {
         try {
             if (user != null) { // Kiểm tra cả user và room
                 const updatedMessage = {
                     text: "thuê",
-                    name: user.name,
-                    avatar: user.avatar,
+                    name: userData.name,
+                    avatar: userData.avatar,
                     uId: user.id,
                     time: currentDate
                 };
@@ -204,7 +231,7 @@ function BookingCard(props) {
                         </span>
                         <span
                             className={"numberOfRent"}>{count} lượt thuê
-                        </span>
+</span>
                     </div>
 
                     {

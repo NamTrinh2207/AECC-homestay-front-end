@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import {json, Link} from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,7 +13,8 @@ import io from 'socket.io-client';
 const MainHeader = (props) => {
     const [categoryHome, setCategoryHome] = useState([]);
     const data = localStorage.getItem('user');
-    const [room, setRoom] = useState('1');
+    const room=JSON.parse(localStorage.getItem('user')).id;
+    console.log(room)
     const [notifications, setNotifications] = useState([
         {
         }
@@ -182,7 +183,6 @@ const MainHeader = (props) => {
                                                                         </div>
                                                                     </div>
                                                                 </nav>
-
                                                             </ul>
                                                         </>
                                                     ) : (
@@ -218,7 +218,6 @@ const MainHeader = (props) => {
                                                             </ul>
                                                         </>
                                                     )}
-
                                                 </>
                                             )}
 
