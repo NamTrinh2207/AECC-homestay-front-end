@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Pagination} from "antd";
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 export default function CancelRequestOfCustomer(props) {
     const userId = props.user;
@@ -8,7 +9,7 @@ export default function CancelRequestOfCustomer(props) {
     const [booking, setBooking] = useState([]);
     const [check, setCheck] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 6;
+    const pageSize = 5;
 
     useEffect(() => {
         axios
@@ -42,12 +43,13 @@ export default function CancelRequestOfCustomer(props) {
                                 <tbody className="responsive-table">
                                 <tr>
                                     <td className="listing-photoo">
-                                        <img alt="my-properties" src={bookings.homes.image[0]}
-                                             height={125}/>
+                                        <Link to={`/viewHome/${bookings.homes.id}`}> <img alt="my-properties" src={bookings.homes.image[0]}
+                                                                                          height={125}/></Link>
+
                                     </td>
                                     <td className="title-container">
                                         <h5><a href="#">Chủ nhà: {bookings.homes.users.name}</a></h5>
-                                        <p><h6>SĐT: {bookings.homes.users.phoneNumber}</h6></p>
+                                        <p><h6>SĐT: {bookings.homes.users.phoneNumber}</h6></p><br/>
                                         <p><h6>Tên nhà: {bookings.homes.name}</h6></p>
 
                                     </td>

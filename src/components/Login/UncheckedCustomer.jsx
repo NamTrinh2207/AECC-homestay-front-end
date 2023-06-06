@@ -135,10 +135,10 @@ export default function UncheckedCustomer(props) {
                                     </td>
                                     <td className="title-container">
                                         <h5>
-                                            <a href="#">Khách hàng: {bookings.users.name}</a>
+                                            <a style={{fontSize:18,fontWeight:"bold"}}  href="#">Khách hàng: {bookings.users.name}</a>
                                         </h5>
                                         <p>
-                                            <h6>SĐT: {bookings.users.phoneNumber}</h6>
+                                            <h6>SĐT: {bookings.users.phoneNumber}</h6><br/>
                                         </p>
                                         <p>
                                             <h6>Tên nhà: {bookings.homes.name}</h6>
@@ -154,24 +154,22 @@ export default function UncheckedCustomer(props) {
                                                 <span style={{color: "red"}}>checkout:</span>{" "}
                                                 {bookings.checkout}
                                             </h6>
-                                        </p>
+                                        </p><br/>
                                         <p>
                                             <h6>
                                                 <span>Tổng tiền:</span>{" "}
                                                 {bookings.totalPrice >= 10000
                                                     ? bookings.totalPrice.toLocaleString()
-                                                    : bookings.totalPrice}
+                                                    : bookings.totalPrice} VNĐ
                                             </h6>
                                         </p>
                                     </td>
-                                    <td className="action">
-                                        <Button
-                                            style={{width: "100%"}}
+
+                                        <Button style={{marginTop:30}}
                                             onClick={() => deleteBooking(bookings.id, bookings.checkin)}
                                         >
                                             <i className="fa fa-trash"></i>&nbsp;&nbsp;Hủy đơn
                                         </Button>
-                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
