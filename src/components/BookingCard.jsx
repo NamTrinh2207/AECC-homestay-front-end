@@ -9,7 +9,7 @@ import {Form, Formik} from "formik";
 import io from "socket.io-client";
 import './booking.css'
 
-const socket = io.connect("http://localhost:3000");
+const socket = io.connect("http://localhost:3001");
 
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
