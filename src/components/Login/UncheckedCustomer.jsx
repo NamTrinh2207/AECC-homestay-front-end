@@ -170,7 +170,6 @@ export default function UncheckedCustomer(props) {
                                         >
                                             <i className="fa fa-trash"></i>&nbsp;&nbsp;Hủy đơn
                                         </Button>
-
                                 </tr>
                                 </tbody>
                             </table>
