@@ -27,7 +27,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^10.12.12",
     "gapi-script": "^1.2.0",
-    "google-maps-react": "^2.0.6",
+
     "jquery": "^3.7.0",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",
