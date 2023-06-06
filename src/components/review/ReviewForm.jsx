@@ -58,8 +58,6 @@ const ReviewForm = (props) => {
         }
     };
 
-    console.log("review 2", review)
-
     return (<div>
         {review.length === 0 ? <div>
             {userId !== undefined || userId !== 0 || userId !== null ? (<form onSubmit={handleSubmit}>

@@ -19,7 +19,7 @@ const MainHeader = (props) => {
         }
     ]);
     const [count, setCount] = useState(0);
-    const socket = io.connect('http://localhost:3000');
+    const socket = io.connect('http://localhost:3001');
 
     useEffect(() => {
 
