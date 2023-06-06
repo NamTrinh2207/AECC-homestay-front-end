@@ -73,7 +73,7 @@ function BookingCard(props) {
             fetchCount();
             fetchReviews();
         }, 1000);
-    },[])
+    })
 
     const buttonOpenHandler = (event) => {
         event.preventDefault();
@@ -116,7 +116,7 @@ function BookingCard(props) {
                         <div className='rev-card absolute'>
                             {reviews.length !== 0 ? <div>
                                 <span style={{fontSize: '20px'}}>
-                                Đánh giá: {[...Array(avgRating)].map((_, index) => (
+                                Đánh giá: {[...Array(Math.round(avgRating))].map((_, index) => (
                                     <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                                 </span>
                                 </div> :

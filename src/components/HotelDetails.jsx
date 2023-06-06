@@ -34,6 +34,7 @@ function HotelDetails(props) {
 
     if (user !== null) {
         var userId = user.id;
+        var userRole = user.roles[0]?.authority;
     }
 
     useEffect(() => {
@@ -162,7 +163,8 @@ function HotelDetails(props) {
                                                     <div className="float-right">
                                                         {(reviews.length === 0) ?
                                                             <p>
-                                                                <span><i className="fa fa-star" style={{color: "orange"}}></i>Mới</span>
+                                                                <span><i className="fa fa-star"
+                                                                         style={{color: "orange"}}></i>Mới</span>
                                                             </p>
                                                             :
                                                             <p>
@@ -290,9 +292,10 @@ function HotelDetails(props) {
                             <div className={"review mb-45 underline"}>
                                 <ShowReview avgRating={avgRating}/>
                             </div>
-                            {firstBooking.done === true && <div className={"review amenities-box af mb-45 underline"}>
-                                <ReviewForm wasComment={firstBooking.length} homeId={id} userId={userId}/>
-                            </div>}
+                            {(userRole === "ROLE_CUSTOMER" && firstBooking.done === true) &&
+                                <div className={"review amenities-box af mb-45 underline"}>
+                                    <ReviewForm wasComment={firstBooking.length} homeId={id} userId={userId}/>
+                                </div>}
                         </div>
                         <div className="col-lg-4 col-md-12">
                             <div className="">
