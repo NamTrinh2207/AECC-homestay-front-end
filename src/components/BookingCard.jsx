@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "../styles/Tab1.css";
 import "../styles/SinglePage.css"
 import {Link, useParams} from "react-router-dom";
@@ -8,7 +8,9 @@ import Swal from "sweetalert2";
 import {Form, Formik} from "formik";
 import io from "socket.io-client";
 import './booking.css'
+
 const socket = io.connect("http://localhost:3001");
+
 function BookingCard(props) {
     const user = JSON.parse(localStorage.getItem("user"));
     const [buttonOpen, setButtonOpen] = useState(false);
@@ -20,20 +22,22 @@ function BookingCard(props) {
     const [transferDate, setTransferDate] = useState('')
     const homeStatus = props.homeStatus;
     const [room, setRoom] = useState('1');
-    const currentDate=new Date();
+    const currentDate = new Date();
     const [customerId, setCustomerId] = useState("");
+    const [count, setCount] = useState(0);
+    const [reviews, setReviews] = useState([]);
     const Send = async () => {
         try {
             if (user != null) { // Kiểm tra cả user và room
                 const updatedMessage = {
-                    text:"thuê",
+                    text: "thuê",
                     name: user.name,
                     avatar: user.avatar,
                     uId: user.id,
                     time: currentDate
                 };
 
-                socket.emit("send_message", { message: updatedMessage, room });
+                socket.emit("send_message", {message: updatedMessage, room});
 
                 // Gửi thành công
             }
@@ -41,6 +45,36 @@ function BookingCard(props) {
             // Xử lý lỗi nếu có
         }
     };
+    useEffect(() => {
+        const fetchCount = async () => {
+            try {
+                const res = await axios.get(
+                    `http://localhost:8080/customer/bookings/count/${id}`
+                );
+                setCount(res.data);
+            } catch (error) {
+                console.error(error.message);
+                // Handle error, show error message, etc.
+            }
+        };
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/api/review/get-review/${id}`
+                );
+                setReviews(response.data);
+            } catch (error) {
+                console.error(error.message);
+                // Handle error, show error message, etc.
+            }
+        };
+
+        setTimeout(() => {
+            fetchCount();
+            fetchReviews();
+        }, 1000);
+    },[])
+
     const buttonOpenHandler = (event) => {
         event.preventDefault();
         setButtonOpen(true)
@@ -68,21 +102,27 @@ function BookingCard(props) {
             <div>
                 <div className='side-box-card absolute'>
                     <div>
-                    <span style={
-                        {fontSize: `20px`}
-                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
                         <span
-                            className={"numberOfRent"}>làm lại chỗ này</span>
+                            style={
+                                {fontSize: `20px`}
+                            }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ
+                        </span>
+                        <span
+                            className={"numberOfRent"}>{count} lượt thuê
+                        </span>
                     </div>
 
                     {
                         <div className='rev-card absolute'>
-                            <div className={(avgRating === 0 || props.bookingLength === 0 )&& "disable-element"}>
+                            {reviews.length !== 0 ? <div>
                                 <span style={{fontSize: '20px'}}>
                                 Đánh giá: {[...Array(avgRating)].map((_, index) => (
                                     <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
                                 </span>
-                            </div>
+                                </div> :
+                                <div>
+                                    <span><i className="fa fa-star" style={{color: "orange"}}></i>Mới</span>
+                                </div>}
                         </div>
                     }
                 </div>
@@ -157,17 +197,29 @@ function BookingCard(props) {
             <>
                 <div className='side-box-card absolute'>
                     <div>
-                    <span style={
-                        {fontSize: `20px`}
-                    }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ</span>
-                        <span>
-                            chỗ này nữa
+                        <span
+                            style={
+                                {fontSize: `20px`}
+                            }>Giá phòng: {props.price >= 10000 ? props.price.toLocaleString() : props.price} VNĐ
+                        </span>
+                        <span
+                            className={"numberOfRent"}>{count} lượt thuê
                         </span>
                     </div>
 
-                    <div className='rev-card absolute'>
-                        <span style={{fontSize: '20px'}}>Đánh giá:</span>
-                    </div>
+                    {
+                        <div className='rev-card absolute'>
+                            {reviews.length !== null ? <div>
+                                <span style={{fontSize: '20px'}}>
+                                Đánh giá: {[...Array(avgRating)].map((_, index) => (
+                                    <i className="fa fa-star" style={{color: "orange"}} key={index}></i>))}
+                                </span>
+                                </div> :
+                                <div>
+                                    <span><i className="fa fa-star" style={{color: "orange"}}></i>Mới</span>
+                                </div>}
+                        </div>
+                    }
                     <br/>
                     <span style={{fontSize: `16px`}}> Mời bạn đăng nhập để có thể đặt thuê nhà này.</span>
                 </div>
@@ -178,13 +230,15 @@ function BookingCard(props) {
     function newBooking(data) {
         axios.post('http://localhost:8080/customer/bookings/create', data)
             .then(() => {
+                Send();
                 Swal.fire({
                     title: 'Thành công',
                     text: 'Đặt lịch thành công !',
                     icon: 'success',
                     confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = ("/")
                 });
-                Send();
             })
             .catch((error) => {
                 console.log(error);
@@ -197,19 +251,6 @@ function BookingCard(props) {
                     confirmButtonText: 'OK'
                 });
             });
-        axios.put(`http://localhost:8080/homes/after-booking/${id}`, data.homes.id, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // params: {
-            //     id: homeId
-            // }
-        })
-            .then(() => {
-                console.log("change")
-            }).catch((err) => {
-            console.error(err.message)
-        })
     }
 
 }

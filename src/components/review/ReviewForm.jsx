@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Rating} from 'react-simple-star-rating';
 import Button from "../button/Button";
+import {useEffect, useState} from "react";
 
 const ReviewForm = (props) => {
     const [rating, setRating] = useState(1);
@@ -20,7 +20,9 @@ const ReviewForm = (props) => {
                 console.error(err.message);
             }
         };
-        fetchReview();
+        setTimeout(()=> {
+            fetchReview();
+        }, 1000)
     }, [rating]);
 
     const handleRatingChange = (newRating) => {
@@ -43,7 +45,6 @@ const ReviewForm = (props) => {
 
     const reviewRating = review.rating;
     const reviewComment = review.comment;
-    console.log("commenahjgsdjgas", reviewComment)
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -100,7 +101,16 @@ const ReviewForm = (props) => {
                         onClick={handleRatingChange}
                     />
                 </div>
-                <input type="hidden" name={"comment"} value={reviewComment}/>
+                <div>
+                    <label>Comment:</label>
+                    <textarea
+                        placeholder={reviewComment}
+                        cols={50}
+                        rows={5}
+                        style={{resize: 'none'}}
+                        onChange={(e) => setComment(e.target.value)}
+                    />
+                </div>
                 <Button name={"Chỉnh sửa"}/>
             </form>) : ('')}
         </>}

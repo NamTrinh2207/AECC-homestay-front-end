@@ -16,10 +16,10 @@ function HotelDetails(props) {
     const [home, setHome] = useState(null);
     const [firstBooking, setFirstBooking] = useState([]);
     const [avgRating, setAvgRating] = useState(0);
-
     const user = JSON.parse(localStorage.getItem("user"));
     const [displayCount, setDisplayCount] = useState(5);
     const [showAllImages, setShowAllImages] = useState(false);
+    const [reviews, setReviews] = useState([]);
 
     const handleShowMore = () => {
         setDisplayCount(home?.image.length);
@@ -76,11 +76,24 @@ function HotelDetails(props) {
                 // Handle error, show error message, etc.
             }
         };
+
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/api/review/get-review/${id}`
+                );
+                setReviews(response.data);
+            } catch (error) {
+                console.error(error.message);
+                // Handle error, show error message, etc.
+            }
+        };
+
         setTimeout(() => {
-            fetchAvg()
+            fetchAvg();
+            fetchReviews();
         }, 1000);
     });
-
     const getStatusLabel = (status) => {
         switch (status) {
             case 1:
@@ -147,11 +160,17 @@ function HotelDetails(props) {
                                                         </ul>
                                                     </div>
                                                     <div className="float-right">
-                                                        <p className={(avgRating === 0 || firstBooking.length === 0) && "disable-element"}>
+                                                        {(reviews.length === 0) ?
+                                                            <p>
+                                                                <span><i className="fa fa-star" style={{color: "orange"}}></i>Mới</span>
+                                                            </p>
+                                                            :
+                                                            <p>
                                                             <span> Đánh giá: {avgRating}
                                                                 <i className="fa fa-star" style={{color: "orange"}}></i>
                                                             </span>
-                                                        </p>
+                                                            </p>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,7 +190,7 @@ function HotelDetails(props) {
                                     ))}
                                 </div>
                                 <ul className="carousel-indicators mt-3 sp-2 smail-properties list-inline nav nav-justified ">
-                                    {home?.image.slice(0,displayCount).map((image, index) => (
+                                    {home?.image.slice(0, displayCount).map((image, index) => (
                                         <li key={index} className={`list-inline-item ${index === 0 ? 'active' : ''}`}>
                                             <a
                                                 id={`carousel-selector-${index}`}
@@ -186,7 +205,8 @@ function HotelDetails(props) {
                                     ))}
                                 </ul>
                                 {home?.image.length > displayCount && (
-                                    <Button onClick={handleShowMore}>Xem thêm ({home?.image.length - displayCount})</Button>
+                                    <Button onClick={handleShowMore}>Xem thêm
+                                        ({home?.image.length - displayCount})</Button>
                                 )}
                                 {showAllImages && (
                                     <Button onClick={handleShowLess}>Ẩn bớt</Button>
@@ -247,15 +267,12 @@ function HotelDetails(props) {
                                         <ul>
                                             <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Phòng ngủ</span>
                                             </li>
-                                            <li><span><i
-                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
-                                            </li>
                                         </ul>
                                     </div>
                                     <div className="col-md-4 col-sm-6">
                                         <ul>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> 1 Garage</span></li>
-                                            <li><span><i className="flaticon-draw-check-mark"></i> {home?.bedroom} Ban công</span>
+                                            <li><span><i
+                                                className="flaticon-draw-check-mark"></i> {home?.bathroom} Phòng tắm</span>
                                             </li>
                                         </ul>
                                     </div>
