@@ -1,30 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
-import {toast, ToastContainer} from "react-toastify";
 import {ErrorMessage, Formik} from "formik";
+import Button from "../button/Button";
+import Swal from 'sweetalert2';
 
 function FormUpdateUser(props) {
     const user = props.user;
     const imgUrl = props.imgUrl;
+    const [current, setCurrent] = useState({});
+
     const initialValue = {
         name: user.name || "",
         address: user.address || "",
         phoneNumber: user.phoneNumber || "",
-        avatar: user.avatar ||  "",
+        avatar: user.avatar || "",
         email: user.email || "",
     };
-
     return (
         <Formik initialValues={initialValue}
                 onSubmit={(values) => {
                     values.avatar = imgUrl;
-                    axios.put(`http://localhost:8080/${user.id}`, values)
+                    axios
+                        .put(`http://localhost:8080/${user.id}`, values)
                         .then(() => {
-                            toast.success("Sửa thông tin thành công")
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sửa thông tin thành công',
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
                         })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
+                        .catch((err) => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Đã xảy ra sự cố',
+                                text: `${err}`,
+                            });
+                        });
                 }}
                 enableReinitialize={true}>
             {formik => (
@@ -62,9 +75,7 @@ function FormUpdateUser(props) {
                         </div>
                         <div className="col-lg-12">
                             <div className="send-btn">
-                                <button type="submit" className="btn btn-4">Cập nhật thông tin
-                                </button>
-                                <ToastContainer autoClose={1000}/>
+                                <Button name={"Cập nhật"}/>
                             </div>
                         </div>
                     </div>

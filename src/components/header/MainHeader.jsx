@@ -1,16 +1,82 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-import Search from "../Search";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBell,
+    faClock,
+    faEnvelope,
+    faTimes
+} from '@fortawesome/free-solid-svg-icons';
+import io from 'socket.io-client';
 
-function MainHeader(props) {
-    const data = localStorage.getItem("user");
+const MainHeader = (props) => {
+    const [categoryHome, setCategoryHome] = useState([]);
+    const data = localStorage.getItem('user');
+    const [room, setRoom] = useState('1');
+    const [notifications, setNotifications] = useState([
+        {
+        }
+    ]);
+    const [count, setCount] = useState(0);
+    const socket = io.connect('http://localhost:3001');
+
+    useEffect(() => {
+
+        socket.emit('join_room', room);
+
+        socket.on('receive_message', (res) => {
+            const data = {
+                text:res.message.text,
+                uId: res.message.uId,
+                name: res.message.name,
+                avatar: res.message.avatar,
+                timeN: res.message.time
+            };
+
+            setNotifications((prevNotifications) => {
+                const isDuplicate = prevNotifications.some(
+                    (notification) => notification. timeN=== data.timeN
+                );
+
+                if (isDuplicate || !data) { // Thêm điều kiện kiểm tra data có giá trị trống hay không
+                    return prevNotifications;
+                } else {
+                    return [data, ...prevNotifications];
+                }
+            });
+
+            setCount((prevCount) => prevCount + 1);
+        });
+
+        // Clean up the socket connection
+        return () => {
+            socket.disconnect();
+        };
+
+    }, [socket]);
+
+    console.log('res.message', notifications);
+
+    const removeNotification = (index1) => {
+        const updatedNotifications = [...notifications];
+        updatedNotifications.splice(index1, 1);
+        setNotifications(updatedNotifications);
+        setCount((prevCount) => prevCount - 1);
+    };
+
     let roles = null;
     if (data != null) {
-        roles = JSON.parse(localStorage.getItem("user")).roles[0].authority
-        console.log(roles)
+        roles = JSON.parse(localStorage.getItem('user')).roles[0].authority;
     } else {
         roles = null;
     }
+    useEffect(() => {
+        axios.get('http://localhost:8080/user/hometypes/').then((res) => {
+            setCategoryHome(res.data);
+            console.log('categoryHome', categoryHome);
+        });
+    }, []);
     return (
         <div>
             <header className="main-header sticky-header" id="main-header-2">
@@ -18,8 +84,10 @@ function MainHeader(props) {
                     <div className="row">
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
-                                <a className="navbar-brand" href="/">
-                                    <img src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Fblack-logo.png?alt=media&token=c06f18ab-93d2-4f70-9173-6579873830ed"} height={'55px'} alt="logo"/>
+                                <a className="navbar-brand logo2" href="/">
+                                    <img
+                                        src={"https://firebasestorage.googleapis.com/v0/b/react-demo-d28f4.appspot.com/o/logo%2Flogo-white.png?alt=media&token=88cdba59-84da-40a8-8141-d3aa0cab9574"}
+                                        height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
                                     <span className="fa fa-bars"></span>
@@ -29,7 +97,7 @@ function MainHeader(props) {
                                     <ul className="navbar-nav  justify-content-center">
                                         <li className="nav-item dropdown active">
                                             <Link className="nav-link dropdown-toggle" to={"/"}
-                                                  id="navbarDropdownMenuLink" data-toggle="dropdown"
+                                                  id="change-font-size" data-toggle="dropdown"
                                                   aria-haspopup="true" aria-expanded="false">
                                                 Trang chủ
                                             </Link>
@@ -42,7 +110,7 @@ function MainHeader(props) {
                                                     <ul className="navbar-nav  justify-content-center">
                                                         <li className="nav-item dropdown">
                                                             <Link to={""} className="nav-link dropdown-toggle" href="#"
-                                                                  id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                                                                  id="change-font-size" data-toggle="dropdown"
                                                                   aria-haspopup="true" aria-expanded="false">
                                                                 Danh sách tài khoản
                                                             </Link>
@@ -55,21 +123,65 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={"/user"} className="nav-link dropdown-toggle" href="#"
-                                                                       id="navbarDropdownMenuLink2"
-                                                                       data-toggle="dropdown" aria-haspopup="true"
-                                                                       aria-expanded="false">
+                                                                    <Link to={"/user"}
+                                                                          className="nav-link dropdown-toggle" href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
                                                                         Tài khoản
                                                                     </Link>
                                                                 </li>
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle" href="#"
-                                                                          id="navbarDropdownMenuLink7"
-                                                                          data-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false">
-                                                                        Danh sách homestay
+                                                                    <Link to={"/"} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size" role="button"
+                                                                          data-toggle="dropdown"
+                                                                          aria-haspopup="true" aria-expanded="false">
+                                                                        Danh Mục
                                                                     </Link>
+                                                                    <ul className="dropdown-menu"
+                                                                        aria-labelledby="navbarDropdownMenuLink">
+                                                                        {categoryHome.map((category,index)=>(
+                                                                            <li key={index}><a  className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                        ))}
+
+                                                                    </ul>
                                                                 </li>
+                                                                <nav className="navbar ">
+                                                                    <div className="dropdown nav-button notifications-button hidden-sm-down">
+                                                                        <a className="btn btn-secondary dropdown-toggle" href="#" id="notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <FontAwesomeIcon icon={faBell} />
+                                                                            {count > 0 && <span className="badge badge-danger">{count}</span>}
+                                                                        </a>
+
+                                                                        <div className="dropdown-menu notification-dropdown-menu" aria-labelledby="notifications-dropdown">
+                                                                            <h6 className="dropdown-header">Thông Báo</h6>
+
+                                                                            {count === 0 ? (
+                                                                                <a className="dropdown-item dropdown-notification" href="#">
+                                                                                    <p className="notification-solo text-center"> Không có thông báo</p>
+                                                                                </a>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {notifications.map((notification, index) => (
+                                                                                        <a className="dropdown-item dropdown-notification" href={notification.name} key={index}>
+                                                                                            <div className="notification-read" onClick={() => removeNotification(index)}>
+                                                                                                <FontAwesomeIcon icon={faTimes} />
+                                                                                            </div>
+                                                                                            <img className="notification-img" src={notification.avatar} alt="Icone Notification" />
+                                                                                            <div className="notifications-body">
+                                                                                                <p className="notification-texte">{notification.name}: đã {notification.text} nhà của bạn</p>
+                                                                                                <p className="notification-date text-muted">
+                                                                                                    <FontAwesomeIcon icon={faClock} /> {notification.timeN}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </a>
+                                                                                    ))}
+                                                                                </>
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                </nav>
 
                                                             </ul>
                                                         </>
@@ -77,12 +189,32 @@ function MainHeader(props) {
                                                         <>
                                                             <ul className="navbar-nav  justify-content-center">
                                                                 <li className="nav-item dropdown">
-                                                                    <Link to={""} className="nav-link dropdown-toggle" href="#"
-                                                                          id="navbarDropdown3" role="button" data-toggle="dropdown"
+                                                                    <Link to={"/"} className="nav-link dropdown-toggle"
+                                                                          href="#"
+                                                                          id="change-font-size" role="button"
+                                                                          data-toggle="dropdown"
                                                                           aria-haspopup="true" aria-expanded="false">
-                                                                        Cửa hàng
+                                                                        Danh Mục
+                                                                    </Link>
+                                                                    <ul className="dropdown-menu"
+                                                                        aria-labelledby="navbarDropdownMenuLink">
+                                                                        {categoryHome.map((category,index)=>(
+                                                                            <li key={index}><a className="dropdown-item" href={`/category/${category.id}`}>{category.name}</a></li>
+                                                                        ))}
+
+                                                                    </ul>
+                                                                </li>
+                                                                {/* cho dang sua*/}
+                                                                <li className="nav-item dropdown">
+                                                                    <Link to={"/user"}
+                                                                          className="nav-link dropdown-toggle" href="#"
+                                                                          id="change-font-size"
+                                                                          data-toggle="dropdown" aria-haspopup="true"
+                                                                          aria-expanded="false">
+                                                                        Tài khoản
                                                                     </Link>
                                                                 </li>
+                                                                {/* ket thu sua*/}
                                                             </ul>
                                                         </>
                                                     )}

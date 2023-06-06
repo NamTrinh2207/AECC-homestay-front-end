@@ -6,11 +6,15 @@ import {useDispatch} from "react-redux";
 import {registerUser} from "../../redux/apiRequest";
 import {Formik, ErrorMessage} from "formik";
 import * as Yup from "yup";
-
+import Button from "../button/Button";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 function Register(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const initialValues = {
         username: "",
         password: "",
@@ -20,7 +24,7 @@ function Register(props) {
 
     const validationSchema = Yup.object({
         username: Yup.string().required("tên tài khoản không được để trống !"),
-        password: Yup.string().required("mật khẩu không được để trống !"),
+        password: Yup.string().min(6,"mật khẩu phải ít nhất 6 ký tự").required("mật khẩu không được để trống !"),
         email: Yup.string().email("vui lòng nhập đúng định dạng email !").required("email không được để trống !"),
         roles: Yup.string().required("Vui lòng chọn vai trò người dùng!")
     });
@@ -32,10 +36,21 @@ function Register(props) {
             email: values.email,
             roles: [values.roles]
         };
+        MySwal.fire({
+            title: 'Đang đăng ký tài khoản',
+            html: 'Vui lòng chờ trong giây lát...',
+            icon: 'info',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            didOpen: () => {
+                MySwal.showLoading();
+            }
+        })
         registerUser(newUser, dispatch, navigate);
     };
     return (
-        <div>
+        <div style={{marginTop:60}}>
             <div className="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
                 <div className="card card0 border-0">
                     <div className="row d-flex">
@@ -69,22 +84,22 @@ function Register(props) {
                                         <form onSubmit={formik.handleSubmit}>
                                             <div className="row px-3">
                                                 <label className="mb-1"><h6 className="mb-0 text-xl-end">Tên tài
-                                                    khoản</h6></label>
+                                                    khoản:</h6></label>
                                                 <input {...formik.getFieldProps("username")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"username"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu</h6>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Mật khẩu:</h6>
                                                 </label>
-                                                <input {...formik.getFieldProps("password")} type="text"/>
+                                                <input {...formik.getFieldProps("password")} type="password" style={{height:43, border:'1px solid #D8D8D8'}}/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
                                                     name={"password"}></ErrorMessage></span>
                                             </div>
                                             <br/>
                                             <div className="row px-3">
-                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Email</h6>
+                                                <label className="mb-1"><h6 className="mb-0 text-xl-end">Email:</h6>
                                                 </label>
                                                 <input {...formik.getFieldProps("email")} type="text"/>
                                                 <span style={{color: 'red', fontSize: 12}}><ErrorMessage
@@ -107,7 +122,7 @@ function Register(props) {
                                             </div>
                                             <br/>
                                             <div className="row mb-3 px-3">
-                                                <button className="btn btn-blue text-center">ĐĂNG KÝ</button>
+                                                <Button name={"ĐĂNG KÝ"}/>
                                             </div>
                                         </form>
                                     )}

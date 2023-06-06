@@ -1,25 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
+import {getDownloadURL, ref, uploadBytesResumable, deleteObject} from 'firebase/storage';
 import {storage} from '../firebase';
 import {useDropzone} from 'react-dropzone';
 import Footer from "./footer/Footer";
 import TopHeader from "./header/TopHeader";
 import MainHeader from "./header/MainHeader";
+import Page404 from "./404/Page404";
+import Button from "./button/Button";
+import {toast} from "react-toastify";
+import Swal from 'sweetalert2';
+import {useNavigate} from "react-router-dom";
 
 export default function CreateNewHotel(props) {
-    // const nav = useNavigate();
+    const nav = useNavigate();
     const [imgUrls, setImgUrls] = useState([]);
     const [progressPercent, setProgressPercent] = useState([]);
     const [homeTypes, setHomeTypes] = useState([]);
-    const [showProgressBar, setShowProgressBar] = useState(true);
     const user = JSON.parse(localStorage.getItem("user"));
-
-
-    // const validationSchema = ;
+    const [check, setCheck] = useState(false)
 
     useEffect(() => {
         const getHomeType = async () => {
@@ -30,20 +31,15 @@ export default function CreateNewHotel(props) {
                 console.log(error.message);
             }
         };
-        getHomeType();
-    }, []);
-
-    useEffect(() => {
-        // Ẩn thanh tiến trình sau khi tải xong ảnh
-        if (imgUrls.length > 0) {
-            setShowProgressBar(false);
-        }
-    }, [imgUrls]);
+        setTimeout(()=>{
+            getHomeType()
+        },1000)
+    }, [check]);
 
     const handleImageChange = async (acceptedFiles) => {
         acceptedFiles.forEach((file) => {
             if (!isFileValid(file)) {
-                alert('Chỉ được chọn file định dạng ảnh JPG/JPEG/PNG.');
+                toast.error('Chỉ được chọn file định dạng ảnh JPG/JPEG/PNG.');
             } else {
                 const storageRef = ref(storage, `files/${file.name}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
@@ -54,7 +50,7 @@ export default function CreateNewHotel(props) {
                         setProgressPercent((prevPercent) => [...prevPercent, progress]);
                     },
                     (error) => {
-                        alert(error);
+                        toast.error(error);
                     },
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -65,23 +61,10 @@ export default function CreateNewHotel(props) {
             }
         });
     };
-
     const isFileValid = (file) => {
         const allowedExtensions = ['jpeg', 'jpg', 'png'];
         const fileExtension = file.name.split('.').pop().toLowerCase();
         return allowedExtensions.includes(fileExtension);
-    };
-    const openPreviewWindow = () => {
-        // Tạo cửa sổ mới hoặc pop-up
-        const previewWindow = window.open('', '_blank', 'width=800,height=600');
-
-        // Tạo nội dung HTML cho cửa sổ xem trước
-        const previewContent = imgUrls
-            .map((url, index) => `<img key=${index} src=${url} alt="uploaded file" height={200}/>`)
-            .join('');
-
-        // Gán nội dung HTML cho cửa sổ xem trước
-        previewWindow.document.body.innerHTML = previewContent;
     };
 
     const {getRootProps, getInputProps, isDragActive, fileRejections} = useDropzone({
@@ -96,12 +79,35 @@ export default function CreateNewHotel(props) {
             }
         },
     });
+    const handleRemoveImage = (index) => {
+        const urlToRemove = imgUrls[index]; // Lấy URL của tệp tin cần xóa
+        const storageRef = ref(storage, urlToRemove);
+
+        deleteObject(storageRef)
+            .then(() => {
+                setImgUrls((prevUrls) => prevUrls.filter((url, i) => i !== index));
+                console.log('Xóa tệp tin thành công.');
+            })
+            .catch((error) => {
+                console.log('Lỗi khi xóa tệp tin:', error);
+            });
+    };
+
+    if (user != null) {
+        var roles = user.roles[0].authority;
+        // ROLE_CUSTOMER: khach thue nha
+        // ROLE_ADMIN: admin
+        // ROLE_USER: chu nha
+    } else {
+        roles = null;
+    }
+
     if (user === null) {
         return (
             <>
                 <h1>Bạn chưa đăng nhập, bạn sẽ chuyển đến trang đăng nhập sau 3 giây</h1>
             </>)
-    } else {
+    } else if (roles === "ROLE_USER") {
         const userId = user.id;
         return (
             <div>
@@ -210,7 +216,8 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'name'}>Tên nhà</label>
                                                                         <Field className="form-control"
                                                                                name={'name'}></Field>
-                                                                        <ErrorMessage name={'name'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"name"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
                                                                 {/*loại phòng*/}
@@ -229,7 +236,8 @@ export default function CreateNewHotel(props) {
                                                                                 )
                                                                             })}
                                                                         </Field>
-                                                                        <ErrorMessage name={'homeType'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"homeType"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -239,7 +247,8 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'address'}>Địa chỉ</label>
                                                                         <Field className="form-control"
                                                                                name={'address'}></Field>
-                                                                        <ErrorMessage name={'address'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"address"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -250,13 +259,14 @@ export default function CreateNewHotel(props) {
                                                                             ngủ</label>
                                                                         <Field as="select" name="bedroom"
                                                                                className="selectpicker search-fields">
-                                                                            <option>Số phòng ngủ</option>
+                                                                            <option value={""}>Chọn số lượng</option>
                                                                             {[...Array(10)].map((_, index) => (
                                                                                 <option key={index + 1}
                                                                                         value={index + 1}>{index + 1}</option>
                                                                             ))}
                                                                         </Field>
-                                                                        <ErrorMessage name="bedroom"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"bedroom"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -267,13 +277,14 @@ export default function CreateNewHotel(props) {
                                                                             tắm</label>
                                                                         <Field as="select" name="bathroom"
                                                                                className="selectpicker search-fields">
-                                                                            <option>Số phòng tắm</option>
+                                                                            <option>Chọn số lượng</option>
                                                                             {[...Array(3)].map((_, index) => (
                                                                                 <option key={index + 1}
                                                                                         value={index + 1}>{index + 1}</option>
                                                                             ))}
                                                                         </Field>
-                                                                        <ErrorMessage name="bathroom"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"bathroom"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -283,7 +294,9 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor={'priceByDay'}>Giá tiền</label>
                                                                         <Field className="form-control" type={'number'}
                                                                                name={'priceByDay'}></Field>
-                                                                        <ErrorMessage name={'priceByDay'}/>
+                                                                        <span style={{position:"absolute", top:"45px", left:"345px", color:"gray"}}>đ</span>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"priceByDay"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -294,7 +307,8 @@ export default function CreateNewHotel(props) {
                                                                         <Field className="form-control" as='textarea'
                                                                                name={'description'}
                                                                                style={{height: "100px"}}></Field>
-                                                                        <ErrorMessage name={'description'}/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"description"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
 
@@ -305,12 +319,12 @@ export default function CreateNewHotel(props) {
                                                                         <label htmlFor="status">Trạng thái nhà</label>
                                                                         <Field as="select" name="status"
                                                                                className="selectpicker search-fields">
-                                                                            <option value="">--Trạng thái--</option>
                                                                             <option value={1}>Còn trống</option>
                                                                             {/*<option value={2}>Đã có người thuê</option>*/}
                                                                             <option value={3}>Đang nâng cấp</option>
                                                                         </Field>
-                                                                        <ErrorMessage name="status"/>
+                                                                        <span style={{color: 'red', fontSize: 15}}><ErrorMessage
+                                                                            name={"status"}></ErrorMessage></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -330,26 +344,45 @@ export default function CreateNewHotel(props) {
                                                                 </div>
                                                             </div>
 
-                                                            <div className="row mb-45">
-                                                                {imgUrls.length > 0 && (
-                                                                    <div className="col-lg-12">
-                                                                        <button className="btn btn-4"
-                                                                                onClick={openPreviewWindow}>Xem trước
-                                                                        </button>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-                                                            <div className="col-lg-12">
-                                                                <button type={'submit'} className="btn btn-4">Đăng tin
-                                                                </button>
-                                                            </div>
+                                                            {imgUrls.length > 0 && <div className="col-lg-12">
+                                                                <Button name={"ĐĂNG TIN"}/>
+                                                            </div> }
 
                                                         </Form>
+
+                                                        {imgUrls.length > 0 && (
+                                                            <div className="row mb-45 mt-50">
+                                                                <div className="col-lg-12">
+                                                                    <div className="preview-container">
+                                                                        <h3 className={'title legend'}>Ảnh đã tải lên</h3>
+                                                                        <div className="image-table">
+                                                                            <div className="image-row">
+                                                                                {imgUrls.map((url, index) => (
+                                                                                    <div key={index}
+                                                                                         className="image-cell">
+                                                                                        <div
+                                                                                            className="image-wrapper">
+                                                                                            <img src={url}
+                                                                                                 alt="uploaded file"
+                                                                                                 height={200}/>
+                                                                                            <button
+                                                                                                className={"btn btn-remove"}
+                                                                                                onClick={() => handleRemoveImage(index)}
+                                                                                            >
+                                                                                                <i className="fa fa-trash"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -365,20 +398,40 @@ export default function CreateNewHotel(props) {
                 </Formik>
             </div>
         );
+    } else {
+        return (
+            <>
+                <Page404/>
+            </>
+        )
     }
 
 
     function saveHome(data) {
-        console.log(data)
+
         let imgArr = [];
         for (let i = 0; i < imgUrls.length; i++) {
             imgArr[i] = imgUrls[i];
         }
         data.image = imgArr;
-        axios.post('http://localhost:8080/homes/create', data).then(() => {
-            alert('Đã tạo mới nhà.')
-        }).catch((err) => {
-            console.error(err)
-        })
+        axios.post('http://localhost:8080/homes/create', data)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng tin thành công',
+                    showConfirmButton: false,
+                    timer: 1000
+                }).then(()=> {
+                    window.location.reload()
+                });
+
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đã xảy ra sự cố',
+                    text: error.message
+                });
+            });
     }
 }

@@ -6,6 +6,7 @@ import ListHomestay from "./ListHomestay";
 import Search from "./Search";
 import React, {useState} from "react";
 import SearchResult from "./SearchResult";
+import MapPage from "./map/MapPage";
 
 
 function HomePage(props) {
@@ -28,6 +29,7 @@ function HomePage(props) {
             {/* main header end */}
             {/* Banner start */}
             <div className="banner banner-bg" id="particles-banner-wrapper">
+                <div id="particles-banner-2"></div>
                 <div className="search-area sa-show-2" id="search-area-4">
                     <Search onHomesReceived={handleHomesReceived}/>
                 </div>
@@ -48,11 +50,9 @@ function HomePage(props) {
             <Recent/>
             {/*Recent hear end*/}
 
-
             {/* Footer start */}
             <Footer/>
             {/* Footer end */}
-
         </div>
     );
 }
