@@ -43,7 +43,7 @@ export const options = {
     elements: {
         line: {
             borderWidth: 2,
-            tension: 0.3,
+            tension: 0.1,
         },
     },
     scales: {
