@@ -26,4 +26,4 @@ yarn-error.log*
 
 
 /.idea
-/notification/node_modules/
+/websocket/node_modules/

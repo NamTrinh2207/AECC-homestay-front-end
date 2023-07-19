@@ -36,7 +36,7 @@ const ReviewForm = (props) => {
                 homeId, userId, rating, comment,
             });
             console.log(response.data);
-            // Handle success, show notification, etc.
+            // Handle success, show websocket, etc.
         } catch (error) {
             console.error(error.response.data);
             // Handle error, show error message, etc.

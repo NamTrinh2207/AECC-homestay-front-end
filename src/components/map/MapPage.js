@@ -33,7 +33,6 @@ const Map = ({address}) => {
                 mapInstance.addControl(navControl, 'top-right');
                 mapInstance.addControl(geolocateControl, 'top-right');
             });
-
             setMap(mapInstance);
         };
 
