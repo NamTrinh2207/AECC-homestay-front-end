@@ -84,9 +84,8 @@ const MainHeader = (props) => {
                     <div className="row">
                         <div className="col-12">
                             <nav className="navbar navbar-expand-lg navbar-light rounded">
-                                <a className="navbar-brand logo2" href="/">
-                                    <img
-                                        src={"/img/logos/logo.png"}
+                                <a style={{backgroundColor:"transparent"}} href="/">
+                                    <img src={"https://firebasestorage.googleapis.com/v0/b/product-6302c.appspot.com/o/files%2F%E2%80%94Pngtree%E2%80%94homestay%20icon_5394514.png?alt=media&token=a0f4ba22-43a5-4d38-9a89-93ea797a4db3"}
                                         height={'55px'} alt="logo"/>
                                 </a>
                                 <button className="navbar-toggler" type="button" id="drawer">
